@@ -8,6 +8,7 @@
 
 #import "TJHomeTableViewCell.h"
 
+
 @implementation TJHomeTableViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier    {
@@ -19,7 +20,7 @@
 }
 
 - (void)createUI {
-    _headImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"share_qq_friend"]];
+    _headImageView = [[UIImageView alloc] init];
     [self.contentView addSubview:_headImageView];
     [_headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.contentView);
@@ -29,7 +30,7 @@
     
     _nickname = [[YYLabel alloc] init];
     _nickname.text = @"Amy";
-    _nickname.textColor = arc4random()%2 ? kBoyNameColor : kGirlNameColor;
+    _nickname.textColor = kBoyNameColor;
     [self.contentView addSubview:_nickname];
     [_nickname mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.contentView);
@@ -49,7 +50,7 @@
         make.height.mas_equalTo(19);
     }];
     
-    UIImageView *addrPic = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"map_hour"]];
+    UIImageView *addrPic = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"TJLocaiton"]];
     [self.contentView addSubview:addrPic];
     [addrPic mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.event.mas_bottom).offset(6);
@@ -82,7 +83,20 @@
         
     }];
 }
+- (void)updataHeadImage:(NSString *)imagename {
+    _headImageView.image = [UIImage imageNamed:imagename];
+}
 
+- (void)updateWithModel:(TJHomeModel *)model {
+    [_headImageView sd_setImageWithURL:[NSURL URLWithString:model.head_image]];
+    _nickname.text = model.nickname;
+    _event.text = model.title;
+    _addr.text = model.place;
+    _distance.text = [NSString stringWithFormat:@"距离：%.0fKM   参与人数：%@／%@",model.distance.doubleValue,model.current_num, model.person_num];
+    if ([model.sex isEqualToString:@"2"]) {
+        _nickname.textColor = kGirlNameColor;
+    }
+}
 
 - (void)awakeFromNib {
     [super awakeFromNib];

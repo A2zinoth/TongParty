@@ -67,8 +67,13 @@
     [self initShortcutItems];
     [self setTabbar];
     if ([DDUserDefault objectForKey:@"token"]) {
-        [self.loginManager loginWithUsername:[DDUserDefault objectForKey:@"mobile"]password:[DDUserDefault objectForKey:@"password"] block:^(NSDictionary *dict) {
-        } failure:^{}];
+        [self.loginManager autologinWithUsername:[DDUserDefault objectForKey:@"mobile"] password:[DDUserDefault objectForKey:@"password"] block:^(NSDictionary *dict) {
+            
+        } failure:^{
+            
+        }];
+//        [self.loginManager loginWithUsername:[DDUserDefault objectForKey:@"mobile"]password:[DDUserDefault objectForKey:@"password"] block:^(NSDictionary *dict) {
+//        } failure:^{}];
     }
     if (![DDUserDefault objectForKey:@"isFirstLogin"]) {
         [self isAppFirstOpen];

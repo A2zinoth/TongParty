@@ -22,17 +22,19 @@
 - (void)createView {
     _closeBtn = [[UIButton alloc] init];
     [self addSubview:_closeBtn];
-    [_closeBtn setImage:[UIImage imageNamed:@"love_close"] forState:UIControlStateNormal];
+    [_closeBtn setImage:[UIImage imageNamed:@"TJCloseBtn"] forState:UIControlStateNormal];
+    _closeBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
     [_closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(34);
-        make.left.mas_equalTo(24);
-        make.size.mas_equalTo(CGSizeMake(16, 16));
+        make.top.mas_equalTo(24);
+        make.left.mas_equalTo(14);
+        make.size.mas_equalTo(CGSizeMake(28, 28));
     }];
+    
     
     _signupBtn = [[UIButton alloc] init];
     [self addSubview:_signupBtn];
     [_signupBtn setTitle:@"登录" forState:UIControlStateNormal];
-    [_signupBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [_signupBtn setTitleColor:[UIColor hx_colorWithHexString:@"#333333"] forState:UIControlStateNormal];
     [_signupBtn.titleLabel setFont:[UIFont systemFontOfSize:16]];
     [_signupBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(31);
@@ -44,6 +46,7 @@
     [self addSubview:titleLabel];
     titleLabel.text = @"注册";
     titleLabel.font = [UIFont systemFontOfSize:29];
+    titleLabel.textColor = [UIColor hx_colorWithHexString:@"#333333"];
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(87);
         make.left.mas_equalTo(22);
@@ -54,6 +57,7 @@
     [self addSubview:phoneNum];
     phoneNum.text = @"手机号";
     phoneNum.font = [UIFont systemFontOfSize:16];
+    phoneNum.textColor = [UIColor hx_colorWithHexString:@"#333333"];
     [phoneNum mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(172);
         make.left.mas_equalTo(24);
@@ -64,6 +68,7 @@
     [self addSubview:countryCode];
     countryCode.text = @"CN+86";
     countryCode.font = [UIFont systemFontOfSize:11];
+    countryCode.textColor = [UIColor hx_colorWithHexString:@"#333333"];
     [countryCode mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(211);
         make.left.mas_equalTo(32);
@@ -83,20 +88,20 @@
     
     UIView *line = [[UIView alloc] init];
     [self addSubview:line];
-    line.backgroundColor = [UIColor hx_colorWithHexString:@"#D8D8D8"];
+    line.backgroundColor = kSeparateLine;
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(246);
         make.left.mas_equalTo(24);
         make.right.mas_equalTo(-24);
-        make.height.mas_equalTo(1);
+        make.height.mas_equalTo(0.5);
     }];
     
     
     UIButton *agreeButton = [[UIButton alloc] init];
     [self addSubview:agreeButton];
     NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:@"注册代表同意《桐聚用户协议》"];
-    [attrStr addAttribute:NSForegroundColorAttributeName value:[UIColor hx_colorWithHexString:@"#717171"] range:NSMakeRange(0, 6)];
-    [attrStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:86/255.f green:126/255.f blue:247/255.f alpha:1] range:NSMakeRange(6, 8)];
+    [attrStr addAttribute:NSForegroundColorAttributeName value:kGreyNotice range:NSMakeRange(0, 6)];
+    [attrStr addAttribute:NSForegroundColorAttributeName value:kBtnEnable range:NSMakeRange(6, 8)];
     [attrStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:13] range:NSMakeRange(0, 14)];
     [agreeButton setAttributedTitle:attrStr forState:UIControlStateNormal];
     [agreeButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -108,6 +113,7 @@
     
     _nextButton = [[UIButton alloc] init];
     [self addSubview:_nextButton];
+    _nextButton.enabled = false;
     [_nextButton setTitle:@"下一步" forState:UIControlStateNormal];
     [_nextButton setBackgroundColor:kBtnDisable];
     [_nextButton.titleLabel setFont:[UIFont systemFontOfSize:15]];

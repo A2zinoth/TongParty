@@ -47,7 +47,7 @@
 			<string>qq</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>QQ41E804DA</string>
+				<string>QQ41f7cecd</string>
 			</array>
 		</dict>
 		<dict>
@@ -57,17 +57,26 @@
 			<string>tencent</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>tencent100424468</string>
+				<string>tencent1106759373</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string></string>
 			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>tencent3203449471</string>
-			</array>
+			<array/>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string></string>
+			<key>CFBundleURLSchemes</key>
+			<array/>
+		</dict>
+		<dict/>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
@@ -120,6 +129,10 @@
 	<string>桐聚需要您的同意，才能访问您的相机，以便更好的使用</string>
 	<key>NSContactsUsageDescription</key>
 	<string>允许桐聚获取您的通讯录信息，获取好友以便邀请</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>允许桐聚获取您的位置，获取附近准确位置为您匹配桌子</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>允许桐聚获取您的位置，获取附近准确位置为您匹配桌子</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>允许桐聚获取您的位置，获取附近准确位置为您匹配桌子</string>
 	<key>NSMicrophoneUsageDescription</key>
@@ -154,6 +167,10 @@
 				<string>value1</string>
 			</dict>
 		</dict>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

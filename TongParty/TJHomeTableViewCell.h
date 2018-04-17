@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TJHomeModel.h"
 
 @interface TJHomeTableViewCell : UITableViewCell
 
@@ -16,5 +17,8 @@
 @property (nonatomic, strong) YYLabel *addr;
 @property (nonatomic, strong) YYLabel *distance;
 @property (nonatomic, strong) YYLabel *num;
+
+- (void)updataHeadImage:(NSString *)imagename;
+- (void)updateWithModel:(TJHomeModel *)model;
 
 @end

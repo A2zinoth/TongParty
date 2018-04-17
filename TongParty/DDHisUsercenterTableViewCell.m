@@ -40,7 +40,7 @@
     if (!_ntView) {
         _ntView =[[DDNumbersTextView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 60)];
         _ntView.type = DDNumbersTextViewTypeOthers;
-        WeakSelf(weakSelf)
+        WeakSelf(weakSelf);
         weakSelf.ntView.variousNumbersClickBlcok = ^(NSInteger index) {
             if (_variousNumberClickBlcok) {
                 _variousNumberClickBlcok(index);

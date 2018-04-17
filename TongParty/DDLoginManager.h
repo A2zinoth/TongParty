@@ -13,4 +13,5 @@
 - (instancetype)initWithController:(UIViewController *)controller;
 - (void)pushCheckedLoginWithPopToRoot:(BOOL)popToRoot block:(void(^)())block;
 - (void)loginWithUsername:(NSString *)username password:(NSString *)password block:(void(^)(NSDictionary *dict))block failure:(void(^)())failure;
+- (void)autologinWithUsername:(NSString *)username password:(NSString *)password block:(void(^)(NSDictionary *dict))block failure:(void(^)())failure;
 @end

@@ -24,12 +24,18 @@
 
 +(void)getWithAction:(NSString *)action params:(NSDictionary *)params type:(DDHttpResponseType)type block:(void (^)(DDResponseModel *result))block failure:(void(^)())failure{
     
-    [super getWithUrl:kTJHostAPI action:action params:params type:type block:^(id responseObject) {
+    [super requestWithGET:kTJHostAPI path:action parameters:params type:type success:^(id responseObject) {
         DDResponseModel *result = [DDResponseModel mj_objectWithKeyValues:responseObject];
         block(result);
     } failure:^{
         failure();
     }];
+//    [super getWithUrl:kTJHostAPI action:action params:params type:type block:^(id responseObject) {
+//        DDResponseModel *result = [DDResponseModel mj_objectWithKeyValues:responseObject];
+//        block(result);
+//    } failure:^{
+//        failure();
+//    }];
 }
 
 //多图上传

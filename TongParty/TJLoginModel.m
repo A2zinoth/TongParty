@@ -22,19 +22,20 @@
     switch ((sender-10)) {
         case 0:
         {
-            //微信登录
-            [self wxLogin];
+            //微博登录
+            [self weiboLogin];
         }
             break;
         case 1:
         {
-            //QQ登录
-            [self QQLogin];
+            //微信登录
+            [self wxLogin];
         }break;
         case 2:
         {
-            //微博登录
-            [self weiboLogin];
+         
+            //QQ登录
+            [self QQLogin];
         }break;
         default:
             break;
@@ -121,12 +122,15 @@
 }
 
 - (void)otherLoginWithOpenID:(NSString *)openID act:(NSString *)act {
+    WeakSelf(weakSelf);
     [MBProgressHUD showLoading:@"登录中..." toView:KEY_WINDOW];
     [DDTJHttpRequest otherLoginWithOpenID:openID act:act success:^(NSDictionary *dict) {
         [MBProgressHUD hideAllHUDsInView:KEY_WINDOW];
-        //        [DDUserDefault setObject:username forKey:@"mobile"];
-        //        [DDUserDefault setObject:password forKey:@"password"];
-        //        [DDUserDefault setObject:dict[@"token"] forKey:@"token"];
+        // [DDUserDefault setObject:username forKey:@"mobile"];
+        // [DDUserDefault setObject:password forKey:@"password"];
+        [DDUserDefault setObject:dict[@"token"] forKey:@"token"];
+        
+        weakSelf.thirdLoginSuccess();
     }];
 }
 

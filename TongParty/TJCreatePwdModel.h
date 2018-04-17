@@ -10,4 +10,11 @@
 
 @interface TJCreatePwdModel : NSObject
 
+@property (nonatomic, copy) NSString *mobile;
+@property (nonatomic, copy) NSString *code;
+@property (nonatomic, copy) NSString *password;
+
+- (void)registerUser:(void (^)())success failure:(void (^)(id))failure;
+
+
 @end

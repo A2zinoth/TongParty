@@ -23,11 +23,12 @@
 - (void)createView {
     _closeBtn = [[UIButton alloc] init];
     [self addSubview:_closeBtn];
-    [_closeBtn setImage:[UIImage imageNamed:@"love_close"] forState:UIControlStateNormal];
+    [_closeBtn setImage:[UIImage imageNamed:@"TJCloseBtn"] forState:UIControlStateNormal];
+    _closeBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
     [_closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(34);
-        make.left.mas_equalTo(24);
-        make.size.mas_equalTo(CGSizeMake(16, 16));
+        make.top.mas_equalTo(24);
+        make.left.mas_equalTo(14);
+        make.size.mas_equalTo(CGSizeMake(26, 26));
     }];
     
     _signupBtn = [[UIButton alloc] init];
@@ -84,12 +85,12 @@
     
     UIView *line = [[UIView alloc] init];
     [self addSubview:line];
-    line.backgroundColor = [UIColor hx_colorWithHexString:@"#D8D8D8"];
+    line.backgroundColor = kSeparateLine;
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(246);
         make.left.mas_equalTo(24);
         make.right.mas_equalTo(-24);
-        make.height.mas_equalTo(1);
+        make.height.mas_equalTo(0.5);
     }];
     
     UILabel *password = [[UILabel alloc] init];
@@ -128,18 +129,18 @@
     
     UIView *line2 = [[UIView alloc] init];
     [self addSubview:line2];
-    line2.backgroundColor = [UIColor hx_colorWithHexString:@"#D8D8D8"];
+    line2.backgroundColor = kSeparateLine;
     [line2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(341);
         make.left.mas_equalTo(24);
         make.right.mas_equalTo(-24);
-        make.height.mas_equalTo(1);
+        make.height.mas_equalTo(0.5);
     }];
     
     _loginBtn = [[UIButton alloc] init];
     [self addSubview:_loginBtn];
     [_loginBtn setTitle:@"登录" forState:UIControlStateNormal];
-    [_loginBtn setBackgroundColor:[UIColor colorWithRed:86/255.f green:126/255.f blue:247/255.f alpha:1]];
+    [_loginBtn setBackgroundColor:kBtnEnable];
     [_loginBtn.titleLabel setFont:[UIFont systemFontOfSize:15]];
     _loginBtn.layer.cornerRadius = 20;
     [_loginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -152,7 +153,8 @@
     UIButton *forgetBtn = [[UIButton alloc] init];
     [self addSubview:forgetBtn];
     [forgetBtn setTitle:@"忘记密码？" forState:UIControlStateNormal];
-    [forgetBtn setTitleColor:[UIColor hx_colorWithHexString:@"#717171"] forState:UIControlStateNormal];
+    
+    [forgetBtn setTitleColor:kGreyNotice forState:UIControlStateNormal];
     [forgetBtn.titleLabel setFont:[UIFont systemFontOfSize:12]];
     [forgetBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(438);
@@ -174,22 +176,22 @@
     
     UIView *line3 = [[UIView alloc] init];
     [self addSubview:line3];
-    line3.backgroundColor = [UIColor hx_colorWithHexString:@"#D8D8D8"];
+    line3.backgroundColor = kSeparateLine;
     [line3 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(567);
         make.left.mas_equalTo(24);
         make.right.mas_equalTo(other.mas_left).offset(-13);
-        make.height.mas_equalTo(1);
+        make.height.mas_equalTo(0.5);
     }];
     
     UIView *line4 = [[UIView alloc] init];
     [self addSubview:line4];
-    line4.backgroundColor = [UIColor hx_colorWithHexString:@"#D8D8D8"];
+    line4.backgroundColor = kSeparateLine;
     [line4 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(567);
         make.left.mas_equalTo(other.mas_right).offset(13);
         make.right.mas_equalTo(-24);
-        make.height.mas_equalTo(1);
+        make.height.mas_equalTo(0.5);
     }];
     
     

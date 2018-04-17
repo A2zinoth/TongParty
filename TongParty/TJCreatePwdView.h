@@ -15,7 +15,7 @@
 @property (nonatomic, strong) UIButton    *signupBtn;
 @property (nonatomic, strong) UILabel     *phoneNum;
 @property (nonatomic, strong) UITextField *passwordTF;
-@property (nonatomic, strong) YYLabel     *resetBtn;
-@property (nonatomic, strong) YYLabel     *loginBtn;
+@property (nonatomic, strong) YYLabel     *showPwd;
+@property (nonatomic, strong) UIButton    *loginBtn;
 
 @end

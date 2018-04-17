@@ -9,7 +9,7 @@
 #import "LSPoiSearchSuggestionVc.h"
 #import "LSDateSortCell.h"
 @interface LSPoiSearchSuggestionVc ()<AMapSearchDelegate,MAMapViewDelegate,UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate>
-@property (nonatomic, strong)UIView *view_search;
+@property (nonatomic, strong) UIView *view_search;
 @property (nonatomic, strong) AMapSearchAPI *search;
 @property (nonatomic, strong) NSArray      *suggestionsArray;
 @end
@@ -29,7 +29,7 @@
         make.top.equalTo(self.view_search.mas_bottom);
         make.bottom.equalTo(self.view);
     }];
-    bg_view.backgroundColor = kBlackColor;
+    bg_view.backgroundColor = kWhiteColor;
     bg_view.alpha = 0.5f;
     [self.view addSubview:self.tv_suggestions];
     self.view.backgroundColor = kWhiteColor;
@@ -50,7 +50,8 @@
         }];
         [btn_cacnel addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchUpInside];
         [btn_cacnel setTitle:@"取消" forState:UIControlStateNormal];
-        [btn_cacnel setTitleColor:kBgBlueColor forState:UIControlStateNormal];
+        btn_cacnel.titleLabel.font = [UIFont systemFontOfSize:13];
+        [btn_cacnel setTitleColor:kBtnEnable forState:UIControlStateNormal];
         
         UISearchBar *searchBar = [UISearchBar new];
         [_view_search addSubview:searchBar];
@@ -67,7 +68,8 @@
         [searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];
         UIImage* searchBarBg = [self GetImageWithColor:kBgWhiteGrayColor andHeight:DDFitHeight(45.f)];
         [searchBar setSearchFieldBackgroundImage:searchBarBg forState:UIControlStateNormal];
-        [searchBar setBackgroundImage:searchBarBg];
+//        [searchBar setBackgroundImage:[UIImage imageNamed:@"TJSearchBackground"]];
+        searchBar.barTintColor = [UIColor whiteColor];
         [searchBar setBackgroundColor:[UIColor clearColor]];
         searchBar.layer.cornerRadius = 2.f;
         searchBar.placeholder = @"搜索地点";

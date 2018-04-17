@@ -49,6 +49,19 @@
         [DDUserDefault setObject:dict[@"token"] forKey:@"token"];
         block(dict);
     } failure:^{
+        [MBProgressHUD hideAllHUDsInView:KEY_WINDOW];
+        failure();
+    }];
+}
+
+- (void)autologinWithUsername:(NSString *)username password:(NSString *)password block:(void(^)(NSDictionary *dict))block failure:(void(^)())failure {
+    [DDTJHttpRequest loginWithMobile:username password:password block:^(NSDictionary *dict) {
+        [DDUserDefault setObject:username forKey:@"mobile"];
+        [DDUserDefault setObject:password forKey:@"password"];
+        [DDUserDefault setObject:dict[@"token"] forKey:@"token"];
+        block(dict);
+    } failure:^{
+        failure();
     }];
 }
 

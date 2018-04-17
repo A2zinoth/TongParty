@@ -13,23 +13,24 @@
 - (void)createUI {
     _closeBtn = [[UIButton alloc] init];
     [self addSubview:_closeBtn];
-    [_closeBtn setImage:[UIImage imageNamed:@"love_close"] forState:UIControlStateNormal];
+    [_closeBtn setImage:[UIImage imageNamed:@"TJBackBtn"] forState:UIControlStateNormal];
+    _closeBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
     [_closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(34);
-        make.left.mas_equalTo(24);
-        make.size.mas_equalTo(CGSizeMake(16, 16));
+        make.top.mas_equalTo(24);
+        make.left.mas_equalTo(14);
+        make.size.mas_equalTo(CGSizeMake(26, 26));
     }];
     
-    _signupBtn = [[UIButton alloc] init];
-    [self addSubview:_signupBtn];
-    [_signupBtn setTitle:@"登录" forState:UIControlStateNormal];
-    [_signupBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [_signupBtn.titleLabel setFont:[UIFont systemFontOfSize:16]];
-    [_signupBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(31);
-        make.trailing.mas_equalTo(-22);
-        make.size.mas_equalTo(CGSizeMake(33, 22));
-    }];
+//    _signupBtn = [[UIButton alloc] init];
+//    [self addSubview:_signupBtn];
+//    [_signupBtn setTitle:@"登录" forState:UIControlStateNormal];
+//    [_signupBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    [_signupBtn.titleLabel setFont:[UIFont systemFontOfSize:16]];
+//    [_signupBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.mas_equalTo(31);
+//        make.trailing.mas_equalTo(-22);
+//        make.size.mas_equalTo(CGSizeMake(33, 22));
+//    }];
     
     UILabel *titleLabel = [[UILabel alloc] init];
     [self addSubview:titleLabel];
@@ -73,15 +74,15 @@
         make.height.mas_equalTo(30);
     }];
     
-    _resetBtn = [[YYLabel alloc] init];
-    [self addSubview:_resetBtn];
-    _resetBtn.text = @"显示";
-    _resetBtn.font = [UIFont systemFontOfSize:13];
+    _showPwd = [[YYLabel alloc] init];
+    [self addSubview:_showPwd];
+    _showPwd.text = @"显示";
+    _showPwd.font = [UIFont systemFontOfSize:13];
     WeakSelf(weakSelf);
-    _resetBtn.textTapAction = ^ (UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
+    _showPwd.textTapAction = ^ (UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
         weakSelf.passwordTF.secureTextEntry = !weakSelf.passwordTF.secureTextEntry;
     };
-    [_resetBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_showPwd mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(240);
         make.trailing.mas_equalTo(-24);
         make.size.mas_equalTo(CGSizeMake(28, 19));
@@ -89,21 +90,19 @@
     
     UIView *line = [[UIView alloc] init];
     [self addSubview:line];
-    line.backgroundColor = [UIColor hx_colorWithHexString:@"#D8D8D8"];
+    line.backgroundColor = kSeparateLine;
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(314);
         make.left.mas_equalTo(24);
         make.right.mas_equalTo(-24);
-        make.height.mas_equalTo(1);
+        make.height.mas_equalTo(0.5);
     }];
     
-    _loginBtn = [[YYLabel alloc] init];
+    _loginBtn = [[UIButton alloc] init];
     [self addSubview:_loginBtn];
-    _loginBtn.text = @"登录";
-    _loginBtn.textColor = [UIColor whiteColor];
-    _loginBtn.textAlignment = NSTextAlignmentCenter;
-    _loginBtn.backgroundColor = [UIColor colorWithRed:86/255.f green:126/255.f blue:247/255.f alpha:1];
-    _loginBtn.font = [UIFont systemFontOfSize:15];
+    [_loginBtn setTitle:@"完成" forState:UIControlStateNormal];
+    [_loginBtn setBackgroundColor:kBtnDisable];
+    [_loginBtn.titleLabel setFont:[UIFont systemFontOfSize:15]];
     _loginBtn.layer.cornerRadius = 20;
     [_loginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(377);

@@ -32,21 +32,21 @@
     [super viewDidLoad];
     
 
-    [CYTabBarConfig shared].selectedTextColor = [UIColor orangeColor];
-    [CYTabBarConfig shared].textColor = [UIColor grayColor];
+    [CYTabBarConfig shared].selectedTextColor = kBtnEnable;
+    [CYTabBarConfig shared].textColor = [UIColor hx_colorWithHexString:@"#9E9E9E"];
     [CYTabBarConfig shared].backgroundColor = [UIColor whiteColor];
     [CYTabBarConfig shared].selectIndex = 0 ;
     [CYTabBarConfig shared].centerBtnIndex = 2;
     // 设置子控制器
     //---------------- 首页 ---------------
     DDNavViewController *nav1 = [[DDNavViewController alloc]initWithRootViewController:[TJHomeController new]];
-    [self addChildController:nav1 title:@"首页" imageName:@"tab_sy_default" selectedImageName:@"tab_sy_selected"];
+    [self addChildController:nav1 title:@"首页" imageName:@"TJHomeBar" selectedImageName:@"TJHomeBar_selected"];
     //---------------- 心跳桌 ---------------
     DDNavViewController *nav2 = [[DDNavViewController alloc]initWithRootViewController:[TJHeartbeatController new]];
-    [self addChildController:nav2 title:@"心跳桌" imageName:@"tab_zb_default" selectedImageName:@"tab_zb_selected"];
+    [self addChildController:nav2 title:@"心跳桌" imageName:@"TJHeartBeat" selectedImageName:@"TJHeartBeat_selected"];
     //---------------- 我的 ---------------
     DDNavViewController *nav3 = [[DDNavViewController alloc]initWithRootViewController:[TJProfileController new]];
-    [self addChildController:nav3 title:@"我的" imageName:@"tab_fw_default" selectedImageName:@"tab_fw_selected"];
+    [self addChildController:nav3 title:@"我的" imageName:@"TJProfile" selectedImageName:@"TJProfile_selected"];
     
 //    // 设置子控制器
 //    //---------------- 首页 ---------------
@@ -90,9 +90,9 @@
             [self toLogin];
             return;
         }
-    //判断资料是否完善，如果没有完善则
+//    //判断资料是否完善，如果没有完善则
     if (![DDUserSingleton shareInstance].image || [[DDUserSingleton shareInstance].image isEqualToString:@""] || ![DDUserSingleton shareInstance].name || [[DDUserSingleton shareInstance].name isEqualToString:@""] || ![DDUserSingleton shareInstance].sex || [[DDUserSingleton shareInstance].sex isEqualToString:@""]) {
-        
+
         //判断资料是否完善，如果没有完善则
         DDPrefectDataVC *dataVC = [[DDPrefectDataVC alloc] init];
         UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:dataVC];

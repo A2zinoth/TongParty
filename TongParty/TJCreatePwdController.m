@@ -7,29 +7,21 @@
 //
 
 #import "TJCreatePwdController.h"
-#import "TJCreatePwdView.h"
-#import "TJCreatePwdModel.h"
 
 @interface TJCreatePwdController ()
-
-@property (nonatomic, strong) TJCreatePwdView  *createPwdView;
-@property (nonatomic, strong) TJCreatePwdModel *createPwdModel;
-
-
 @end
 
 @implementation TJCreatePwdController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
 }
 
 - (void)createUI {
     _createPwdView = [[TJCreatePwdView alloc] init];
     [self.view addSubview:_createPwdView];
     [_createPwdView mas_makeConstraints:^(MASConstraintMaker *make) {
-        if (iPhoneX) {
+        if (@available(ios 11.0,*)) {
             make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop);
         } else {
             make.top.mas_equalTo(self.view);
@@ -40,9 +32,58 @@
     }];
     
     [_createPwdView.closeBtn  addTarget:self action:@selector(closeAction) forControlEvents:UIControlEventTouchUpInside];
+    [_createPwdView.loginBtn addTarget:self action:@selector(loginAction) forControlEvents:UIControlEventTouchUpInside];
+    
+//    _createPwdView.l
+  
+    _createPwdView.passwordTF.delegate = self;
+}
+
+#pragma mark - UITextFieldDelegate
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if ([string isEqualToString:@""]) {
+        _createPwdView.loginBtn.userInteractionEnabled = false;
+        _createPwdView.loginBtn.backgroundColor = kBtnDisable;
+        return YES;
+    }
+    
+    if (textField.text.length+string.length >= 8) {
+        _createPwdView.loginBtn.userInteractionEnabled = true;
+        _createPwdView.loginBtn.backgroundColor = kBtnEnable;
+    }
+    
+    if (textField.text.length >= 16) {
+        return false;
+    }
+    return YES;
+}
+
+- (TJCreatePwdModel *)createPwdModel {
+    if (!_createPwdModel) {
+        _createPwdModel = [[TJCreatePwdModel alloc] init];
+    }
+    return _createPwdModel;
+}
+
+- (void)registerUser {
+    
+    [_createPwdModel registerUser:^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            UIViewController *rootVC = self.navigationController.childViewControllers[0];
+            [rootVC dismissViewControllerAnimated:true completion:nil];
+        });
+    } failure:^(id msg) {
+    
+    }];
+}
+
+- (void)loginAction {
+    _createPwdModel.password = _createPwdView.passwordTF.text;
+    [self registerUser];
 }
 
 - (void)closeAction {
+    _backBlock();
     [self.navigationController popViewControllerAnimated:true];
 }
 

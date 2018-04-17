@@ -9,33 +9,56 @@
 
 #import "DDLocationAddressVC.h"
 #import "LSPoiSearchSuggestionVc.h"
+#import "TJEventAddrView.h"
+#import "TJSuggestTableViewCell.h"
+
 
 @interface DDLocationAddressVC ()<AMapSearchDelegate,MAMapViewDelegate,UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,UIScrollViewDelegate> {
     CGFloat _oldY;
     CLLocationCoordinate2D oldCoordinate;
 }
 @property (nonatomic, strong) AMapSearchAPI *search;
-@property (nonatomic, strong) MAMapView *mapView;
-@property (nonatomic, strong) CLLocation *currentLocation;
+@property (nonatomic, strong) MAMapView     *mapView;
+@property (nonatomic, strong) CLLocation    *currentLocation;
 @property (nonatomic, strong) NSMutableArray *dataArray;
-@property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) UIView      *view_searchBar;
-@property (nonatomic, strong) UIButton    *btn_backLocal;
-@property (nonatomic, strong) UIImageView *iv_mapMark;
+@property (nonatomic, strong) UITableView   *tableView;
+@property (nonatomic, strong) UIView        *view_searchBar;
+@property (nonatomic, strong) UIButton      *btn_backLocal;
+@property (nonatomic, strong) UIImageView   *iv_mapMark;
 @property (nonatomic, strong) LSPoiSearchSuggestionVc *suggestionsVc;
+
+@property (nonatomic, strong) TJEventAddrView         *eventAddrView;
+@property (nonatomic, assign) NSUInteger              index;
+
 @end
 
 @implementation DDLocationAddressVC
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    _index = 0;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupViews];
 }
 
+- (void)setupHeadView {
+    _eventAddrView = [[TJEventAddrView alloc] init];
+    [self.view addSubview:_eventAddrView];
+    [_eventAddrView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.view);
+        make.left.mas_equalTo(self.view);
+        make.height.mas_equalTo(iPhoneX?(24+64):64);
+        make.right.mas_equalTo(self.view);
+    }];
+    
+    [_eventAddrView.cancelBtn addTarget:self action:@selector(closeAction) forControlEvents:UIControlEventTouchUpInside];
+    [_eventAddrView.okBtn addTarget:self action:@selector(okAction) forControlEvents:UIControlEventTouchUpInside];
+}
+
 - (void)setupViews {
+//    _index = 0;
     self.navigationItem.leftBarButtonItem = [self backButtonForNavigationBarWithAction:@selector(pop)];
     [self navigationWithTitle:@"选择地点"];
     [self.view addSubview:self.mapView];
@@ -53,6 +76,8 @@
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.view_searchBar];
     //[self addChildVc:self.suggestionsVc];
+    
+    [self setupHeadView];
 }
 
 - (MAMapView *)mapView {
@@ -76,7 +101,11 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.mapView.bottom - self.view_searchBar.bottom, kScreenWidth, self.view.height - self.mapView.bottom) style:UITableViewStylePlain];
+//        float bottom = 0;
+//        if (iPhoneX) {
+//            bottom = 39;
+//        }
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.mapView.bottom, kScreenWidth, self.view.height - self.mapView.bottom) style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
     }
@@ -85,7 +114,11 @@
 
 - (UIView *)view_searchBar {
     if (!_view_searchBar) {
-        _view_searchBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, DDFitHeight(45.f))];
+        float top = 64;
+        if (iPhoneX) {
+            top = 24+64;
+        }
+        _view_searchBar = [[UIView alloc] initWithFrame:CGRectMake(0, top, kScreenWidth, DDFitHeight(45.f))];
         _view_searchBar.backgroundColor = kWhiteColor;
         UISearchBar *search = [UISearchBar new];
         [_view_searchBar addSubview:search];
@@ -115,8 +148,9 @@
 - (UIImageView *)iv_mapMark {
     if (!_iv_mapMark) {
         _iv_mapMark = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, DDFitWidth(15.f), DDFitHeight(30.f))];
-        _iv_mapMark.center = self.mapView.center;
-        _iv_mapMark.image = kImage(@"map_mark");
+//        _iv_mapMark.center = self.mapView.center;
+        _iv_mapMark.center = CGPointMake(self.mapView.center.x, self.mapView.center.y-4);
+        _iv_mapMark.image = kImage(@"TJLocationHere");
     }
     return _iv_mapMark;
 }
@@ -166,7 +200,6 @@
 
 
 - (void)searchPOIWith:(CLLocationCoordinate2D)coordinate {
-
     oldCoordinate = coordinate;
     AMapPOIAroundSearchRequest *request = [[AMapPOIAroundSearchRequest alloc] init];
     request.location            = [AMapGeoPoint locationWithLatitude:coordinate.latitude longitude:coordinate.longitude];
@@ -202,7 +235,7 @@
     // 根据屏幕位置转换地图坐标经纬度
     CLLocationCoordinate2D markCoordinate = [self.mapView convertPoint:_iv_mapMark.frame.origin toCoordinateFromView:self.mapView];
     double distance = [self distanceBetweenOrderBy:markCoordinate.latitude :oldCoordinate.latitude :markCoordinate.longitude :oldCoordinate.longitude];
-    if (distance > 300) {
+    if (distance > 100) {
         [self searchPOIWith:markCoordinate];
     }
 }
@@ -248,30 +281,72 @@
     [self.tableView reloadData];
 }
 
+#pragma mark -UITableDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return DDFitHeight(60.f);
+    return DDFitHeight(50.f);
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _dataArray.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellId = @"cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+    TJSuggestTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle  reuseIdentifier:cellId];
+        cell = [[TJSuggestTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle  reuseIdentifier:cellId];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
+    if (indexPath.row == self.index) {
+        cell.titleLabel.hidden = true;
+        cell.addrLabel.hidden = true;
+        cell.circleMark.hidden = false;
+        cell.selectedMark.hidden = false;
+        cell.selectedLabel.hidden = false;
+    } else {
+        cell.titleLabel.hidden = false;
+        cell.addrLabel.hidden = false;
+        cell.circleMark.hidden = true;
+        cell.selectedMark.hidden = true;
+        cell.selectedLabel.hidden = true;
+    }
+    
     AMapPOI *poi = _dataArray[indexPath.row];
-    cell.textLabel.text = poi.name;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@%@%@%@",poi.province,poi.city,poi.district,poi.address];
+    cell.selectedLabel.text = poi.name;
+    cell.titleLabel.text = poi.name;
+    cell.addrLabel.text = [NSString stringWithFormat:@"%@%@%@%@",poi.province,poi.city,poi.district,poi.address];
     return cell;
 }
 
 //点击回调
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (_locationAddressSelectBlcok) {
-        _locationAddressSelectBlcok(_dataArray[indexPath.row]);
+    if (indexPath.row  != self.index) {
+        // 取消原来点击
+        NSIndexPath *oldIndex = [NSIndexPath indexPathForRow:self.index inSection:0];
+        TJSuggestTableViewCell * oldCell = [tableView cellForRowAtIndexPath:oldIndex];
+        oldCell.titleLabel.hidden = false;
+        oldCell.addrLabel.hidden = false;
+        oldCell.circleMark.hidden = true;
+        oldCell.selectedMark.hidden = true;
+        oldCell.selectedLabel.hidden = true;
+        //增加现在点击
+        
+        TJSuggestTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        cell.titleLabel.hidden = true;
+        cell.addrLabel.hidden = true;
+        cell.circleMark.hidden = false;
+        cell.selectedMark.hidden = false;
+        cell.selectedLabel.hidden = false;
+        self.index = indexPath.row;
+        
+        
+//        AMapPOI *poi = _dataArray[indexPath.row];
+//        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(poi.location.latitude, poi.location.longitude);
+//        [self.mapView convertCoordinate:coordinate toPointToView:self.mapView];
     }
-    [self pop];
+    
+//    if (_locationAddressSelectBlcok) {
+//        _locationAddressSelectBlcok(_dataArray[indexPath.row]);
+//    }
+//    [self pop];
 }
 
 - (void)backLocal:(UIButton *)sender {
@@ -334,6 +409,17 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+- (void)closeAction {
+    [self pop];
+}
+
+- (void)okAction {
+    if (_locationAddressSelectBlcok) {
+        _locationAddressSelectBlcok(_dataArray[_index]);
+    }
+    [self pop];
 }
 
 @end

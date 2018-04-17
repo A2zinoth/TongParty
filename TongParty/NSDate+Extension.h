@@ -9,7 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @interface NSDate (Extension)
+// 时间戳转时间
++(NSString *)timestampSwitchTime:(NSInteger)timestamp andFormatter:(NSString *)format;
 
+// 时间 YYYY-MM-dd HH:mm:ss 转 时间戳
++ (NSInteger)timeSwitchTimestamp:(NSString *)formatTime andFormatter:(NSString *)format;
 //时间戳转时间 YYYY-MM-dd HH:mm:ss
 -(NSString *)DateStringFromDateStamp:(NSTimeInterval)DateStamp styleFormatter:(NSString *)styleFormatter;
 //时间转时间戳

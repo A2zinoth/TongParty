@@ -23,6 +23,7 @@ typedef NS_ENUM(NSUInteger, DDHomeAttentionListType) {
  *  弱指针
  */
 #define WeakSelf(weakSelf)  __weak __typeof(&*self)weakSelf = self;
+#define kWeakSelf  __weak __typeof(&*self)weakSelf = self;
 
 #define kNotificationCenter [NSNotificationCenter defaultCenter]
 
@@ -69,10 +70,14 @@ typedef NS_ENUM(NSUInteger, DDHomeAttentionListType) {
 #define kSubjectPinkRedColor  kRGBColor(227,142,151)
 #define kTongBiBgColor  kRGBColor(43,212,117)
 #define kLeftMargin 15
-#define kBtnEnable [UIColor colorWithRed:86/255.f green:126/255.f blue:247/255.f alpha:1]
+
+#define kGreyNotice [UIColor hx_colorWithHexString:@"#717171"]
+#define kBtnEnable [UIColor hx_colorWithHexString:@"#03A9F4"]
 #define kBtnDisable [UIColor hx_colorWithHexString:@"#E6E5EB"]
 #define kBoyNameColor [UIColor hx_colorWithHexString:@"#00A7F3"]
 #define kGirlNameColor [UIColor hx_colorWithHexString:@"#FB82D6"]
+#define kSeparateLine [UIColor colorWithRed:0.783922f green:0.780392f blue:0.8f alpha:1.00f]
+//[UIColor hx_colorWithHexString:@"#D8D8D8"]
 
 //随机色
 #define kDDRandColor kRGBColor(arc4random_uniform(255), arc4random_uniform(255), arc4random_uniform(255))
@@ -111,7 +116,6 @@ typedef NS_ENUM(NSUInteger, DDHomeAttentionListType) {
 #pragma mark - 系统UI
 #define kTopBarHeight 64
 #define kToolBarHeight 44
-#define kTabBarHeight 49
 #define kContentHeight (kScreenHeight - kNavigationBarHeight)
 #define kiPhone4_W 320
 #define kiPhone4_H 480
@@ -121,6 +125,7 @@ typedef NS_ENUM(NSUInteger, DDHomeAttentionListType) {
 #define kiPhone6_H 667
 #define kiPhone6P_W 414
 #define kiPhone6P_H 736
+#define kTabBarHeigthOrigin 49
 
 
 #pragma mark  -  设备型号
@@ -152,8 +157,8 @@ typedef NS_ENUM(NSUInteger, DDHomeAttentionListType) {
 //#define UmengAppKey @"596c7ee4677baa2f4c00018f"//友盟分享appKey
 //#define UmengAppKey @"5971a3ed99f0c738f1000ff3"//友盟分享appKey
 #define UmengAppKey @"5ac9c778b27b0a5c760001bb"//友盟分享appKey
-#define ShareQQAppID @"3203449471" //腾讯appID
-#define ShareQQAppKey @"IH466PMP9PII" //腾讯appKey
+#define ShareQQAppID @"1106759373" //腾讯appID
+#define ShareQQAppKey @"DIaUl6LALzCxH5gA" //腾讯appKey
 #define WetChatAppId @"wx6c456aa37d56cec1" //微信appID
 #define WetChatAppSecret @"e504fbccc592263b650f48f0ffbf74d5" //微信appSecret
 

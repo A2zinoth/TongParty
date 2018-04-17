@@ -11,11 +11,9 @@
 typedef void (^Resend)(void);
 
 @interface VerifyView : UIView
-{
-    NSTimer *_timer;
-    NSInteger _i;
-}
 
+@property (nonatomic, assign) NSInteger   i;
+@property (nonatomic, strong) NSTimer     *timer;
 @property (nonatomic, copy)   NSString    *phone;
 @property (nonatomic, strong) UIButton    *closeBtn;
 @property (nonatomic, strong) UIButton    *signupBtn;
@@ -23,5 +21,6 @@ typedef void (^Resend)(void);
 @property (nonatomic, strong) UITextField *codeTF;
 @property (nonatomic, strong) YYLabel     *resetBtn;
 @property (nonatomic, copy)   Resend      resend;
+@property (nonatomic, strong) UIButton    *nextButton;
 
 @end

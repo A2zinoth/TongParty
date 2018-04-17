@@ -7,7 +7,8 @@
 //
 
 #import "BaseViewController.h"
+#import "TJButton.h"
 
 @interface TJHomeController : BaseViewController
-@property (nonatomic, strong) YYLabel *publishBtn;
+@property (nonatomic, strong) TJButton *publishBtn;
 @end

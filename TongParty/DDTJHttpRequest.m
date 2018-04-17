@@ -19,7 +19,7 @@
     [self setWithMutableDict:md key:@"mobile" value:username];
     [self getWithAction:kTJLoginSendCodeAPI params:md  type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
         if (result.status.integerValue == kDDResponseStateSuccess) {
-            dict(result.data);
+            dict(result.mj_keyValues);
         } else {
             failure();
         }
@@ -29,10 +29,14 @@
     }];
 }
 + (void)checkCodeWithDic:(NSDictionary *)dic success:(void (^)(NSString * resp))success {
-    [self getWithAction:kTJCheckVerifyCode params:dic type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+    NSMutableDictionary *md = [NSMutableDictionary dictionary];
+    [self setWithMutableDict:md key:@"mobile" value:dic[@"mobile"]];
+    [self setWithMutableDict:md key:@"code" value:dic[@"code"]];
+    
+    [self getWithAction:kTJCheckVerifyCode params:md type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
         success(result.status);
     } failure:^{
-        
+
     }];
 }
 
@@ -63,7 +67,7 @@
     [self setWithMutableDict:md key:@"mobile" value:mobile];
     [self setWithMutableDict:md key:@"password" value:password];
     [self getWithAction:kTJUserLoginAPI params:md type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
-        if (result.status.integerValue == kDDResponseStateSuccess) {
+        if ([result.status isEqualToString:@"success"]) {
             NSDictionary *d = result.data;
             NSLog(@"%@",d);
             DDUserSingleton *user = [DDUserSingleton shareInstance];
@@ -72,9 +76,19 @@
             dict(result.data);
         } else {
             failure();
-
         }
-        [MBProgressHUD showMessage:result.msg_cn toView:[UIApplication sharedApplication].keyWindow];
+//        if (result.status.integerValue == kDDResponseStateSuccess) {
+//            NSDictionary *d = result.data;
+//            NSLog(@"%@",d);
+//            DDUserSingleton *user = [DDUserSingleton shareInstance];
+//            user = [DDUserSingleton mj_objectWithKeyValues:d];
+//            [kNotificationCenter postNotificationName:kUpdateUserInfoNotification object:nil];
+//            dict(result.data);
+//        } else {
+//            failure();
+//
+//        }
+//        [MBProgressHUD showMessage:result.msg_cn toView:[UIApplication sharedApplication].keyWindow];
     } failure:^{
         failure();
     }];
@@ -82,18 +96,21 @@
 
 + (void)uniquenessWithPhone:(NSString *)mobile success:(void (^)(NSString *status))suceess {
     [self getWithAction:kTJUniqueness params:@{@"mobile":mobile} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
-        suceess(result.status);
+        suceess(result.msg_cn);
     } failure:^{
         
     }];
 }
 
 + (void)otherLoginWithOpenID:(NSString *)openID act:(NSString*)act success:(void (^)(NSDictionary *dict))suceess {
-    [self getWithAction:kTJOtherLogin params:@{@"open_id":openID, @"act":act} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
-        suceess(result.data);
-    } failure:^{
-        
-    }];
+    if (openID.length) {
+        [self getWithAction:kTJOtherLogin params:@{@"open_id":openID, @"act":act} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+            suceess(result.data);
+            [MBProgressHUD showMessage:result.msg_cn toView:KEY_WINDOW];
+        } failure:^{
+            
+        }];
+    }
 }
 
 /**上传相册*/

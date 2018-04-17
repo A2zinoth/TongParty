@@ -13,9 +13,21 @@
 
 #pragma mark - host
 
+// 登录
 #define kTJUniqueness                    @"/tojoin/api/uniqueness.php"
 #define kTJOtherLogin                    @"/tojoin/api/other_login.php"
 #define kTJCheckVerifyCode               @"/tojoin/api/check_verify_code.php"
+
+// 首页
+#define KTJTableList                     @"/tojoin/api/table_list.php"
+
+// 创建
+#define kTJCreateTable                   @"/tojoin/api/create_table.php"
+#define KTJActivityList                  @"/tojoin/api/activity_list.php"
+
+// 获取
+#define kTJTableInfo                     @"/tojoin/api/obtain_table_info.php"
+
 
 /** host*/
 UIKIT_EXTERN NSString *const kTJHostAPI;

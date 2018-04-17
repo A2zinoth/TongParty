@@ -8,6 +8,29 @@
 
 #import "TJPublishModel.h"
 
+
 @implementation TJPublishModel
+
+- (void)publishWithModel {
+    [MBProgressHUD showLoading:@"创建中..." toView:KEY_WINDOW];
+    NSLog(@"%@", [self mj_keyValues]);
+    
+    [DDResponseBaseHttp getWithAction:kTJCreateTable params:[self mj_keyValues] type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+        
+    } failure:^{
+        
+    }];
+}
+
+- (void)getActivityList:(void(^)(NSArray *))success {
+    NSLog(@"%@-%@", KTJActivityList, [self mj_keyValues]);
+    [DDResponseBaseHttp getWithAction:KTJActivityList params:[self mj_keyValues] type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+        if ([result.status isEqualToString:@"success"]) {
+            success(result.data);
+        }
+    } failure:^{
+        
+    }];
+}
 
 @end

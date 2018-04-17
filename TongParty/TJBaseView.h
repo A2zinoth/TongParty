@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^Complete)(NSString *);
+
 @interface TJBaseView : UIView
+
+@property (nonatomic, copy) Complete complete;
+
 - (void)createUI;
 @end

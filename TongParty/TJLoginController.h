@@ -6,9 +6,9 @@
 //  Copyright © 2018年 Beijing Tojoin Network Technology Co., Ltd. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface TJLoginController : UIViewController
+@interface TJLoginController : BaseViewController
 
 @property (nonatomic, copy) NSString *phone; // 判断是 注册后/直接/注册中途 过来    
 

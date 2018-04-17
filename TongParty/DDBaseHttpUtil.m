@@ -54,6 +54,50 @@
     return sign;
 }
 
+// 加密hex(HMAC_SHA256(apiSecret, verb + path + expires + data))
+// get 需要拼接请求
++ (void)requestWithGET:(NSString *)rootURL path:(NSString *)path parameters:(NSDictionary *)params type:(DDHttpResponseType)type success:(void (^)(id))success failure:(void(^)())failure {
+    // verb + path + expires + data
+    // NSString *verb = @"GET";
+    // NSString *path = path;
+    NSString *expires = [self unixTime];
+    NSString *data = [self keyValueWithNSDictionary:params];
+    
+    NSString *encryStr = [NSString stringWithFormat:@"GET%@%@%@",path, expires,data];
+    NSString *encodeStr = [encryStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *encryData = [self hmac:encodeStr withKey:Api_secret];
+    
+    //ULR host+path+?+data
+    NSString *URLString = [NSString stringWithFormat:@"%@%@?%@",rootURL,path,data];
+    URLString = [URLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    //设置请求内容的类型
+    [manager.requestSerializer setValue:expires forHTTPHeaderField:@"api-expires"];
+    //设置请求的编码类型
+    [manager.requestSerializer setValue:encryData forHTTPHeaderField:@"api-signature"];
+    
+    if (type == kDDHttpResponseTypeText) {
+        manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    } else {
+        manager.responseSerializer = [AFJSONResponseSerializer serializer];
+        [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    }
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/json", @"text/plain", @"text/html", nil];
+    
+    [manager GET:URLString parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        //
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        success(responseObject);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (error.code != -1009 || error.code != -1001) {
+            NSLog(@"error.userInfo = %@", error.userInfo);
+        }
+        failure();
+    }];
+    
+}
+
 +(void)getWithUrl:(NSString *)url action:(NSString *)action params:(NSDictionary *)params  type:(DDHttpResponseType)type block:(void (^)(id))block failure:(void(^)())failure
 {
     NSString *string0 = [NSString stringWithFormat:@"%@%@", url, action];

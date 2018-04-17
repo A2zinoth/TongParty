@@ -11,14 +11,18 @@
 @interface TJPublishModel : NSObject
 
 @property (nonatomic, copy)   NSString        *token;
-@property (nonatomic, assign) NSInteger       aid;
+@property (nonatomic, copy)   NSString        *aid;
 @property (nonatomic, copy)   NSString        *title;
 @property (nonatomic, copy)   NSString        *place;
-@property (nonatomic, assign) NSTimeInterval  *begin_time;
-@property (nonatomic, assign) float           *average_num;
-@property (nonatomic, assign) NSInteger       *person_num;
-@property (nonatomic, assign) short           *is_heart;
-@property (nonatomic, assign) float           *latitude;
-@property (nonatomic, assign) float           *longitude;
+@property (nonatomic, copy)   NSString        *begin_time;
+@property (nonatomic, copy)   NSString        *average_price;
+@property (nonatomic, copy)   NSString        *person_num;
+@property (nonatomic, copy)   NSString        *is_heart;
+@property (nonatomic, copy)   NSString        *latitude;
+@property (nonatomic, copy)   NSString        *longitude;
+@property (nonatomic, copy)   NSString        *activity;
+
+- (void)publishWithModel;
+- (void)getActivityList:(void(^)(NSArray *))success;
 
 @end

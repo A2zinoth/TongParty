@@ -17,6 +17,7 @@ typedef NS_ENUM(NSInteger, DDHttpResponseType) {
 };
 
 @interface DDBaseHttpUtil : NSObject
++ (void)requestWithGET:(NSString *)rootURL path:(NSString *)path parameters:(NSDictionary *)params type:(DDHttpResponseType)type success:(void (^)(id))success failure:(void(^)())failure;
 
 +(void)getWithUrl:(NSString *)url action:(NSString *)action params:(NSDictionary *)params type:(DDHttpResponseType)type block:(void (^)(id))block failure:(void(^)())failure;
 

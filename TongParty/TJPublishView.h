@@ -11,5 +11,6 @@
 @interface TJPublishView : TJBaseView
 
 @property (nonatomic, strong) UIButton *cancelBtn;
+@property (nonatomic, strong) UIButton *okBtn;
 
 @end

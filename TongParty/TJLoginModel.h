@@ -8,13 +8,14 @@
 
 #import "DDLoginManager.h"
 
+typedef void (^ThirdLoginSuccess)();
 
 @interface TJLoginModel : NSObject
 
-@property (nonatomic, copy) NSString *mobile;
-@property (nonatomic, copy) NSString *password;
-
-@property (nonatomic, strong) DDLoginManager *loginManager;
+@property (nonatomic, copy)   NSString          *mobile;
+@property (nonatomic, copy)   NSString          *password;
+@property (nonatomic, copy)   ThirdLoginSuccess thirdLoginSuccess;
+@property (nonatomic, strong) DDLoginManager    *loginManager;
 
 - (void)login:(void (^)(void))success;
 - (void)thirdLogin:(NSInteger)sender;
