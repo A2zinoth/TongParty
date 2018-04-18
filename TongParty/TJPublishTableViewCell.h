@@ -20,6 +20,5 @@
 
 - (void)updateDataWithDic:(NSDictionary *)dic;
 - (void)updateDataWithRow:(NSInteger)row model:(NSObject *)model;
-- (void)updateWithModel:(NSObject *)model;
 
 @end

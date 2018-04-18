@@ -375,27 +375,27 @@
 }
 
 - (void)configLocationManager {
-        self.locationManager = [[AMapLocationManager alloc] init];
-        
-        [self.locationManager setDelegate:self];
-        
-        //设置期望定位精度
-        [self.locationManager setDesiredAccuracy:kCLLocationAccuracyThreeKilometers];
-        
-        //设置不允许系统暂停定位
-        [self.locationManager setPausesLocationUpdatesAutomatically:NO];
-        
-        //设置允许在后台定位
-        [self.locationManager setAllowsBackgroundLocationUpdates:NO];
-        
-        //设置定位超时时间
-        [self.locationManager setLocationTimeout:20];
-        
-        //设置逆地理超时时间
-        [self.locationManager setReGeocodeTimeout:20];
-        
-        //设置开启虚拟定位风险监测，可以根据需要开启
-        [self.locationManager setDetectRiskOfFakeLocation:NO];
+    self.locationManager = [[AMapLocationManager alloc] init];
+    
+    [self.locationManager setDelegate:self];
+    
+    //设置期望定位精度
+    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyThreeKilometers];
+    
+    //设置不允许系统暂停定位
+    [self.locationManager setPausesLocationUpdatesAutomatically:NO];
+    
+    //设置允许在后台定位
+    [self.locationManager setAllowsBackgroundLocationUpdates:NO];
+    
+    //设置定位超时时间
+    [self.locationManager setLocationTimeout:20];
+    
+    //设置逆地理超时时间
+    [self.locationManager setReGeocodeTimeout:20];
+    
+    //设置开启虚拟定位风险监测，可以根据需要开启
+    [self.locationManager setDetectRiskOfFakeLocation:NO];
 }
 
 

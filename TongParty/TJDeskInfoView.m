@@ -166,7 +166,7 @@
     distance.backgroundColor = [UIColor hx_colorWithHexString:@"#FFCD76"];
     [self addSubview:distance];
     [distance mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(content).offset(23);
+        make.top.mas_equalTo(content.mas_bottom);
         make.left.mas_equalTo(107);
         make.size.mas_equalTo(CGSizeMake(80, 18));
     }];
@@ -185,14 +185,13 @@
         make.size.mas_equalTo(CGSizeMake(68, 18));
     }];
     
-    UIButton *nextButton = [[UIButton alloc] init];
-    [self addSubview:nextButton];
-    nextButton.tag = 6756;
-    [nextButton setTitle:@"加入桌子" forState:UIControlStateNormal];
-    [nextButton setBackgroundColor:kBtnEnable];
-    [nextButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
-    nextButton.layer.cornerRadius = 20;
-    [nextButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    _nextButton = [[UIButton alloc] init];
+    [self addSubview:_nextButton];
+    [_nextButton setTitle:@"加入桌子" forState:UIControlStateNormal];
+    [_nextButton setBackgroundColor:kBtnEnable];
+    [_nextButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
+    _nextButton.layer.cornerRadius = 20;
+    [_nextButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(448);
         make.left.mas_equalTo(kScreenWidth/2-93);
         make.width.mas_equalTo(186);
@@ -207,6 +206,10 @@
         YYLabel *label = [self viewWithTag:i+1925];
         
         if(i < members.count) {
+            if (i == 0) {
+                [DDUserDefault setObject:members[i][@"head_image"] forKey:@"masterHeadImage"];
+                [DDUserDefault setObject:members[i][@"uid"] forKey:@"masterID"];
+            }
             [iv sd_setImageWithURL:[NSURL URLWithString:members[i][@"head_image"]]];
             label.text = members[i][@"nickname"];
             if ([members[i][@"sex"] isEqualToString:@"2"]) {
@@ -257,28 +260,35 @@
     UILabel *distance = [self viewWithTag:5753];
     distance.text = [NSString stringWithFormat:@"距离%.2fKM", model.distance.doubleValue];
     
-    UIButton *nextBtn = [self viewWithTag:6756];
+    
     NSDictionary *dic = model.my;
+    if ([dic[@"is_master"] isEqualToString:@"1"]) {
+        _nextButton.tag = 1215;
+        _contactBtn.hidden = true;
+        [DDUserDefault setObject:@"1" forKey:@"is_master"];
+    } else {
+        _nextButton.tag = 1216;
+        _contactBtn.hidden = false;
+        [DDUserDefault setObject:@"0" forKey:@"is_master"];
+    }
+    
     if ([dic[@"is_join"] isEqualToString:@"1"]) {
-        [nextBtn setTitle:@"签到" forState:UIControlStateNormal];
+        [_nextButton setTitle:@"签到" forState:UIControlStateNormal];
         _contactBtn.enabled = true;
         _contactBtn.tintColor = kBtnEnable;
         [_contactBtn setTitleColor:kBtnEnable forState:UIControlStateNormal];
         [_contactBtn setImage:[UIImage imageNamed:@"TJDeskContact_enable"] forState:UIControlStateNormal];
         _noticeLock(@"1");
     } else {
-        [nextBtn setTitle:@"加入桌子" forState:UIControlStateNormal];
+        _nextButton.tag = 1214;
+        [_nextButton setTitle:@"加入桌子" forState:UIControlStateNormal];
         _contactBtn.enabled = false;
         [_contactBtn setTitleColor:kBtnDisable forState:UIControlStateNormal];
         [_contactBtn setImage:[UIImage imageNamed:@"TJDeskContact_disable"] forState:UIControlStateNormal];
         _noticeLock(@"0");
     }
     
-    if ([dic[@"is_master"] isEqualToString:@"1"]) {
-        _contactBtn.hidden = true;
-    } else {
-        _contactBtn.hidden = false;
-    }
+
 }
 
 - (NSInteger)getRemaindDays:(NSString *)str {

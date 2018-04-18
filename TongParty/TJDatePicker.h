@@ -8,7 +8,7 @@
 
 #import "TJBaseView.h"
 
-@interface TJDatePicker : TJBaseView
+@interface TJDatePicker : TJBaseView<UIScrollViewDelegate>
 
 @property (nonatomic, strong) UIView        *maskView;
 

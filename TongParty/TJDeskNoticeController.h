@@ -10,4 +10,11 @@
 
 @interface TJDeskNoticeController : BaseViewController
 
+
+@property (nonatomic, strong) NSString *tid; //桌子 id
+
+- (void)closeKeyBoard;
+- (void)requestNotice;
+- (void)updateAuthority;
+
 @end

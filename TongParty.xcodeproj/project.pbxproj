@@ -81,6 +81,14 @@
 		6B08309F207C7FBE006C690F /* TJHomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B08309E207C7FBE006C690F /* TJHomeController.m */; };
 		6B0830A2207C7FD2006C690F /* TJHeartbeatController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0830A1207C7FD2006C690F /* TJHeartbeatController.m */; };
 		6B0830A5207C7FE5006C690F /* TJProfileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0830A4207C7FE5006C690F /* TJProfileController.m */; };
+		6B0A051820870F6E0048BDB0 /* TJQRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0A051720870F6E0048BDB0 /* TJQRViewController.m */; };
+		6B0A051C2087159F0048BDB0 /* SGQRCodeGenerateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0A051A2087159E0048BDB0 /* SGQRCodeGenerateManager.m */; };
+		6B0A051F2087172A0048BDB0 /* TJQRScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0A051E2087172A0048BDB0 /* TJQRScanViewController.m */; };
+		6B0A0523208718C80048BDB0 /* SGQRCodeScanManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0A0521208718C80048BDB0 /* SGQRCodeScanManager.m */; };
+		6B0A0526208719020048BDB0 /* SGQRCodeAlbumManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0A0525208719010048BDB0 /* SGQRCodeAlbumManager.m */; };
+		6B0A0529208719250048BDB0 /* SGQRCodeScanningView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0A0528208719250048BDB0 /* SGQRCodeScanningView.m */; };
+		6B0A052C208719740048BDB0 /* UIImage+SGImageSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0A052B208719740048BDB0 /* UIImage+SGImageSize.m */; };
+		6B0A053220871A500048BDB0 /* SGQRCodeHelperTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0A053120871A500048BDB0 /* SGQRCodeHelperTool.m */; };
 		6B0AEACA208053B10052FBD5 /* TJEventAddrController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0AEAC9208053B10052FBD5 /* TJEventAddrController.m */; };
 		6B0AEACD208055450052FBD5 /* TJEventAddrView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0AEACC208055450052FBD5 /* TJEventAddrView.m */; };
 		6B0AEAD020805AC80052FBD5 /* TJSearchResultController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0AEACF20805AC80052FBD5 /* TJSearchResultController.m */; };
@@ -104,6 +112,7 @@
 		6B860BBE20849303006D9C5F /* TJDeskInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B860BBD20849303006D9C5F /* TJDeskInfoModel.m */; };
 		6BB7C52A2081DF46006F3E73 /* TJSuggestTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB7C5292081DF46006F3E73 /* TJSuggestTableViewCell.m */; };
 		6BDE1F97208594DD0062AB6A /* TJDeskNoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDE1F96208594DD0062AB6A /* TJDeskNoticeView.m */; };
+		6BDE1F9A2085F7D30062AB6A /* TJDeskNoticeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDE1F992085F7D30062AB6A /* TJDeskNoticeCell.m */; };
 		6BE5B507207F08AB003CFB05 /* TJButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE5B506207F08AB003CFB05 /* TJButton.m */; };
 		6BE5B50E207F24D3003CFB05 /* UIColor+Image.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE5B50D207F24D3003CFB05 /* UIColor+Image.m */; };
 		6BE5B511207F2D90003CFB05 /* TJDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE5B510207F2D90003CFB05 /* TJDatePicker.m */; };
@@ -584,6 +593,22 @@
 		6B0830A1207C7FD2006C690F /* TJHeartbeatController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJHeartbeatController.m; sourceTree = "<group>"; };
 		6B0830A3207C7FE5006C690F /* TJProfileController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJProfileController.h; sourceTree = "<group>"; };
 		6B0830A4207C7FE5006C690F /* TJProfileController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJProfileController.m; sourceTree = "<group>"; };
+		6B0A051620870F6E0048BDB0 /* TJQRViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJQRViewController.h; sourceTree = "<group>"; };
+		6B0A051720870F6E0048BDB0 /* TJQRViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJQRViewController.m; sourceTree = "<group>"; };
+		6B0A051A2087159E0048BDB0 /* SGQRCodeGenerateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGQRCodeGenerateManager.m; sourceTree = "<group>"; };
+		6B0A051B2087159F0048BDB0 /* SGQRCodeGenerateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGQRCodeGenerateManager.h; sourceTree = "<group>"; };
+		6B0A051D2087172A0048BDB0 /* TJQRScanViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJQRScanViewController.h; sourceTree = "<group>"; };
+		6B0A051E2087172A0048BDB0 /* TJQRScanViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJQRScanViewController.m; sourceTree = "<group>"; };
+		6B0A0521208718C80048BDB0 /* SGQRCodeScanManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGQRCodeScanManager.m; sourceTree = "<group>"; };
+		6B0A0522208718C80048BDB0 /* SGQRCodeScanManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGQRCodeScanManager.h; sourceTree = "<group>"; };
+		6B0A0524208719010048BDB0 /* SGQRCodeAlbumManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGQRCodeAlbumManager.h; sourceTree = "<group>"; };
+		6B0A0525208719010048BDB0 /* SGQRCodeAlbumManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGQRCodeAlbumManager.m; sourceTree = "<group>"; };
+		6B0A0527208719240048BDB0 /* SGQRCodeScanningView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGQRCodeScanningView.h; sourceTree = "<group>"; };
+		6B0A0528208719250048BDB0 /* SGQRCodeScanningView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGQRCodeScanningView.m; sourceTree = "<group>"; };
+		6B0A052A208719730048BDB0 /* UIImage+SGImageSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+SGImageSize.h"; sourceTree = "<group>"; };
+		6B0A052B208719740048BDB0 /* UIImage+SGImageSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+SGImageSize.m"; sourceTree = "<group>"; };
+		6B0A053020871A500048BDB0 /* SGQRCodeHelperTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGQRCodeHelperTool.h; sourceTree = "<group>"; };
+		6B0A053120871A500048BDB0 /* SGQRCodeHelperTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGQRCodeHelperTool.m; sourceTree = "<group>"; };
 		6B0AEAC8208053B10052FBD5 /* TJEventAddrController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJEventAddrController.h; sourceTree = "<group>"; };
 		6B0AEAC9208053B10052FBD5 /* TJEventAddrController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJEventAddrController.m; sourceTree = "<group>"; };
 		6B0AEACB208055450052FBD5 /* TJEventAddrView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJEventAddrView.h; sourceTree = "<group>"; };
@@ -629,6 +654,8 @@
 		6BB7C5292081DF46006F3E73 /* TJSuggestTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJSuggestTableViewCell.m; sourceTree = "<group>"; };
 		6BDE1F95208594DD0062AB6A /* TJDeskNoticeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJDeskNoticeView.h; sourceTree = "<group>"; };
 		6BDE1F96208594DD0062AB6A /* TJDeskNoticeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJDeskNoticeView.m; sourceTree = "<group>"; };
+		6BDE1F982085F7D30062AB6A /* TJDeskNoticeCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJDeskNoticeCell.h; sourceTree = "<group>"; };
+		6BDE1F992085F7D30062AB6A /* TJDeskNoticeCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJDeskNoticeCell.m; sourceTree = "<group>"; };
 		6BE5B505207F08AB003CFB05 /* TJButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJButton.h; sourceTree = "<group>"; };
 		6BE5B506207F08AB003CFB05 /* TJButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJButton.m; sourceTree = "<group>"; };
 		6BE5B50C207F24D3003CFB05 /* UIColor+Image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Image.h"; sourceTree = "<group>"; };
@@ -1501,6 +1528,51 @@
 			name = Login;
 			sourceTree = "<group>";
 		};
+		6B0A051420870EFE0048BDB0 /* Master */ = {
+			isa = PBXGroup;
+			children = (
+				6B0A051620870F6E0048BDB0 /* TJQRViewController.h */,
+				6B0A051720870F6E0048BDB0 /* TJQRViewController.m */,
+			);
+			name = Master;
+			sourceTree = "<group>";
+		};
+		6B0A051520870F090048BDB0 /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				6B0A051D2087172A0048BDB0 /* TJQRScanViewController.h */,
+				6B0A051E2087172A0048BDB0 /* TJQRScanViewController.m */,
+			);
+			name = Player;
+			sourceTree = "<group>";
+		};
+		6B0A0519208715850048BDB0 /* SGQRCode */ = {
+			isa = PBXGroup;
+			children = (
+				6B0A0520208718B80048BDB0 /* Scan */,
+				6B0A051B2087159F0048BDB0 /* SGQRCodeGenerateManager.h */,
+				6B0A051A2087159E0048BDB0 /* SGQRCodeGenerateManager.m */,
+			);
+			name = SGQRCode;
+			sourceTree = "<group>";
+		};
+		6B0A0520208718B80048BDB0 /* Scan */ = {
+			isa = PBXGroup;
+			children = (
+				6B0A0522208718C80048BDB0 /* SGQRCodeScanManager.h */,
+				6B0A0521208718C80048BDB0 /* SGQRCodeScanManager.m */,
+				6B0A0524208719010048BDB0 /* SGQRCodeAlbumManager.h */,
+				6B0A0525208719010048BDB0 /* SGQRCodeAlbumManager.m */,
+				6B0A0527208719240048BDB0 /* SGQRCodeScanningView.h */,
+				6B0A0528208719250048BDB0 /* SGQRCodeScanningView.m */,
+				6B0A053020871A500048BDB0 /* SGQRCodeHelperTool.h */,
+				6B0A053120871A500048BDB0 /* SGQRCodeHelperTool.m */,
+				6B0A052A208719730048BDB0 /* UIImage+SGImageSize.h */,
+				6B0A052B208719740048BDB0 /* UIImage+SGImageSize.m */,
+			);
+			name = Scan;
+			sourceTree = "<group>";
+		};
 		6B0AEAC72080538D0052FBD5 /* Addr */ = {
 			isa = PBXGroup;
 			children = (
@@ -1595,6 +1667,8 @@
 		6BB7C52B20825AAD006F3E73 /* DeskInfo */ = {
 			isa = PBXGroup;
 			children = (
+				6B0A051520870F090048BDB0 /* Player */,
+				6B0A051420870EFE0048BDB0 /* Master */,
 				6B781BF720838A6300B18260 /* TJDeskViewController.h */,
 				6B781BF820838A6300B18260 /* TJDeskViewController.m */,
 				6B781BF42083899800B18260 /* TJDeskInfoController.h */,
@@ -1605,6 +1679,8 @@
 				6B860BBD20849303006D9C5F /* TJDeskInfoModel.m */,
 				6B781BFA2083924900B18260 /* TJDeskNoticeController.h */,
 				6B781BFB2083924900B18260 /* TJDeskNoticeController.m */,
+				6BDE1F982085F7D30062AB6A /* TJDeskNoticeCell.h */,
+				6BDE1F992085F7D30062AB6A /* TJDeskNoticeCell.m */,
 				6BDE1F95208594DD0062AB6A /* TJDeskNoticeView.h */,
 				6BDE1F96208594DD0062AB6A /* TJDeskNoticeView.m */,
 			);
@@ -3035,6 +3111,7 @@
 		989931961F691C5200E4BCAA /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				6B0A0519208715850048BDB0 /* SGQRCode */,
 				6B2D8D05207CA13F00E84B50 /* LRTranstionAnimation */,
 				98F675941F70F0C70038E372 /* PYSearch */,
 				989931CF1F692E8000E4BCAA /* FXBlurView.h */,
@@ -4188,6 +4265,7 @@
 				981A49F11FF37FE7001419DD /* LSPlayRewardEntity.m in Sources */,
 				4B2E911E1FF8B5EB00AB9B3D /* LSGiftCollectionViewLayout.m in Sources */,
 				981A49F21FF37FE7001419DD /* LSTableEntity.m in Sources */,
+				6B0A051F2087172A0048BDB0 /* TJQRScanViewController.m in Sources */,
 				981A49F31FF37FE7001419DD /* LSPersonLabelCollectionCell.m in Sources */,
 				6B0AEACA208053B10052FBD5 /* TJEventAddrController.m in Sources */,
 				981A49F41FF37FE7001419DD /* LSMyLabelButton.m in Sources */,
@@ -4215,6 +4293,7 @@
 				98EA42C6200F213900E2A11D /* DDHisHerViewController.m in Sources */,
 				4B2E91161FF8A33A00AB9B3D /* LSPlayRewardGiftVC.m in Sources */,
 				986E5A101FAAEC6900FD391C /* LXAlertView.m in Sources */,
+				6B0A051820870F6E0048BDB0 /* TJQRViewController.m in Sources */,
 				986E5A111FAAEC6900FD391C /* UILabel+LXAdd.m in Sources */,
 				9853D7381FA02CA6004AD6BF /* CYBadgeView.m in Sources */,
 				981A49AA1FEBABEE001419DD /* DDStarView.m in Sources */,
@@ -4264,6 +4343,7 @@
 				6B05074D207B7F0A003765EC /* TJRegisterView.m in Sources */,
 				6B2D8D0A207CA15500E84B50 /* LRTranstionAnimationPop.m in Sources */,
 				98578E171F8B5B4200FEF64D /* DDPickerArea.m in Sources */,
+				6B0A051C2087159F0048BDB0 /* SGQRCodeGenerateManager.m in Sources */,
 				981A49A71FEBA901001419DD /* DDShopDescTableViewCell.m in Sources */,
 				98BF20461F7A28CA00E94394 /* DDPersonInfoTableViewCell.m in Sources */,
 				985308FD1F6BD6FD003B475C /* DDHomeListRequest.m in Sources */,
@@ -4297,6 +4377,7 @@
 				98F5899F1F6A72F0005E674A /* DDCustomCommonEmptyView.m in Sources */,
 				98B506FA20143A6300214B54 /* DDDeskViewController.m in Sources */,
 				988E16991FD4F5AA003FFC72 /* LSCreatDeskEntity.m in Sources */,
+				6B0A053220871A500048BDB0 /* SGQRCodeHelperTool.m in Sources */,
 				988E16CA1FD790E2003FFC72 /* DDNoticeModel.m in Sources */,
 				98EA42BF200DF33600E2A11D /* DDMessageViewController.m in Sources */,
 				989931E91F69306900E4BCAA /* UIImage+ImageEffects.m in Sources */,
@@ -4356,6 +4437,7 @@
 				98BF20491F7A4DFC00E94394 /* DDEditInfoVC.m in Sources */,
 				98D557F81F7E234E006124C5 /* DDHelpViewController.m in Sources */,
 				6B0830A2207C7FD2006C690F /* TJHeartbeatController.m in Sources */,
+				6BDE1F9A2085F7D30062AB6A /* TJDeskNoticeCell.m in Sources */,
 				98F589BC1F6A7A35005E674A /* DDFileCacheManager.m in Sources */,
 				98F675A61F70F0D60038E372 /* PYSearchSuggestionViewController.m in Sources */,
 				6B05074A207B7EE6003765EC /* TJRegisterController.m in Sources */,
@@ -4401,6 +4483,7 @@
 				981BAEC21FA9CD7C00909F28 /* DDDeskMatchViewController.m in Sources */,
 				4BDD995D1FF3CE9200D6F69A /* LSActivityEntity.m in Sources */,
 				6B050754207B90AA003765EC /* TJVerifyController.m in Sources */,
+				6B0A0526208719020048BDB0 /* SGQRCodeAlbumManager.m in Sources */,
 				98D51B7A1FA42C250095BC8F /* DDLoginViewController.m in Sources */,
 				989932551F693A5100E4BCAA /* NSNotificationCenter+Addition.m in Sources */,
 				98EA42CA200F21BA00E2A11D /* DDActivitiesHisCellView.m in Sources */,
@@ -4461,6 +4544,7 @@
 				98D51B801FA5CC510095BC8F /* DDRegisterViewController.m in Sources */,
 				98578E4C1F906B4400FEF64D /* UIImage+ATWatermark.m in Sources */,
 				988E16C41FD67F74003FFC72 /* DDTableInfoModel.m in Sources */,
+				6B0A0523208718C80048BDB0 /* SGQRCodeScanManager.m in Sources */,
 				981A49A41FEBA8F2001419DD /* DDShopInfoTableViewCell.m in Sources */,
 				6B2D8D1C207CBA9100E84B50 /* TJEventView.m in Sources */,
 				98EA42BD200DED3800E2A11D /* LSCouponView.m in Sources */,
@@ -4523,6 +4607,7 @@
 				982F01541F7C9C3C008061CF /* DDPersonAuthTableViewCell.m in Sources */,
 				49764A0920187B9800CEEB0D /* LSTimeRangePicker.m in Sources */,
 				988E169C1FD4F667003FFC72 /* LSUpLoadImageManager.m in Sources */,
+				6B0A0529208719250048BDB0 /* SGQRCodeScanningView.m in Sources */,
 				981E5A651FCD0371001B6448 /* DDNoticeMessageCell.m in Sources */,
 				985746C51FA873300017E5D1 /* FDDMenu.m in Sources */,
 				98F675B81F711E5E0038E372 /* NHHomeNeiHanShareView.m in Sources */,
@@ -4549,6 +4634,7 @@
 				989932421F693A1800E4BCAA /* NSObject+AddProperty.m in Sources */,
 				989931C51F6925C300E4BCAA /* MBProgressHUD+NHAddition.m in Sources */,
 				98E2C6FD1FD920890050653E /* DDInviteFriedsViewController.m in Sources */,
+				6B0A052C208719740048BDB0 /* UIImage+SGImageSize.m in Sources */,
 				988E16C01FD63988003FFC72 /* DDCaptchaTimerManager.m in Sources */,
 				98F589C21F6A7B05005E674A /* DDUserInfoManager.m in Sources */,
 				981E5A6B1FCD48C5001B6448 /* DDDeskMatchView.m in Sources */,

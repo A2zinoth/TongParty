@@ -206,6 +206,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.deskInfoVC.tid = _tid;
+    self.deskNoticeVC.tid = _tid;
+    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    
+    [self.deskNoticeVC updateAuthority];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -239,11 +243,19 @@
         _scrollView.pagingEnabled   = YES;
         _scrollView.bounces         = false;
         _scrollView.scrollEnabled   = YES;
+        [_scrollView.panGestureRecognizer requireGestureRecognizerToFail:self.navigationController.interactivePopGestureRecognizer];
     }
     return _scrollView;
 }
 
 #pragma mark - UIScrollViewDelegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [_deskNoticeVC closeKeyBoard];
+    if (scrollView.contentOffset.x == kScreenWidth) {
+        [_deskNoticeVC requestNotice];
+    }
+}
+
 // 结束减速
 - (void)scrollViewDidEndDecelerating:(nonnull UIScrollView *)scrollView{
     if (scrollView.contentOffset.x == kScreenWidth) {
@@ -260,6 +272,14 @@
         [_selectedLabel mas_updateConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(left);
         }];
+    }
+    
+    if (scrollView.contentOffset.x <= 0) {
+        //滑动结束后如果scrollview是滑动了最左侧的话那么就让它可以侧拉返回
+        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    } else {
+        //否则就不能侧拉返回
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     }
 }
 

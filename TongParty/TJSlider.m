@@ -12,8 +12,6 @@
 {
     CGRect lastBounds;
 }
-
-
 @end
 
 @implementation TJSlider

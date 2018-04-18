@@ -79,6 +79,7 @@
     // 快速显示一个提示信息
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     hud.label.text = message;
+    hud.contentColor = kWhiteColor;
     hud.mode = MBProgressHUDModeText;
     hud.margin = 10.f;
     // 设置hub颜色

@@ -14,8 +14,9 @@ typedef void (^NoticeLock)(NSString*);
 
 @interface TJDeskInfoView : TJBaseView
 
-@property (nonatomic, strong) UIButton    *contactBtn;
-@property (nonatomic, strong) NoticeLock  noticeLock;
+@property (nonatomic, strong) UIButton      *contactBtn;
+@property (nonatomic, strong) UIButton      *nextButton;
+@property (nonatomic, strong) NoticeLock    noticeLock;
 
 - (void)updateWithModel:(TJDeskInfoModel *)model;
 

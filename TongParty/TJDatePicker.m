@@ -84,13 +84,7 @@
     float labelHeight = 98;
     float left = (kScreenWidth/2-labelWidth/2)/labelWidth;
     
-    float offsetLeft = 0;
-    if (kScreenWidth>380) {
-        offsetLeft = (left-0.5)*labelWidth-8;
-    } else {
-        offsetLeft = left*labelWidth-12;
-        ;
-    }
+    float offsetLeft = -left+3*labelWidth;
     
     _datePicker = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 48, kScreenWidth, labelHeight)];
     [self addSubview:_datePicker];

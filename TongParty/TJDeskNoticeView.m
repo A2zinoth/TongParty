@@ -12,7 +12,9 @@
 @implementation TJDeskNoticeView
 
 - (void)createUI {
+    self.backgroundColor = kWhiteColor;
     UIImageView *backBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 57)];
+    backBackground.image = kImage(@"TJNoticeBottom");
     [self addSubview:backBackground];
     
     UIButton *voiceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -41,6 +43,7 @@
     _input = [[UITextField alloc] init];
     _input.font = [UIFont systemFontOfSize:13];
     _input.placeholder = @"请输入内容";
+    _input.returnKeyType = UIReturnKeySend;
     [_input setValue:[UIColor hx_colorWithHexString:@"#92A7B9"] forKeyPath:@"_placeholderLabel.textColor"];
     [self addSubview:_input];
     [_input mas_makeConstraints:^(MASConstraintMaker *make) {

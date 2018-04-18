@@ -9,6 +9,9 @@
 #import "TJDeskInfoController.h"
 #import "TJDeskInfoView.h"
 #import "TJDeskInfoModel.h"
+#import "TJQRViewController.h"
+#import <AVFoundation/AVFoundation.h>
+#import "TJQRScanViewController.h"
 
 @interface TJDeskInfoController ()
 
@@ -19,12 +22,7 @@
 
 @implementation TJDeskInfoController
 
-- (TJDeskInfoView *)infoView {
-    if (!_infoView) {
-        _infoView = [[TJDeskInfoView alloc] init];
-    }
-    return _infoView;
-}
+
 
 - (void)createUI {
     
@@ -38,6 +36,7 @@
     };
     
     _infoModel = [[TJDeskInfoModel alloc] init];
+    [_infoView.nextButton addTarget:self action:@selector(joinAction:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)viewDidLoad {
@@ -61,17 +60,96 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)joinAction:(UIButton *)btn {
+    switch (btn.tag) {
+        case 1214:{ //加入
+            NSLog(@"加入");
+            if ([DDUserDefault objectForKey:@"masterID"]) {
+                [DDResponseBaseHttp getWithAction:kTJTableJoin params:@{@"token":[DDUserDefault objectForKey:@"token"], @"oid":[DDUserDefault objectForKey:@"masterID"], @"tid":self.tid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+                    if ([result.status isEqualToString:@"success"]) {
+                        [MBProgressHUD showMessage:@"申请成功"];
+                    }
+                } failure:^{
+                    
+                }];
+            }
+        }
+            break;
+        case 1215:{ //桌主
+            NSLog(@"桌主");
+            [self.navigationController pushViewController:[TJQRViewController new] animated:true];
+        }
+            break;
+        case 1216:{ //玩家
+            NSLog(@"玩家");
+            [self QRCodeScanVC:[TJQRScanViewController new]];
+        }
+            break;
+        default:
+            break;
+    }
 }
-*/
+
+- (void)QRCodeScanVC:(UIViewController *)scanVC {
+    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    if (device) {
+        AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+        switch (status) {
+            case AVAuthorizationStatusNotDetermined: {
+                [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+                    if (granted) {
+                        dispatch_sync(dispatch_get_main_queue(), ^{
+                            [self.navigationController pushViewController:scanVC animated:YES];
+                        });
+                        NSLog(@"用户第一次同意了访问相机权限 - - %@", [NSThread currentThread]);
+                    } else {
+                        NSLog(@"用户第一次拒绝了访问相机权限 - - %@", [NSThread currentThread]);
+                    }
+                }];
+                break;
+            }
+            case AVAuthorizationStatusAuthorized: {
+                [self.navigationController pushViewController:scanVC animated:YES];
+                break;
+            }
+            case AVAuthorizationStatusDenied: {
+                UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"请去-> [设置 - 隐私 - 相机 - 桐聚] 打开访问开关" preferredStyle:(UIAlertControllerStyleAlert)];
+                UIAlertAction *alertA = [UIAlertAction actionWithTitle:@"确定" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+                    
+                }];
+                
+                [alertC addAction:alertA];
+                [self presentViewController:alertC animated:YES completion:nil];
+                break;
+            }
+            case AVAuthorizationStatusRestricted: {
+                NSLog(@"因为系统原因, 无法访问相册");
+                break;
+            }
+                
+            default:
+                break;
+        }
+        return;
+    }
+    
+    UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"未检测到您的摄像头" preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *alertA = [UIAlertAction actionWithTitle:@"确定" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    
+    [alertC addAction:alertA];
+    [self presentViewController:alertC animated:YES completion:nil];
+}
+
+- (TJDeskInfoView *)infoView {
+    if (!_infoView) {
+        _infoView = [[TJDeskInfoView alloc] init];
+    }
+    return _infoView;
+}
+
 
 @end

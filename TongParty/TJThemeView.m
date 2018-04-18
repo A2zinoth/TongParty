@@ -105,6 +105,11 @@
         }
     }
     
+    CGFloat space = 126;
+    if (IS_IPHONE_5) {
+        space =  86;
+    }
+    
     for (NSInteger i = 0; i < 16; i++) {
         UIButton *button = [[UIButton alloc] init];
         button.tag = 2343+i;
@@ -128,7 +133,7 @@
         [self addSubview:button];
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_offset(69 + i/2 * 48);
-            make.left.mas_offset(146 + i%2 * 126);
+            make.left.mas_offset(146 + i%2 * space);
             make.size.mas_equalTo(CGSizeMake(72, 24));
         }];
         if (i == 0) {

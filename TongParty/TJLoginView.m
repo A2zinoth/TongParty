@@ -216,8 +216,8 @@
 }
 
 - (void)showPasswordAction:(UIButton *)button {
-    button.selected = !button.selected;
     _passwordTF.secureTextEntry = button.selected;
+    button.selected = !button.selected;
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
