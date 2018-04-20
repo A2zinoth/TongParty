@@ -144,21 +144,37 @@
 
 #pragma mark - - - SGQRCodeScanManagerDelegate
 - (void)QRCodeScanManager:(SGQRCodeScanManager *)scanManager didOutputMetadataObjects:(NSArray *)metadataObjects {
-    NSLog(@"metadataObjects - - %@", metadataObjects);
     if (metadataObjects != nil && metadataObjects.count > 0) {
-        [scanManager playSoundName:@"SGQRCode.bundle/sound.caf"];
-        [scanManager stopRunning];
-        [scanManager videoPreviewLayerRemoveFromSuperlayer];
-        
         AVMetadataMachineReadableCodeObject *obj = metadataObjects[0];
-//        ScanSuccessJumpVC *jumpVC = [[ScanSuccessJumpVC alloc] init];
-//        jumpVC.comeFromVC = ScanSuccessJumpComeFromWC;
-//        jumpVC.jump_URL = [obj stringValue];
-//        [self.navigationController pushViewController:jumpVC animated:YES];
+        NSString *result = [obj stringValue];
+        if (result.length == 6) {
+            [scanManager playSoundName:@"sound.caf"];
+            [scanManager stopRunning];
+            [self memberSign:result];
+        }
     } else {
         NSLog(@"暂未识别出扫描的二维码");
     }
 }
+
+- (void)memberSign:(NSString *)qr_code {
+    [DDResponseBaseHttp getWithAction:kTJTableMemberSign params:@{@"token":[DDUserDefault objectForKey:@"token"],@"tid":self.tid,@"qr_code":qr_code, @"oid":self.oid,@"latitude":@"39.9176", @"longitude":@"116.399"} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+        [MBProgressHUD showMessage:result.msg_cn];
+        if ([result.status isEqualToString:@"success"]) {
+            [_manager videoPreviewLayerRemoveFromSuperlayer];
+            UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"签到成功" preferredStyle:(UIAlertControllerStyleAlert)];
+            UIAlertAction *alertA = [UIAlertAction actionWithTitle:@"确定" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+                [self.navigationController popViewControllerAnimated:true];
+            }];
+            [alertC addAction:alertA];
+            [self presentViewController:alertC animated:YES completion:nil];
+        } else  {
+            [_manager startRunning];
+        }
+    } failure:^{
+    }];
+}
+
 - (void)QRCodeScanManager:(SGQRCodeScanManager *)scanManager brightnessValue:(CGFloat)brightnessValue {
 //    if (brightnessValue < - 1) {
 //        [self.view addSubview:self.flashlightBtn];
@@ -174,14 +190,14 @@
         _promptLabel = [[UILabel alloc] init];
         _promptLabel.backgroundColor = [UIColor clearColor];
         CGFloat promptLabelX = 0;
-        CGFloat promptLabelY = 0.73 * self.view.frame.size.height;
+        CGFloat promptLabelY = 471;
         CGFloat promptLabelW = self.view.frame.size.width;
         CGFloat promptLabelH = 25;
         _promptLabel.frame = CGRectMake(promptLabelX, promptLabelY, promptLabelW, promptLabelH);
         _promptLabel.textAlignment = NSTextAlignmentCenter;
         _promptLabel.font = [UIFont boldSystemFontOfSize:13.0];
         _promptLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
-        _promptLabel.text = @"将二维码/条码放入框内, 即可自动扫描";
+        _promptLabel.text = @"扫描桌主的二维码名片，即可完成签到";
     }
     return _promptLabel;
 }

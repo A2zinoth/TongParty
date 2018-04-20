@@ -136,7 +136,10 @@ typedef NS_ENUM(NSUInteger, DDHomeAttentionListType) {
 #define IS_IPHONE_5 (IS_IPHONE && SCREEN_MAX_LENGTH == 568.0)
 #define IS_IPHONE_6 (IS_IPHONE && SCREEN_MAX_LENGTH == 667.0)
 #define IS_IPHONE_6P (IS_IPHONE && SCREEN_MAX_LENGTH == 736.0)
+#define IS_IPHONE_5_OR_LESS (IS_IPHONE && SCREEN_MIN_LENGTH <= 320)
 
+#define k5(pt)  (IS_IPHONE_5_OR_LESS ? (pt)/375.0 * 320.0 : pt)
+#define k5Only(pt)  (IS_IPHONE_5_OR_LESS ? pt : 0)
 
 #pragma mark - 字符串转化
 #define kEmptyStr @""

@@ -140,7 +140,7 @@
     NSString *str = arr[0];
     str = [str substringFromIndex:5];
     UILabel *remaind = [[UILabel alloc] init];
-    remaind.text = [NSString stringWithFormat:@"%zd天", [self getTheCountOfTwoDaysWithBeginDate:@"" endDate:str]];
+    remaind.text = [NSString stringWithFormat:@"%zd天", [self getTheCountOfDate:str]];
     remaind.layerCornerRadius = 9;
     remaind.tag = 4748;
     remaind.font = [UIFont systemFontOfSize:10];
@@ -208,7 +208,7 @@
         if(i < members.count) {
             if (i == 0) {
                 [DDUserDefault setObject:members[i][@"head_image"] forKey:@"masterHeadImage"];
-                [DDUserDefault setObject:members[i][@"uid"] forKey:@"masterID"];
+//                [DDUserDefault setObject:members[i][@"uid"] forKey:@"masterID"];
             }
             [iv sd_setImageWithURL:[NSURL URLWithString:members[i][@"head_image"]]];
             label.text = members[i][@"nickname"];
@@ -266,11 +266,14 @@
         _nextButton.tag = 1215;
         _contactBtn.hidden = true;
         [DDUserDefault setObject:@"1" forKey:@"is_master"];
+        NSLog(@"is_master : 1");
     } else {
         _nextButton.tag = 1216;
         _contactBtn.hidden = false;
         [DDUserDefault setObject:@"0" forKey:@"is_master"];
+        NSLog(@"is_master : 0");
     }
+    [DDUserDefault synchronize];
     
     if ([dic[@"is_join"] isEqualToString:@"1"]) {
         [_nextButton setTitle:@"签到" forState:UIControlStateNormal];
@@ -310,31 +313,24 @@
     NSDate *beginningOfWeek = [gregorian dateFromComponents:components];
     NSDateFormatter *dateday = [[NSDateFormatter alloc] init];
     [dateday setDateFormat:@"yyyy-MM-dd"];
-    return [[dateday stringFromDate:beginningOfWeek]stringByAppendingString:@" 16:00:00"];
+    return [[dateday stringFromDate:beginningOfWeek]stringByAppendingString:@" 16:00"];
 }
 
-
--(NSInteger)getTheCountOfTwoDaysWithBeginDate:(NSString *)beginDate endDate:(NSString *)endDate{
-
+-(NSInteger)getTheCountOfDate:(NSString *)endDate{
+    
     NSDateFormatter *inputFormatter = [[NSDateFormatter alloc] init];
-    
     [inputFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"]];
-    [inputFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [inputFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
     
-
-//    NSDate *startD =[inputFormatter dateFromString:beginDate];
     NSDate *startD = [NSDate date];
     NSDate *endD = [inputFormatter dateFromString:endDate];
     
     // 当前日历
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    
     // 需要对比的时间数据
     NSCalendarUnit unit = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay;
-    
     // 对比时间差
     NSDateComponents *dateCom = [calendar components:unit fromDate:startD toDate:endD options:0];
-    
     if (dateCom.day == 0){
         NSDateComponents *comp1 = [calendar components:unit fromDate:startD];
         NSDateComponents *comp2 = [calendar components:unit fromDate:endD];
@@ -344,7 +340,35 @@
             return 1;
         }
     }
+    return dateCom.day;
+}
+
+
+-(NSInteger)getTheCountOfTwoDaysWithBeginDate:(NSString *)beginDate endDate:(NSString *)endDate{
+
+    NSDateFormatter *inputFormatter = [[NSDateFormatter alloc] init];
+    [inputFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"]];
+    [inputFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+
+//    NSDate *startD =[inputFormatter dateFromString:beginDate];
+    NSDate *startD = [NSDate date];
+    NSDate *endD = [inputFormatter dateFromString:endDate];
     
+    // 当前日历
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    // 需要对比的时间数据
+    NSCalendarUnit unit = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay;
+    // 对比时间差
+    NSDateComponents *dateCom = [calendar components:unit fromDate:startD toDate:endD options:0];
+    if (dateCom.day == 0){
+        NSDateComponents *comp1 = [calendar components:unit fromDate:startD];
+        NSDateComponents *comp2 = [calendar components:unit fromDate:endD];
+        if (comp1.day == comp2.day) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
     return dateCom.day;
 }
 

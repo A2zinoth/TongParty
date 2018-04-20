@@ -8,6 +8,8 @@
 
 #import "TJBaseView.h"
 
+typedef void (^FormatDate)(NSString *);
+
 @interface TJDatePicker : TJBaseView<UIScrollViewDelegate>
 
 @property (nonatomic, strong) UIView        *maskView;
@@ -19,5 +21,6 @@
 
 @property (nonatomic, strong) UIScrollView  *timePicker;
 @property (nonatomic, strong) UILabel       *timeLabel;
+@property (nonatomic, copy)   FormatDate    formatDate;
 
 @end

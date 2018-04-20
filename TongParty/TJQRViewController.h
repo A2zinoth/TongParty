@@ -10,4 +10,6 @@
 
 @interface TJQRViewController : BaseViewController
 
+@property(nonatomic, copy) NSString *tid;
+
 @end

@@ -241,8 +241,6 @@
             [weakSelf.tableView reloadData];
         };
     } else if (indexPath.row == 3) {
-//        TJEventAddrController *vc = [[TJEventAddrController alloc] init];
-//        [self.navigationController pushViewController:vc animated:true];
         // 地图选择地点
         DDLocationAddressVC *locationVC   = [[DDLocationAddressVC alloc] init];
         locationVC.locationAddressSelectBlcok = ^(AMapPOI *POI) {

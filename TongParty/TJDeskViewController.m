@@ -208,8 +208,6 @@
     self.deskInfoVC.tid = _tid;
     self.deskNoticeVC.tid = _tid;
     self.navigationController.interactivePopGestureRecognizer.enabled = YES;
-    
-    [self.deskNoticeVC updateAuthority];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -265,6 +263,7 @@
         [_selectedLabel mas_updateConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(left);
         }];
+        [_deskNoticeVC updateAuthority];
     } else {
         CGFloat left = kScreenWidth/3-27/2-5;
         [_infoBtn setTitleColor:kBtnEnable forState:UIControlStateNormal];
@@ -306,7 +305,11 @@
 }
 
 - (void)closeAction {
-    [self.navigationController popViewControllerAnimated:true];
+    if ([_flag isEqualToString:@"heartbeat"]) {
+        [self.navigationController popToRootViewControllerAnimated:true];
+    } else {
+        [self.navigationController popViewControllerAnimated:true];
+    }
 }
 
 - (void)okAction {

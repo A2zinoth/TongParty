@@ -68,7 +68,10 @@
     NSString *encryData = [self hmac:encodeStr withKey:Api_secret];
     
     //ULR host+path+?+data
-    NSString *URLString = [NSString stringWithFormat:@"%@%@?%@",rootURL,path,data];
+    NSString *URLString;
+    
+    URLString = [NSString stringWithFormat:@"%@%@?%@",rootURL,path,data];
+    
     URLString = [URLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];

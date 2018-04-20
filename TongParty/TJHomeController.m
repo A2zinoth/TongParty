@@ -79,6 +79,10 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+//    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRereshing)];
+//    header.automaticallyChangeAlpha = YES;
+//    header.lastUpdatedTimeLabel.hidden = NO;
+//    self.tableView. = header;
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0,*)) {
             make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(122);
@@ -133,9 +137,9 @@
     
     [DDUserDefault setObject:@"" forKey:@"isFirstOpenApp"];
     
-//#if DEBUG
-//    [DDUserDefault removeObjectForKey:@"token"];
-//#endif
+#if DEBUG
+    [DDUserDefault removeObjectForKey:@"token"];
+#endif
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -225,6 +229,10 @@
     } else {
         [self gotoLogin];
     }
+}
+
+- (void)headerRereshing {
+    
 }
 
 - (void)configLocationManager {

@@ -89,12 +89,18 @@
 		6B0A0529208719250048BDB0 /* SGQRCodeScanningView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0A0528208719250048BDB0 /* SGQRCodeScanningView.m */; };
 		6B0A052C208719740048BDB0 /* UIImage+SGImageSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0A052B208719740048BDB0 /* UIImage+SGImageSize.m */; };
 		6B0A053220871A500048BDB0 /* SGQRCodeHelperTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0A053120871A500048BDB0 /* SGQRCodeHelperTool.m */; };
+		6B0A053B2087707D0048BDB0 /* TJShortCutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0A053A2087707D0048BDB0 /* TJShortCutCell.m */; };
+		6B0A053E2087718C0048BDB0 /* TJHeartbeatView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0A053C2087718C0048BDB0 /* TJHeartbeatView.m */; };
 		6B0AEACA208053B10052FBD5 /* TJEventAddrController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0AEAC9208053B10052FBD5 /* TJEventAddrController.m */; };
 		6B0AEACD208055450052FBD5 /* TJEventAddrView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0AEACC208055450052FBD5 /* TJEventAddrView.m */; };
 		6B0AEAD020805AC80052FBD5 /* TJSearchResultController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0AEACF20805AC80052FBD5 /* TJSearchResultController.m */; };
 		6B0AEAD420809FC80052FBD5 /* TJThemeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0AEAD320809FC80052FBD5 /* TJThemeModel.m */; };
 		6B0AEAD72080AA500052FBD5 /* TJHomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0AEAD62080AA500052FBD5 /* TJHomeModel.m */; };
 		6B0AEADA2080C95A0052FBD5 /* TJBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0AEAD92080C95A0052FBD5 /* TJBaseModel.m */; };
+		6B0B71482088346E005DCF97 /* TJAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0B71472088346E005DCF97 /* TJAnimation.m */; };
+		6B0B714B20886576005DCF97 /* TJHeartbeatModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0B714A20886576005DCF97 /* TJHeartbeatModel.m */; };
+		6B0B714F20886A3D005DCF97 /* TJDistanceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0B714E20886A3D005DCF97 /* TJDistanceView.m */; };
+		6B0B715220889DF0005DCF97 /* TJMatchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0B715120889DF0005DCF97 /* TJMatchController.m */; };
 		6B19B178207DB0D00076BDF4 /* TJThemeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B19B177207DB0D00076BDF4 /* TJThemeView.m */; };
 		6B2D8D00207C91C900E84B50 /* TJHomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2D8CFF207C91C900E84B50 /* TJHomeTableViewCell.m */; };
 		6B2D8D04207C9F3E00E84B50 /* TJPublishController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2D8D03207C9F3E00E84B50 /* TJPublishController.m */; };
@@ -110,6 +116,7 @@
 		6B860BB920844275006D9C5F /* TJDeskInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B860BB820844275006D9C5F /* TJDeskInfoView.m */; };
 		6B860BBB20848507006D9C5F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B860BBA20848506006D9C5F /* Assets.xcassets */; };
 		6B860BBE20849303006D9C5F /* TJDeskInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B860BBD20849303006D9C5F /* TJDeskInfoModel.m */; };
+		6B8DC5A62089919D0010E605 /* sound.caf in Resources */ = {isa = PBXBuildFile; fileRef = 6B8DC5A52089919D0010E605 /* sound.caf */; };
 		6BB7C52A2081DF46006F3E73 /* TJSuggestTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB7C5292081DF46006F3E73 /* TJSuggestTableViewCell.m */; };
 		6BDE1F97208594DD0062AB6A /* TJDeskNoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDE1F96208594DD0062AB6A /* TJDeskNoticeView.m */; };
 		6BDE1F9A2085F7D30062AB6A /* TJDeskNoticeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDE1F992085F7D30062AB6A /* TJDeskNoticeCell.m */; };
@@ -609,6 +616,10 @@
 		6B0A052B208719740048BDB0 /* UIImage+SGImageSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+SGImageSize.m"; sourceTree = "<group>"; };
 		6B0A053020871A500048BDB0 /* SGQRCodeHelperTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGQRCodeHelperTool.h; sourceTree = "<group>"; };
 		6B0A053120871A500048BDB0 /* SGQRCodeHelperTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGQRCodeHelperTool.m; sourceTree = "<group>"; };
+		6B0A05392087707D0048BDB0 /* TJShortCutCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJShortCutCell.h; sourceTree = "<group>"; };
+		6B0A053A2087707D0048BDB0 /* TJShortCutCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TJShortCutCell.m; sourceTree = "<group>"; };
+		6B0A053C2087718C0048BDB0 /* TJHeartbeatView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TJHeartbeatView.m; sourceTree = "<group>"; };
+		6B0A053D2087718C0048BDB0 /* TJHeartbeatView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJHeartbeatView.h; sourceTree = "<group>"; };
 		6B0AEAC8208053B10052FBD5 /* TJEventAddrController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJEventAddrController.h; sourceTree = "<group>"; };
 		6B0AEAC9208053B10052FBD5 /* TJEventAddrController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJEventAddrController.m; sourceTree = "<group>"; };
 		6B0AEACB208055450052FBD5 /* TJEventAddrView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJEventAddrView.h; sourceTree = "<group>"; };
@@ -621,6 +632,14 @@
 		6B0AEAD62080AA500052FBD5 /* TJHomeModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJHomeModel.m; sourceTree = "<group>"; };
 		6B0AEAD82080C95A0052FBD5 /* TJBaseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJBaseModel.h; sourceTree = "<group>"; };
 		6B0AEAD92080C95A0052FBD5 /* TJBaseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJBaseModel.m; sourceTree = "<group>"; };
+		6B0B71462088346E005DCF97 /* TJAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJAnimation.h; sourceTree = "<group>"; };
+		6B0B71472088346E005DCF97 /* TJAnimation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJAnimation.m; sourceTree = "<group>"; };
+		6B0B714920886576005DCF97 /* TJHeartbeatModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJHeartbeatModel.h; sourceTree = "<group>"; };
+		6B0B714A20886576005DCF97 /* TJHeartbeatModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJHeartbeatModel.m; sourceTree = "<group>"; };
+		6B0B714D20886A3D005DCF97 /* TJDistanceView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJDistanceView.h; sourceTree = "<group>"; };
+		6B0B714E20886A3D005DCF97 /* TJDistanceView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJDistanceView.m; sourceTree = "<group>"; };
+		6B0B715020889DF0005DCF97 /* TJMatchController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJMatchController.h; sourceTree = "<group>"; };
+		6B0B715120889DF0005DCF97 /* TJMatchController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJMatchController.m; sourceTree = "<group>"; };
 		6B19B176207DB0D00076BDF4 /* TJThemeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJThemeView.h; sourceTree = "<group>"; };
 		6B19B177207DB0D00076BDF4 /* TJThemeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJThemeView.m; sourceTree = "<group>"; };
 		6B2D8CFE207C91C900E84B50 /* TJHomeTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJHomeTableViewCell.h; sourceTree = "<group>"; };
@@ -650,6 +669,7 @@
 		6B860BBA20848506006D9C5F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6B860BBC20849303006D9C5F /* TJDeskInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJDeskInfoModel.h; sourceTree = "<group>"; };
 		6B860BBD20849303006D9C5F /* TJDeskInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJDeskInfoModel.m; sourceTree = "<group>"; };
+		6B8DC5A52089919D0010E605 /* sound.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sound.caf; sourceTree = "<group>"; };
 		6BB7C5282081DF46006F3E73 /* TJSuggestTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJSuggestTableViewCell.h; sourceTree = "<group>"; };
 		6BB7C5292081DF46006F3E73 /* TJSuggestTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJSuggestTableViewCell.m; sourceTree = "<group>"; };
 		6BDE1F95208594DD0062AB6A /* TJDeskNoticeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJDeskNoticeView.h; sourceTree = "<group>"; };
@@ -1500,8 +1520,17 @@
 		6B08309B207C7DA7006C690F /* Heartbeat */ = {
 			isa = PBXGroup;
 			children = (
+				6B0B715020889DF0005DCF97 /* TJMatchController.h */,
+				6B0B715120889DF0005DCF97 /* TJMatchController.m */,
+				6B0B714C20886A25005DCF97 /* Views */,
 				6B0830A0207C7FD2006C690F /* TJHeartbeatController.h */,
 				6B0830A1207C7FD2006C690F /* TJHeartbeatController.m */,
+				6B0A053D2087718C0048BDB0 /* TJHeartbeatView.h */,
+				6B0A053C2087718C0048BDB0 /* TJHeartbeatView.m */,
+				6B0B714920886576005DCF97 /* TJHeartbeatModel.h */,
+				6B0B714A20886576005DCF97 /* TJHeartbeatModel.m */,
+				6B0B71462088346E005DCF97 /* TJAnimation.h */,
+				6B0B71472088346E005DCF97 /* TJAnimation.m */,
 			);
 			name = Heartbeat;
 			sourceTree = "<group>";
@@ -1598,6 +1627,15 @@
 			name = SearchResult;
 			sourceTree = "<group>";
 		};
+		6B0B714C20886A25005DCF97 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6B0B714D20886A3D005DCF97 /* TJDistanceView.h */,
+				6B0B714E20886A3D005DCF97 /* TJDistanceView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		6B2D8CFD207C91AA00E84B50 /* TableViewCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1681,6 +1719,8 @@
 				6B781BFB2083924900B18260 /* TJDeskNoticeController.m */,
 				6BDE1F982085F7D30062AB6A /* TJDeskNoticeCell.h */,
 				6BDE1F992085F7D30062AB6A /* TJDeskNoticeCell.m */,
+				6B0A05392087707D0048BDB0 /* TJShortCutCell.h */,
+				6B0A053A2087707D0048BDB0 /* TJShortCutCell.m */,
 				6BDE1F95208594DD0062AB6A /* TJDeskNoticeView.h */,
 				6BDE1F96208594DD0062AB6A /* TJDeskNoticeView.m */,
 			);
@@ -3100,6 +3140,7 @@
 		989931951F691C4A00E4BCAA /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				6B8DC5A52089919D0010E605 /* sound.caf */,
 				9899319B1F6921C700E4BCAA /* 1.jpg */,
 				9899319C1F6921C700E4BCAA /* 2.jpg */,
 				9899319D1F6921C700E4BCAA /* 3.jpg */,
@@ -4121,6 +4162,7 @@
 				988E16BD1FD5013B003FFC72 /* region_dumps.json in Resources */,
 				4B537A141FD55FF100A7844A /* BJCell.xib in Resources */,
 				989931A31F6921C700E4BCAA /* 4.jpg in Resources */,
+				6B8DC5A62089919D0010E605 /* sound.caf in Resources */,
 				989931A11F6921C700E4BCAA /* 2.jpg in Resources */,
 				989931681F69160800E4BCAA /* LaunchScreen.storyboard in Resources */,
 				4B537A1C1FD55FF100A7844A /* ManagerReusableView.xib in Resources */,
@@ -4273,6 +4315,7 @@
 				981A49F61FF37FE7001419DD /* LSPersonLabelModel.m in Sources */,
 				981A49F71FF37FE7001419DD /* LSCleanCacheTool.m in Sources */,
 				981A49F81FF37FE7001419DD /* LSBlacklistEntity.m in Sources */,
+				6B0B715220889DF0005DCF97 /* TJMatchController.m in Sources */,
 				981A49F91FF37FE7001419DD /* LSHisUserInfoModel.m in Sources */,
 				985F442C1FDE7AC700DB6608 /* LSQRScanView.m in Sources */,
 				6B2D8D04207C9F3E00E84B50 /* TJPublishController.m in Sources */,
@@ -4302,6 +4345,7 @@
 				49AF64CD1FFF6ADD0034CE52 /* LSSubwayEntity.m in Sources */,
 				9853D7391FA02CA6004AD6BF /* CYButton.m in Sources */,
 				6B050757207B9168003765EC /* VerifyView.m in Sources */,
+				6B0B714F20886A3D005DCF97 /* TJDistanceView.m in Sources */,
 				9853D73A1FA02CA6004AD6BF /* CYCenterButton.m in Sources */,
 				6B2D8D18207CAFE600E84B50 /* TJPublishTableViewCell.m in Sources */,
 				98EA42D3200F22A500E2A11D /* DDUserInfoModel.m in Sources */,
@@ -4496,6 +4540,7 @@
 				98F589B11F6A77D6005E674A /* DDCustomActionSheet.m in Sources */,
 				4B537A151FD55FF100A7844A /* xiangceCell.m in Sources */,
 				499A98621FF4C2E500405477 /* LSAdmRegionEntity.m in Sources */,
+				6B0A053B2087707D0048BDB0 /* TJShortCutCell.m in Sources */,
 				989931EA1F69306900E4BCAA /* UIImageView+LBBlurredImage.m in Sources */,
 				982F015C1F7CCEFA008061CF /* DDRealNameAuthVc.m in Sources */,
 				98F589E61F6A8658005E674A /* DDBaseTableView.m in Sources */,
@@ -4614,6 +4659,7 @@
 				989931A71F69231300E4BCAA /* DDTabbar.m in Sources */,
 				98578E2C1F8DF5F500FEF64D /* DDChairView.m in Sources */,
 				6B781BF62083899800B18260 /* TJDeskInfoController.m in Sources */,
+				6B0B71482088346E005DCF97 /* TJAnimation.m in Sources */,
 				981CA9841FC6AFA90007AFBA /* DDEditAddrView.m in Sources */,
 				981A49E21FF37C12001419DD /* LSFriendCommonCell.m in Sources */,
 				6B19B178207DB0D00076BDF4 /* TJThemeView.m in Sources */,
@@ -4625,12 +4671,14 @@
 				49957D631FFCA3E700DED4BE /* LSHomwTimeSortVC.m in Sources */,
 				6BE5B514207F7568003CFB05 /* TJPeopleNum.m in Sources */,
 				989931DE1F69305F00E4BCAA /* UINavigationItem+NHAddition.m in Sources */,
+				6B0B714B20886576005DCF97 /* TJHeartbeatModel.m in Sources */,
 				981A49C11FF37A7A001419DD /* LSPrivateEntity.m in Sources */,
 				6B781BF920838A6300B18260 /* TJDeskViewController.m in Sources */,
 				6B083090207C4B4E006C690F /* BaseViewController.m in Sources */,
 				6BE5B517207F7575003CFB05 /* TJAverage.m in Sources */,
 				98F675A51F70F0D60038E372 /* PYSearchConst.m in Sources */,
 				981A49E91FF37C1D001419DD /* LSAddContactsFriendVC.m in Sources */,
+				6B0A053E2087718C0048BDB0 /* TJHeartbeatView.m in Sources */,
 				989932421F693A1800E4BCAA /* NSObject+AddProperty.m in Sources */,
 				989931C51F6925C300E4BCAA /* MBProgressHUD+NHAddition.m in Sources */,
 				98E2C6FD1FD920890050653E /* DDInviteFriedsViewController.m in Sources */,

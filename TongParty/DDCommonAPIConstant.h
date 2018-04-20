@@ -25,13 +25,18 @@
 #define kTJCreateTable                   @"/tojoin/api/create_table.php"
 #define KTJActivityList                  @"/tojoin/api/activity_list.php"
 #define kTJSendTableNotice               @"/tojoin/api/send_table_notice.php"
+#define kTJTableQRCode                   @"/tojoin/api/see_qr_code.php"
+#define kTJTableMasterSign               @"/tojoin/api/sign_master_table.php"
+#define kTJTableMemberSign               @"/tojoin/api/sign_member_table.php"
 
 // 获取
 #define kTJTableInfo                     @"/tojoin/api/obtain_table_info.php"
 #define kTJTableNotice                   @"/tojoin/api/obtain_table_notice.php"
+#define KTJNoticeList                    @"/tojoin/api/notice_list.php"  // 快捷短语
 
 // 加入
 #define kTJTableJoin                     @"/tojoin/api/apply_join_table.php"
+#define kTJHeartBeat                     @"/tojoin/api/heart_beat.php"
 
 
 /** host*/

@@ -10,4 +10,7 @@
 
 @interface TJQRScanViewController : BaseViewController
 
+@property (nonatomic, copy) NSString *tid;
+@property (nonatomic, copy) NSString *oid;
+
 @end

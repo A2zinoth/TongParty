@@ -54,6 +54,7 @@
     
     WeakSelf(weakSelf);
     [_infoModel getTableInfoWithPara:dic success:^(NSObject *data) {
+        weakSelf.infoModel = (TJDeskInfoModel*)data;
         [weakSelf.infoView updateWithModel:(TJDeskInfoModel*)data];
     }];
 }
@@ -66,31 +67,47 @@
     switch (btn.tag) {
         case 1214:{ //加入
             NSLog(@"加入");
-            if ([DDUserDefault objectForKey:@"masterID"]) {
-                [DDResponseBaseHttp getWithAction:kTJTableJoin params:@{@"token":[DDUserDefault objectForKey:@"token"], @"oid":[DDUserDefault objectForKey:@"masterID"], @"tid":self.tid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+                [DDResponseBaseHttp getWithAction:kTJTableJoin params:@{@"token":[DDUserDefault objectForKey:@"token"], @"oid":_infoModel.oid, @"tid":self.tid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
                     if ([result.status isEqualToString:@"success"]) {
                         [MBProgressHUD showMessage:@"申请成功"];
                     }
                 } failure:^{
                     
                 }];
-            }
         }
             break;
         case 1215:{ //桌主
             NSLog(@"桌主");
-            [self.navigationController pushViewController:[TJQRViewController new] animated:true];
+            [self masterSign];
         }
             break;
         case 1216:{ //玩家
             NSLog(@"玩家");
-            [self QRCodeScanVC:[TJQRScanViewController new]];
+            TJQRScanViewController *scanVC = [[TJQRScanViewController alloc] init];
+            scanVC.tid = self.tid;
+            scanVC.oid = _infoModel.oid;
+            [self QRCodeScanVC:scanVC];
         }
             break;
         default:
             break;
     }
 }
+
+
+- (void)masterSign {
+    [DDResponseBaseHttp getWithAction:kTJTableMasterSign params:@{@"token":[DDUserDefault objectForKey:@"token"], @"latitude":@"39.9176", @"longitude":@"116.399", @"tid":self.tid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+        if ([result.status isEqualToString:@"success"]) {
+            TJQRViewController *qrVC = [[TJQRViewController alloc] init];
+            qrVC.tid = self.tid;
+            [self.navigationController pushViewController:qrVC animated:true];
+        } else  {
+            [MBProgressHUD showMessage:result.msg_cn];
+        }
+    } failure:^{
+    }];
+}
+
 
 - (void)QRCodeScanVC:(UIViewController *)scanVC {
     AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];

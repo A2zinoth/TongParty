@@ -9,6 +9,7 @@
 #import "TJDeskNoticeController.h"
 #import "TJDeskNoticeView.h"
 #import "TJDeskNoticeCell.h"
+#import "TJShortCutCell.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
 
 @interface TJDeskNoticeController ()<UITableViewDelegate, UITableViewDataSource,UITextFieldDelegate>
@@ -17,6 +18,7 @@
 @property (nonatomic, assign) float  keyboardHeight;
 @property (nonatomic, strong) TJDeskNoticeView *noticeBottomView;
 @property (nonatomic, strong) UITableView *shortcutTableView;
+@property (nonatomic, strong) NSArray *shortcutArr;
 
 @end
 
@@ -38,7 +40,9 @@
     self.tableView.rowHeight = 88;
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-kNavigationBarHeight-57-60-HOME_INDICATOR_HEIGHT);
-
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]  initWithTarget:self action:@selector(dismissKeyboard)];
+    [self.tableView addGestureRecognizer:tap];
+    
     _noticeBottomView = [[TJDeskNoticeView alloc] initWithFrame:CGRectMake(0, kScreenHeight-kNavigationBarHeight-57-60-HOME_INDICATOR_HEIGHT, kScreenWidth, 57)];
     [self.view addSubview:_noticeBottomView];
     
@@ -46,6 +50,7 @@
     [self.view addSubview:self.shortcutTableView];
     
     _shortcutTableView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, self.keyboardHeight);
+    _shortcutTableView.backgroundColor = kWhiteColor;
     _noticeBottomView.input.delegate = self;
 }
 
@@ -134,11 +139,10 @@
 }
 
 - (BOOL)canEdit {
-    if ([[DDUserDefault objectForKey:@"is_master"] isEqualToString:@"1"]) {
+    if ([[DDUserDefault objectForKey:@"is_master"] isEqualToString:@"1"])
         return true;
-    } else {
+    else
         return false;
-    }
 }
 
 
@@ -150,10 +154,6 @@
         _noticeBottomView.input.enabled = false;
         _noticeBottomView.input.placeholder = @"只有桌主可以发公告";
     }
-}
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -183,7 +183,7 @@
     if (tableView == self.tableView)
         return self.dataSource.count;
     else
-        return 8;
+        return _shortcutArr.count;;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == self.tableView) {
@@ -195,12 +195,12 @@
         [cell updateWithDataArr:self.dataSource[indexPath.row]];
         return cell;
     } else {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TJShortcutCellID"];
+        TJShortCutCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TJShortcutCellID"];
         if (!cell) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TJShortcutCellID"];
+            cell = [[TJShortCutCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TJShortcutCellID"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
-        cell.textLabel.text = @"你好，请大家准时到活动地点";
+        [cell updateWithContent:_shortcutArr[indexPath.row]];
         return cell;
     }
    
@@ -209,7 +209,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == _shortcutTableView) {
-        _noticeBottomView.input.text = @"你好，请大家准时到活动地点";
+        _noticeBottomView.input.text = _shortcutArr[indexPath.row][@"notice_text"];
+    } else {
+        _noticeBottomView.keyboardBtn.selected = false;
+        [self closeBottomBar];
+        [self closeShortCut];
+        [_noticeBottomView.input resignFirstResponder];
     }
 }
 
@@ -220,6 +225,13 @@
         [self closeShortCut];
     }
    
+}
+
+- (void)dismissKeyboard {
+    _noticeBottomView.keyboardBtn.selected = false;
+    [self closeBottomBar];
+    [self closeShortCut];
+    [_noticeBottomView.input resignFirstResponder];
 }
 
 - (UITableView *)shortcutTableView {
@@ -259,6 +271,18 @@
     } failure:^{
         
     }];
+    
+    
+    [DDResponseBaseHttp getWithAction:KTJNoticeList params:@{@"token":[DDUserDefault objectForKey:@"token"]} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+                if ([result.status isEqualToString:@"success"]) {
+                    weakSelf.shortcutArr = result.data;
+                    [weakSelf.shortcutTableView reloadData];
+                }
+    } failure:^{
+        
+    }];
+    
+
 }
 
 @end

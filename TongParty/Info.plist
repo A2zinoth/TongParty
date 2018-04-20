@@ -182,10 +182,5 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>provisioningProfiles</key>
-	<dict>
-		<key>cn.guolu.tongParty</key>
-		<string>Dev_TongParty_0417</string>
-	</dict>
 </dict>
 </plist>

@@ -14,9 +14,9 @@
 #import "SGQRCodeScanningView.h"
 
 /** 扫描内容的 W 值 */
-#define scanBorderW 0.7 * self.frame.size.width
+#define scanBorderW 0.62 * self.frame.size.width
 /** 扫描内容的 x 值 */
-#define scanBorderX 0.5 * (1 - 0.7) * self.frame.size.width
+#define scanBorderX 0.5 * (1 - 0.62) * self.frame.size.width
 /** 扫描内容的 Y 值 */
 #define scanBorderY 0.5 * (self.frame.size.height - scanBorderW)
 
@@ -44,13 +44,13 @@
 
 - (void)initialization {
     _scanningAnimationStyle = ScanningAnimationStyleDefault;
-    _borderColor = [UIColor whiteColor];
-    _cornerLocation = CornerLoactionDefault;
-    _cornerColor = [UIColor colorWithRed:85/255.0f green:183/255.0 blue:55/255.0 alpha:1.0];
-    _cornerWidth = 2.0;
+    _borderColor = kBtnEnable;
+    _cornerLocation = CornerLoactionInside;
+    _cornerColor = kBtnEnable;
+    _cornerWidth = 7.0;
     _backgroundAlpha = 0.5;
     _animationTimeInterval = 0.02;
-    _scanningImageName = @"SGQRCode.bundle/QRCodeScanningLine";
+    _scanningImageName = @"TJQRCodeScanningLine";
 }
 
 - (UIView *)contentView {
@@ -71,7 +71,7 @@
     CGFloat borderH = borderW;
     CGFloat borderX = scanBorderX;
     CGFloat borderY = scanBorderY;
-    CGFloat borderLineW = 0.2;
+    CGFloat borderLineW = 2;
 
     /// 空白区域设置
     [[[UIColor blackColor] colorWithAlphaComponent:self.backgroundAlpha] setFill];
@@ -93,7 +93,7 @@
     [borderPath stroke];
     
     
-    CGFloat cornerLenght = 20;
+    CGFloat cornerLenght = 41;
     /// 左上角小图标
     UIBezierPath *leftTopPath = [UIBezierPath bezierPath];
     leftTopPath.lineWidth = self.cornerWidth;
@@ -200,7 +200,7 @@
         [self addSubview:self.scanningline];
 
         scanninglineW = scanBorderW;
-        scanninglineH = 12;
+        scanninglineH = 1;
         scanninglineX = scanBorderX;
         scanninglineY = scanBorderY;
         _scanningline.frame = CGRectMake(scanninglineX, scanninglineY, scanninglineW, scanninglineH);

@@ -38,7 +38,7 @@
     } else if ([_phone isEqualToString:@"直接"]) {
 //        [_loginView.phoneTF becomeFirstResponder];
 #ifdef DEBUG
-        _loginView.phoneTF.text = @"15210030317";
+        _loginView.phoneTF.text = @"13693326733";
         _loginView.passwordTF.text = @"123456789";
 #endif
     } else {

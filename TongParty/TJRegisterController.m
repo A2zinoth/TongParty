@@ -35,7 +35,7 @@
     [_registerView.nextButton addTarget:self action:@selector(nextAction) forControlEvents:UIControlEventTouchUpInside];
     
 #ifdef DEBUG
-    _registerView.phoneTF.text = @"15210030317";//15210030317  17600368817 15731629742
+    _registerView.phoneTF.text = @"13693326733";//15210030317  17600368817 15731629742
 #endif
     
     _registerView.phoneTF.delegate = self;

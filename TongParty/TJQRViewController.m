@@ -49,7 +49,7 @@
         make.size.mas_equalTo(CGSizeMake(130, 34));
     }];
     
-    UIImageView *background = [[UIImageView alloc] init];
+    UIImageView *background = [[UIImageView alloc] initWithImage:kImage(@"TJSignHeadBackground")];
     [self.view addSubview:background];
     [background mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0, *)) {
@@ -60,7 +60,7 @@
         make.centerX.mas_equalTo(self.view);
         make.left.mas_equalTo(24);
         make.right.mas_equalTo(-24);
-        make.height.mas_equalTo(106);
+        make.height.mas_equalTo(116);
     }];
     
     UIImageView *headImage = [[UIImageView alloc] init];
@@ -105,17 +105,16 @@
     nextButton.layer.cornerRadius = 15;
     [nextButton mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0, *)) {
-            make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(244);
+            make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(242);
         } else {
-            make.top.mas_equalTo(self.view).offset(264);
+            make.top.mas_equalTo(self.view).offset(262);
         }
         make.centerX.mas_equalTo(self.view);
         make.width.mas_equalTo(150);
         make.height.mas_equalTo(32);
     }];
     
-    UIImageView *square = [[UIImageView alloc] initWithImage:kImage(@"")];
-    square.backgroundColor = kBtnEnable;
+    UIImageView *square = [[UIImageView alloc] initWithImage:kImage(@"TJQRBackground")];
     [self.view addSubview:square];
     [square mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0, *)) {
@@ -135,6 +134,7 @@
     
     // 1、借助UIImageView显示二维码
     UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.tag = 1928;
     [self.view addSubview:imageView];
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0, *)) {
@@ -146,13 +146,24 @@
         make.width.and.height.mas_equalTo(185);
     }];
     
-    // 2、将CIImage转换成UIImage，并放大显示
-    imageView.image = [SGQRCodeGenerateManager generateWithDefaultQRCodeData:@"https://github.com/kingsic" imageViewWidth:185];
 }
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [DDResponseBaseHttp getWithAction:kTJTableQRCode params:@{@"token":[DDUserDefault objectForKey:@"token"], @"tid":self.tid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+        if ([result.status isEqualToString:@"success"]) {
+            NSString *str = result.data[@"qr_code"];
+            UIImageView *imageView = [self.view viewWithTag:1928];
+            imageView.image = [SGQRCodeGenerateManager generateWithLogoQRCodeData:str logoImageName:@"TJAppIcon" logoScaleToSuperView:0.2];
+        }
+    } failure:^{
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

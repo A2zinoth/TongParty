@@ -10,6 +10,9 @@
 
 @interface TJDeskInfoModel : TJBaseModel
 
+
+@property (nonatomic, copy)   NSString        *table_id;
+@property (nonatomic, copy)   NSString        *oid;
 @property (nonatomic, copy)   NSString        *aid;
 @property (nonatomic, copy)   NSString        *title;
 @property (nonatomic, copy)   NSString        *place;

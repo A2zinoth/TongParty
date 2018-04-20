@@ -155,24 +155,38 @@
     }
     
     
+    [timeArr insertObject:@"23:00" atIndex:0];
+    [timeArr insertObject:@"22:00" atIndex:0];
+    [timeArr insertObject:@"21:00" atIndex:0];
+    [timeArr insertObject:@"20:00" atIndex:0];
+    [timeArr addObject:@"00:00"];
+    [timeArr addObject:@"01:00"];
+    [timeArr addObject:@"02:00"];
+    [timeArr addObject:@"03:00"];
+    
+    
+    
+    
     _timePicker = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 48+98, kScreenWidth, labelHeight)];
     [self addSubview:_timePicker];
-    _timePicker.contentSize = CGSizeMake((dataArr.count+left*2)*labelWidth, labelHeight);
-    _timePicker.contentOffset = CGPointMake(offsetLeft, 0);
+    _timePicker.contentSize = CGSizeMake((timeArr.count)*labelWidth, labelHeight);
+    NSInteger leftI = floor((kScreenWidth/2-labelWidth/2)/labelWidth);
+    _timePicker.contentOffset = CGPointMake((1-left+leftI)*labelWidth, 0);
     _timePicker.showsHorizontalScrollIndicator = false;
     _timePicker.delegate = self;
     
     // 中间框
     _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(left*labelWidth, 48+98, labelWidth, labelHeight)];
     [self addSubview:_timeLabel];
-    _timeLabel.text = timeArr[3];
+    _timeLabel.text = timeArr[4];
     _timeLabel.backgroundColor = [UIColor hx_colorWithHexString:@"#D1D9E1"];
     _timeLabel.font = [UIFont systemFontOfSize:11];
     _timeLabel.textAlignment = NSTextAlignmentCenter;
     _timeLabel.textColor = [UIColor whiteColor];
     
     for (int i = 0; i < timeArr.count; i++) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((left+i)*labelWidth, 0, labelWidth, labelHeight)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(i*labelWidth, 0, labelWidth, labelHeight)];
+//        \CGRectMake((left+i)*labelWidth, 0, labelWidth, labelHeight)
         [_timePicker addSubview:label];
         label.tag = i+400;
         label.font = [UIFont systemFontOfSize:11];
@@ -190,16 +204,29 @@
 
 
 #pragma  mark - UIScrollViewDelegate
+// 找到最近目标点
+- (CGPoint)timeNearestTargetOffsetForOffset:(CGPoint)offset{
+    CGFloat pageSize = 50;
+    NSInteger page = roundf(offset.x / pageSize);
+    CGFloat targetX = pageSize * page;
+    return CGPointMake(targetX, 0);
+}
+
 - (void)timeSnapToNearestItem {
-    CGPoint targetOffset = [self nearestTargetOffsetForOffset:_timePicker.contentOffset];
+    CGPoint targetOffset = [self timeNearestTargetOffsetForOffset:_timePicker.contentOffset];
+    CGFloat pageSize = 50;
+    float left = (kScreenWidth/2-pageSize/2)/pageSize;
+    NSInteger leftI = round((kScreenWidth/2-pageSize/2)/pageSize);
+    targetOffset.x += (-left+leftI)*pageSize;
     [_timePicker setContentOffset:targetOffset animated:YES];
     [self getTimeCurrentContent];
 }
 
 - (void)getTimeCurrentContent {
     CGFloat pageSize = 50;
-    CGPoint targetOffset = [self nearestTargetOffsetForOffset:_timePicker.contentOffset];
-    UILabel *label = (UILabel *)[_timePicker viewWithTag:targetOffset.x/pageSize+400];
+//    NSInteger leftI = ceil((kScreenWidth/2-pageSize/2)/pageSize);
+    CGPoint targetOffset = [self timeNearestTargetOffsetForOffset:_timePicker.contentOffset];
+    UILabel *label = (UILabel *)[_timePicker viewWithTag:(targetOffset.x)/pageSize+400+3];
     _timeLabel.text = label.text;
 }
 
@@ -243,6 +270,12 @@
         [self getCurrentContent];
     } else if (scrollView == _timePicker) {
         [self getTimeCurrentContent];
+        
+        if(scrollView.contentOffset.x > scrollView.contentSize.width-kScreenWidth) {
+            scrollView.contentOffset = CGPointMake(22, 0);
+        }else if (scrollView.contentOffset.x < 0) {
+            scrollView.contentOffset = CGPointMake(scrollView.contentSize.width-kScreenWidth-25, 0);
+        }
     }
 }
 
@@ -268,6 +301,7 @@
     }
 }
 
+
 - (NSString *)getYear {
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSTimeZone *timeZone = [NSTimeZone localTimeZone];
@@ -282,7 +316,8 @@
 - (void)okAction {
     
     NSString *time = [NSString stringWithFormat:@"%@/%@/%@ %@", [self getYear], [_monthLabel.text stringByReplacingOccurrencesOfString:@"月" withString:@""],_centerLabel.text, _timeLabel.text];
-//     timeSwitchTimestamp:(NSString *)formatTime andFormatter:(NSString *)format{
+    if(_formatDate)
+        self.formatDate(time);
     NSInteger stamp = [NSDate timeSwitchTimestamp:time andFormatter:@"YYYY/MM/dd HH:mm"];
     self.complete([NSString stringWithFormat:@"%zd", stamp]);
     [self removeFromSuperview];

@@ -12,5 +12,6 @@
 @interface TJDeskViewController : BaseViewController
 
 @property (nonatomic, copy) NSString *tid;  //桌子 id
+@property (nonatomic, copy) NSString *flag;
 
 @end
