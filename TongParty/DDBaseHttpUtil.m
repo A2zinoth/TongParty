@@ -198,18 +198,37 @@
 
 + (void)uploadImageWithUrl:(NSString *)url action:(NSString *)action params:(NSDictionary *)params image:(UIImage *)image success:(void (^)(id responseObject))success fail:(void (^)())fail
 {
+    
+    NSString *string0 = [NSString stringWithFormat:@"%@%@", url, action];
+    NSString *string1 = [NSString stringWithFormat:@"%@%@",@"POST",action];
+    NSString *string2 = [self unixTime];
+    NSString *string3 = [NSString stringWithFormat:@"%@%@",string1,string2];
+    
+    NSString *string4 = [self keyValueWithNSDictionary:params];
+    NSString *paraStr = [NSString stringWithFormat:@"%@%@",string3,string4];
+    //汉字要encode
+    //    NSString *encodePara = [paraStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    //post参数不参与加密
+    NSString *encryPara = [self hmac:string3 withKey:Api_secret];
+    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     
     NSString *urlStr = [NSString stringWithFormat:@"%@%@", url, action];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/json", @"text/plain", @"text/html", @"image/png", nil];
+    //设置请求内容的类型
+    [manager.requestSerializer setValue:string2 forHTTPHeaderField:@"api-expires"];
+    //设置请求的编码类型
+    [manager.requestSerializer setValue:encryPara forHTTPHeaderField:@"api-signature"];
     
     [manager POST:urlStr parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         
         if (image!=nil) {
-            NSData *data = UIImagePNGRepresentation(image);
+//            NSData *data = UIImagePNGRepresentation(image);
+            NSData *data = UIImageJPEGRepresentation(image, 0.5);
+            NSLog(@"image length :%zd", data.length);
             NSInputStream *stream = [NSInputStream inputStreamWithData:data];
-            [formData appendPartWithInputStream:stream name:@"avatar" fileName:@"witcity.png" length:data.length mimeType:@"image/png"];
+            [formData appendPartWithInputStream:stream name:@"image" fileName:@"witcity.image" length:data.length mimeType:@"image/png"];
         }
         
     } progress:^(NSProgress * _Nonnull uploadProgress) {

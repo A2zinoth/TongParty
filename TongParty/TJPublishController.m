@@ -222,7 +222,7 @@
         [self.publishModel getActivityList:^(NSArray *dataArr) {
             NSArray *array = [TJThemeModel mj_objectArrayWithKeyValuesArray:dataArr];
             [weakSelf.themeView updateData:array];
-            [weakSelf.tableView reloadData];
+//            [weakSelf.tableView reloadData];
         }];
     } else if (indexPath.row == 2) {
         [self.view addSubview:self.datePicker];
@@ -252,10 +252,7 @@
         [self.navigationController pushViewController:locationVC animated:YES];
     } else if (indexPath.row == 4) {
         // 禁用返回手势
-        if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-            self.navigationController.interactivePopGestureRecognizer.enabled = NO;
-        }
-
+        [self setPopGestureEnable:NO];
         [self.view addSubview:self.peopleNum];
         [_peopleNum mas_makeConstraints:^(MASConstraintMaker *make) {
             if (@available(ios 11.0,*)) {
@@ -268,19 +265,19 @@
             make.height.mas_equalTo(167);
         }];
         _peopleNum.complete = ^(NSString *peopleNum) {
-            if ([weakSelf.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-                weakSelf.navigationController.interactivePopGestureRecognizer.enabled = true;
-            }
+            [weakSelf setPopGestureEnable:true];
             weakSelf.publishModel.person_num = peopleNum ;
             [weakSelf.tableView reloadData];
             NSLog(@"%@", peopleNum);
         };
+        
+        _peopleNum.cancel = ^{
+            [weakSelf setPopGestureEnable:true];
+        };
     } else if (indexPath.row == 5) {
         // 禁用返回手势
-        if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-            self.navigationController.interactivePopGestureRecognizer.enabled = NO;
-        }
-
+        [self setPopGestureEnable:false];
+        
         [self.view addSubview:self.average];
         [_average mas_makeConstraints:^(MASConstraintMaker *make) {
             if (@available(ios 11.0,*)) {
@@ -293,12 +290,15 @@
             make.height.mas_equalTo(167);
         }];
         _average.complete = ^(NSString *average) {
-            if ([weakSelf.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-                weakSelf.navigationController.interactivePopGestureRecognizer.enabled = true;
-            }
+            [weakSelf setPopGestureEnable:true];
+            
             weakSelf.publishModel.average_price = average;
             [weakSelf.tableView reloadData];
             NSLog(@"%@", average);
+        };
+        
+        _average.cancel = ^{
+            [weakSelf setPopGestureEnable:true];
         };
     }
 }
@@ -360,6 +360,12 @@
 #pragma mark - AMapLocationManagerDelegate
 - (void)amapLocationManager:(AMapLocationManager *)manager didUpdateLocation:(CLLocation *)location reGeocode:(AMapLocationReGeocode *)reGeocode {
 
+}
+
+- (void)setPopGestureEnable:(BOOL)b {
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = b;
+    }
 }
 
 

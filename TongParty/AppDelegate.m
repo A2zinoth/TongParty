@@ -64,7 +64,9 @@
     [self startLocation];
     [[DDTJShareManager sharedManager] registerAllPlatForms];
 //    [AMapServices sharedServices].apiKey = AMapKey;
-    [self initShortcutItems];
+    if (@available(ios 9.0, *)) {
+        [self initShortcutItems];
+    }
     [self setTabbar];
     if ([DDUserDefault objectForKey:@"token"]) {
         [self.loginManager autologinWithUsername:[DDUserDefault objectForKey:@"mobile"] password:[DDUserDefault objectForKey:@"password"] block:^(NSDictionary *dict) {

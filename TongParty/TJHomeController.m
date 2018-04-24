@@ -16,7 +16,7 @@
 #import "TJHomeModel.h"
 #import "TJDeskViewController.h"
 
-@interface TJHomeController ()
+@interface TJHomeController ()<AMapLocationManagerDelegate>
 
 @property (nonatomic, strong) TJHomeModel           *homeModel;
 @property (nonatomic, strong) AMapLocationManager   *locationManager;
@@ -48,6 +48,7 @@
     cityBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [cityBtn setTitleColor:[UIColor hx_colorWithHexString:@"#2E3041"] forState:UIControlStateNormal];
 //    [cityBtn setImage:[UIImage imageNamed:@"TJCity"] forState:UIControlStateNormal];
+    [cityBtn addTarget:self action:@selector(cityAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:cityBtn];
     [cityBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0,*)) {
@@ -79,10 +80,16 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-//    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRereshing)];
-//    header.automaticallyChangeAlpha = YES;
-//    header.lastUpdatedTimeLabel.hidden = NO;
-//    self.tableView. = header;
+    
+    NSString* deviceName = [[UIDevice currentDevice] name];
+
+    if ([deviceName isEqualToString:@"iPhoen 6"]) {
+            MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRereshing)];
+            header.automaticallyChangeAlpha = YES;
+            header.lastUpdatedTimeLabel.hidden = NO;
+            self.tableView.mj_header = header;
+    }
+
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0,*)) {
             make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(122);
@@ -125,6 +132,12 @@
     }];
 }
 
+- (void)cityAction {
+#if DEBUG
+    [DDUserDefault removeObjectForKey:@"token"];
+#endif
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -136,25 +149,31 @@
 //    }
     
     [DDUserDefault setObject:@"" forKey:@"isFirstOpenApp"];
-    
-#if DEBUG
-    [DDUserDefault removeObjectForKey:@"token"];
-#endif
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)requestData {
     WeakSelf(weakSelf);
     if ([DDUserDefault objectForKey:@"token"]) {
         [_homeModel requestTableList:^(id obj) {
-            weakSelf.dataSource = obj;
-            [weakSelf.tableView reloadData];
+            if (obj) {
+                weakSelf.dataSource = obj;
+                [weakSelf.tableView reloadData];
+            }
+            
+            [weakSelf.tableView.mj_header endRefreshing];
+        } failure:^{
+            [weakSelf.tableView.mj_header endRefreshing];
         }];
     } else {
         [self gotoLogin];
     }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
     [self startLocation];
+    [self requestData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -232,7 +251,7 @@
 }
 
 - (void)headerRereshing {
-    
+    [self requestData];
 }
 
 - (void)configLocationManager {

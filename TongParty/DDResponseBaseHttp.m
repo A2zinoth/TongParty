@@ -52,7 +52,6 @@
 
 + (void)uploadImageWithAction:(NSString *)action params:(NSDictionary *)params image:(UIImage *)image  success:(void (^)(DDResponseModel *result))success fail:(void (^)())fail
 {
-    //    [super uploadImageWithUrl:HTTP_HOST action:action params:params image:image success:success fail:fail];
     [super uploadImageWithUrl:kTJHostAPI action:action params:params image:image success:^(id responseObject) {
         DDResponseModel *result = [DDResponseModel mj_objectWithKeyValues:responseObject];
         success(result);

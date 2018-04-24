@@ -52,8 +52,8 @@
 }
 
 - (void)createHeadView {
-    _cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     
+    _cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [_cancelBtn setTitle:@"返回" forState:UIControlStateNormal];
     [_cancelBtn setTitleColor:kBtnEnable forState:UIControlStateNormal];
     _cancelBtn.titleLabel.font = [UIFont systemFontOfSize:13];

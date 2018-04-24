@@ -35,7 +35,12 @@
     [_registerView.nextButton addTarget:self action:@selector(nextAction) forControlEvents:UIControlEventTouchUpInside];
     
 #ifdef DEBUG
-    _registerView.phoneTF.text = @"13693326733";//15210030317  17600368817 15731629742
+    NSString* deviceName = [[UIDevice currentDevice] name];
+    if ([deviceName isEqualToString:@"iPhoen 6"])
+        _registerView.phoneTF.text = @"13693326733";
+    else
+        _registerView.phoneTF.text = @"15210030317";
+//    _registerView.phoneTF.text = @"13693326733";//15210030317  17600368817 15731629742
 #endif
     
     _registerView.phoneTF.delegate = self;

@@ -75,7 +75,7 @@
             [kNotificationCenter postNotificationName:kUpdateUserInfoNotification object:nil];
             dict(result.data);
         } else {
-            failure();
+            dict(@{@"msg":result.msg_cn});
         }
 //        if (result.status.integerValue == kDDResponseStateSuccess) {
 //            NSDictionary *d = result.data;

@@ -34,11 +34,7 @@
     _inputTF.backgroundColor = kWhiteColor;
     [self addSubview:_inputTF];
     [_inputTF mas_makeConstraints:^(MASConstraintMaker *make) {
-        if (@available(ios 11.0,*)) {
-            make.top.mas_equalTo(maskView).offset(-23-17);
-        } else {
-            make.top.mas_equalTo(maskView).offset(-23-17);
-        }
+        make.top.mas_equalTo(maskView).offset(-23-17);
         make.left.mas_equalTo(self).offset(120);
         make.right.mas_equalTo(self).offset(25);
         make.height.mas_equalTo(19);

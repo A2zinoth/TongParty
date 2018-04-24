@@ -7,7 +7,7 @@
 //
 
 #import "TJBaseView.h"
-#import "FXBlurView.h"
+
 
 
 @interface TJEventView : TJBaseView

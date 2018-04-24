@@ -60,7 +60,7 @@
     UIButton *closeBtn = [[UIButton alloc] init];
     [closeBtn addTarget:self action:@selector(closeAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:closeBtn];
-    [closeBtn setImage:[UIImage imageNamed:@"TJCloseBtn"] forState:UIControlStateNormal];
+    [closeBtn setImage:[UIImage imageNamed:@"TJWCloseBtn"] forState:UIControlStateNormal];
     closeBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
     [closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(24);

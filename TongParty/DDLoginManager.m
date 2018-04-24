@@ -44,10 +44,15 @@
     [MBProgressHUD showLoading:@"登录中..." toView:KEY_WINDOW];
     [DDTJHttpRequest loginWithMobile:username password:password block:^(NSDictionary *dict) {
         [MBProgressHUD hideAllHUDsInView:KEY_WINDOW];
-        [DDUserDefault setObject:username forKey:@"mobile"];
-        [DDUserDefault setObject:password forKey:@"password"];
-        [DDUserDefault setObject:dict[@"token"] forKey:@"token"];
-        block(dict);
+        if (dict[@"msg"]) {
+            [MBProgressHUD showMessage:dict[@"msg"] toView:KEY_WINDOW];
+        } else {
+            [DDUserDefault setObject:username forKey:@"mobile"];
+            [DDUserDefault setObject:password forKey:@"password"];
+            [DDUserDefault setObject:dict[@"token"] forKey:@"token"];
+            [MBProgressHUD showMessage:@"登录成功·" toView:KEY_WINDOW];
+            block(dict);
+        }
     } failure:^{
         [MBProgressHUD hideAllHUDsInView:KEY_WINDOW];
         failure();

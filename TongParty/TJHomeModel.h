@@ -25,7 +25,7 @@
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *uid;
 
-- (void)requestTableList:(void(^)(id))success;
+- (void)requestTableList:(void(^)(id))success failure:(void(^)())failure;
 
 
 @end

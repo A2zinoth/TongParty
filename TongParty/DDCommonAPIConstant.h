@@ -32,11 +32,19 @@
 // 获取
 #define kTJTableInfo                     @"/tojoin/api/obtain_table_info.php"
 #define kTJTableNotice                   @"/tojoin/api/obtain_table_notice.php"
-#define KTJNoticeList                    @"/tojoin/api/notice_list.php"  // 快捷短语
+#define KTJNoticeList                    @"/tojoin/api/notice_list.php"  // 快捷回复短语
+#define kTJUserInfo                      @"/tojoin/api/obtain_user_info.php"
+
 
 // 加入
 #define kTJTableJoin                     @"/tojoin/api/apply_join_table.php"
 #define kTJHeartBeat                     @"/tojoin/api/heart_beat.php"
+
+
+//个人
+#define kTJReplenishInfo                 @"/tojoin/api/replenish_user_info.php"
+#define kTJCareerList                    @"/tojoin/api/career_list.php"
+#define kTJChangeHeadPicture             @"/tojoin/api/change_head_picture.php"
 
 
 /** host*/

@@ -123,6 +123,9 @@
 }
 
 - (void)closeAction {
+    if (self.cancel) {
+        self.cancel();
+    }
     [self removeFromSuperview];
 }
 

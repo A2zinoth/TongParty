@@ -11,12 +11,16 @@
 @implementation TJHomeModel
 
 
-- (void)requestTableList:(void(^)(id))success {
+- (void)requestTableList:(void(^)(id))success failure:(void(^)())failure {
     NSLog(@"%@", [DDUserDefault objectForKey:@"token"]);
     [DDResponseBaseHttp getWithAction:KTJTableList params:@{@"token":[DDUserDefault objectForKey:@"token"], @"latitude":@"40.002581", @"longitude":@"116.487706"} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
-        success([TJHomeModel mj_objectArrayWithKeyValuesArray:result.data[@"table"]]);
+        if ([result.status isEqualToString:@"success"]) {
+            success([TJHomeModel mj_objectArrayWithKeyValuesArray:result.data[@"table"]]);
+        } else {
+            success(nil);
+        }
     } failure:^{
-        
+        failure();
     }];
 }
 
