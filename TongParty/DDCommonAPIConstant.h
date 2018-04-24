@@ -34,7 +34,7 @@
 #define kTJTableNotice                   @"/tojoin/api/obtain_table_notice.php"
 #define KTJNoticeList                    @"/tojoin/api/notice_list.php"  // 快捷回复短语
 #define kTJUserInfo                      @"/tojoin/api/obtain_user_info.php"
-
+#define kTJProfile                       @"/tojoin/api/obtain_my.php"
 
 // 加入
 #define kTJTableJoin                     @"/tojoin/api/apply_join_table.php"

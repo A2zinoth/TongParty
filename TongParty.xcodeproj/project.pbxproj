@@ -73,6 +73,16 @@
 		6B050750207B7F1A003765EC /* TJRegisterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B05074F207B7F1A003765EC /* TJRegisterModel.m */; };
 		6B050754207B90AA003765EC /* TJVerifyController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B050753207B90AA003765EC /* TJVerifyController.m */; };
 		6B050757207B9168003765EC /* VerifyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B050756207B9168003765EC /* VerifyView.m */; };
+		6B0576E2208EC85B00D3435B /* TJFollowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0576E1208EC85B00D3435B /* TJFollowController.m */; };
+		6B0576E5208ECEF200D3435B /* TJFollowCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0576E4208ECEF200D3435B /* TJFollowCell.m */; };
+		6B0576E8208ED2F500D3435B /* TJBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0576E7208ED2F500D3435B /* TJBaseTableViewCell.m */; };
+		6B0576EB208ED5D400D3435B /* TJFollowerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0576EA208ED5D400D3435B /* TJFollowerCell.m */; };
+		6B0576EE208ED5E100D3435B /* TJFriendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0576ED208ED5E100D3435B /* TJFriendCell.m */; };
+		6B0576F1208ED5F300D3435B /* TJFollowerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0576F0208ED5F300D3435B /* TJFollowerController.m */; };
+		6B0576F4208ED75000D3435B /* TJFriendController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0576F3208ED75000D3435B /* TJFriendController.m */; };
+		6B0576F8208EDA0200D3435B /* TJAddFriendController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0576F7208EDA0200D3435B /* TJAddFriendController.m */; };
+		6B0576FC208EFD3900D3435B /* TJSearchFriendController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0576FB208EFD3900D3435B /* TJSearchFriendController.m */; };
+		6B0576FF208F36D000D3435B /* UserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0576FD208F36CF00D3435B /* UserManager.m */; };
 		6B08308D207C4B37006C690F /* TJCreatePwdController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B08308C207C4B37006C690F /* TJCreatePwdController.m */; };
 		6B083090207C4B4E006C690F /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B08308F207C4B4E006C690F /* BaseViewController.m */; };
 		6B083093207C4BEE006C690F /* TJCreatePwdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B083092207C4BEE006C690F /* TJCreatePwdView.m */; };
@@ -598,6 +608,26 @@
 		6B050753207B90AA003765EC /* TJVerifyController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJVerifyController.m; sourceTree = "<group>"; };
 		6B050755207B9168003765EC /* VerifyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VerifyView.h; sourceTree = "<group>"; };
 		6B050756207B9168003765EC /* VerifyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VerifyView.m; sourceTree = "<group>"; };
+		6B0576E0208EC85B00D3435B /* TJFollowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJFollowController.h; sourceTree = "<group>"; };
+		6B0576E1208EC85B00D3435B /* TJFollowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJFollowController.m; sourceTree = "<group>"; };
+		6B0576E3208ECEF200D3435B /* TJFollowCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJFollowCell.h; sourceTree = "<group>"; };
+		6B0576E4208ECEF200D3435B /* TJFollowCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJFollowCell.m; sourceTree = "<group>"; };
+		6B0576E6208ED2F500D3435B /* TJBaseTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJBaseTableViewCell.h; sourceTree = "<group>"; };
+		6B0576E7208ED2F500D3435B /* TJBaseTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJBaseTableViewCell.m; sourceTree = "<group>"; };
+		6B0576E9208ED5D400D3435B /* TJFollowerCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJFollowerCell.h; sourceTree = "<group>"; };
+		6B0576EA208ED5D400D3435B /* TJFollowerCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJFollowerCell.m; sourceTree = "<group>"; };
+		6B0576EC208ED5E100D3435B /* TJFriendCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJFriendCell.h; sourceTree = "<group>"; };
+		6B0576ED208ED5E100D3435B /* TJFriendCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJFriendCell.m; sourceTree = "<group>"; };
+		6B0576EF208ED5F300D3435B /* TJFollowerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJFollowerController.h; sourceTree = "<group>"; };
+		6B0576F0208ED5F300D3435B /* TJFollowerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJFollowerController.m; sourceTree = "<group>"; };
+		6B0576F2208ED75000D3435B /* TJFriendController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJFriendController.h; sourceTree = "<group>"; };
+		6B0576F3208ED75000D3435B /* TJFriendController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJFriendController.m; sourceTree = "<group>"; };
+		6B0576F6208EDA0200D3435B /* TJAddFriendController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJAddFriendController.h; sourceTree = "<group>"; };
+		6B0576F7208EDA0200D3435B /* TJAddFriendController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJAddFriendController.m; sourceTree = "<group>"; };
+		6B0576FA208EFD3900D3435B /* TJSearchFriendController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJSearchFriendController.h; sourceTree = "<group>"; };
+		6B0576FB208EFD3900D3435B /* TJSearchFriendController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJSearchFriendController.m; sourceTree = "<group>"; };
+		6B0576FD208F36CF00D3435B /* UserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserManager.m; sourceTree = "<group>"; };
+		6B0576FE208F36D000D3435B /* UserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserManager.h; sourceTree = "<group>"; };
 		6B08308B207C4B37006C690F /* TJCreatePwdController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJCreatePwdController.h; sourceTree = "<group>"; };
 		6B08308C207C4B37006C690F /* TJCreatePwdController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJCreatePwdController.m; sourceTree = "<group>"; };
 		6B08308E207C4B4E006C690F /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
@@ -1531,6 +1561,59 @@
 			name = Verify;
 			sourceTree = "<group>";
 		};
+		6B0576DD208EC79A00D3435B /* Follow */ = {
+			isa = PBXGroup;
+			children = (
+				6B0576E0208EC85B00D3435B /* TJFollowController.h */,
+				6B0576E1208EC85B00D3435B /* TJFollowController.m */,
+				6B0576E3208ECEF200D3435B /* TJFollowCell.h */,
+				6B0576E4208ECEF200D3435B /* TJFollowCell.m */,
+			);
+			name = Follow;
+			sourceTree = "<group>";
+		};
+		6B0576DE208EC7AB00D3435B /* Follower */ = {
+			isa = PBXGroup;
+			children = (
+				6B0576EF208ED5F300D3435B /* TJFollowerController.h */,
+				6B0576F0208ED5F300D3435B /* TJFollowerController.m */,
+				6B0576E9208ED5D400D3435B /* TJFollowerCell.h */,
+				6B0576EA208ED5D400D3435B /* TJFollowerCell.m */,
+			);
+			name = Follower;
+			sourceTree = "<group>";
+		};
+		6B0576DF208EC7B200D3435B /* Friend */ = {
+			isa = PBXGroup;
+			children = (
+				6B0576F5208ED9D200D3435B /* AddFriend */,
+				6B0576F2208ED75000D3435B /* TJFriendController.h */,
+				6B0576F3208ED75000D3435B /* TJFriendController.m */,
+				6B0576EC208ED5E100D3435B /* TJFriendCell.h */,
+				6B0576ED208ED5E100D3435B /* TJFriendCell.m */,
+			);
+			name = Friend;
+			sourceTree = "<group>";
+		};
+		6B0576F5208ED9D200D3435B /* AddFriend */ = {
+			isa = PBXGroup;
+			children = (
+				6B0576F9208EFCF700D3435B /* search */,
+				6B0576F6208EDA0200D3435B /* TJAddFriendController.h */,
+				6B0576F7208EDA0200D3435B /* TJAddFriendController.m */,
+			);
+			name = AddFriend;
+			sourceTree = "<group>";
+		};
+		6B0576F9208EFCF700D3435B /* search */ = {
+			isa = PBXGroup;
+			children = (
+				6B0576FA208EFD3900D3435B /* TJSearchFriendController.h */,
+				6B0576FB208EFD3900D3435B /* TJSearchFriendController.m */,
+			);
+			name = search;
+			sourceTree = "<group>";
+		};
 		6B08308A207C4A66006C690F /* CreatePwd */ = {
 			isa = PBXGroup;
 			children = (
@@ -1581,6 +1664,11 @@
 		6B08309C207C7DDF006C690F /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				6B0576E6208ED2F500D3435B /* TJBaseTableViewCell.h */,
+				6B0576E7208ED2F500D3435B /* TJBaseTableViewCell.m */,
+				6B0576DF208EC7B200D3435B /* Friend */,
+				6B0576DE208EC7AB00D3435B /* Follower */,
+				6B0576DD208EC79A00D3435B /* Follow */,
 				6BEFF328208AD40300DE7FF8 /* Edit */,
 				6B0830A3207C7FE5006C690F /* TJProfileController.h */,
 				6B0830A4207C7FE5006C690F /* TJProfileController.m */,
@@ -2560,6 +2648,8 @@
 			children = (
 				985746711FA717690017E5D1 /* DDUserSingleton.h */,
 				985746721FA717690017E5D1 /* DDUserSingleton.m */,
+				6B0576FE208F36D000D3435B /* UserManager.h */,
+				6B0576FD208F36CF00D3435B /* UserManager.m */,
 			);
 			name = Pattern;
 			sourceTree = "<group>";
@@ -4401,6 +4491,7 @@
 				981A4A111FF380F9001419DD /* LSCreateDeskAddPicCell.m in Sources */,
 				981A49EE1FF37FE7001419DD /* LSCareEntity.m in Sources */,
 				981A49EF1FF37FE7001419DD /* LSContactsEntity.m in Sources */,
+				6B0576F1208ED5F300D3435B /* TJFollowerController.m in Sources */,
 				981A49F01FF37FE7001419DD /* LSFriendEntity.m in Sources */,
 				981A49F11FF37FE7001419DD /* LSPlayRewardEntity.m in Sources */,
 				4B2E911E1FF8B5EB00AB9B3D /* LSGiftCollectionViewLayout.m in Sources */,
@@ -4417,6 +4508,7 @@
 				981A49F91FF37FE7001419DD /* LSHisUserInfoModel.m in Sources */,
 				985F442C1FDE7AC700DB6608 /* LSQRScanView.m in Sources */,
 				6B2D8D04207C9F3E00E84B50 /* TJPublishController.m in Sources */,
+				6B0576E2208EC85B00D3435B /* TJFollowController.m in Sources */,
 				985F442B1FDE7AC000DB6608 /* LSHomeQRcodeVC.m in Sources */,
 				988663E21FBD8ADB00B6F24D /* UITabBarItem+BadgeColor.m in Sources */,
 				988663E31FBD8ADB00B6F24D /* UIWindow+SIUtils.m in Sources */,
@@ -4427,6 +4519,7 @@
 				4B2E910A1FF7668000AB9B3D /* BRStringPickerView.m in Sources */,
 				4B05AD121FB88D57007583E9 /* area.plist in Sources */,
 				98752B331FACBDE100B94996 /* LLSegmentBar.m in Sources */,
+				6B0576E5208ECEF200D3435B /* TJFollowCell.m in Sources */,
 				98752B341FACBDE100B94996 /* LLSegmentBarConfig.m in Sources */,
 				98752B351FACBDE100B94996 /* LLSegmentBarVC.m in Sources */,
 				98752B361FACBDE100B94996 /* UIView+LLSegmentBar.m in Sources */,
@@ -4463,6 +4556,7 @@
 				989441471F9DC87C000BA3E9 /* NSCalendar+DDPlus.m in Sources */,
 				6B083099207C4CA4006C690F /* TJBaseView.m in Sources */,
 				98578E5E1F909B2000FEF64D /* CCDraggableContainer.m in Sources */,
+				6B0576EE208ED5E100D3435B /* TJFriendCell.m in Sources */,
 				98578E5D1F909B1B00FEF64D /* CCDraggableCardView.m in Sources */,
 				98EA42C1200DF84100E2A11D /* DDNumbersTextView.m in Sources */,
 				6BE5B50E207F24D3003CFB05 /* UIColor+Image.m in Sources */,
@@ -4613,6 +4707,7 @@
 				98F589A21F6A73AD005E674A /* DDCustomPlaceHolderTextView.m in Sources */,
 				490694CC1FF3A01A007236FF /* LSContentLabelCollectionViewCell.m in Sources */,
 				98F589EC1F6A8948005E674A /* DDBaseTableViewCell.m in Sources */,
+				6B0576EB208ED5D400D3435B /* TJFollowerCell.m in Sources */,
 				981CA97E1FC678320007AFBA /* HexColors.m in Sources */,
 				98F589D11F6A80D9005E674A /* DDCustomGifImageView.m in Sources */,
 				6BAD3D8D208DB74900078006 /* TJEditProfileModel.m in Sources */,
@@ -4706,12 +4801,14 @@
 				6B8DC5B32089E54F0010E605 /* GKTimeLineModel.m in Sources */,
 				6B2D8D0B207CA15500E84B50 /* LRTranstionAnimationPush.m in Sources */,
 				985FDC0520108756002AAD65 /* DDSelfModel.m in Sources */,
+				6B0576F4208ED75000D3435B /* TJFriendController.m in Sources */,
 				989931C81F69262700E4BCAA /* AppDelegate+AppRootVC.m in Sources */,
 				981CA9811FC6AF490007AFBA /* DDEditAddrViewController.m in Sources */,
 				6B8DC5B02089E35E0010E605 /* GKPhotosView.m in Sources */,
 				98F675A91F70F0D60038E372 /* UIView+PYSearchExtension.m in Sources */,
 				98D557F41F7DFC2C006124C5 /* DDPrivateViewController.m in Sources */,
 				6B0AEADA2080C95A0052FBD5 /* TJBaseModel.m in Sources */,
+				6B0576E8208ED2F500D3435B /* TJBaseTableViewCell.m in Sources */,
 				98F589B41F6A7912005E674A /* DDUtils.m in Sources */,
 				989931D11F692E8000E4BCAA /* FXBlurView.m in Sources */,
 				98F675B21F70FB980038E372 /* DDLoopProgressView.m in Sources */,
@@ -4729,6 +4826,7 @@
 				98F589A81F6A764B005E674A /* DDCustomTopImageButton.m in Sources */,
 				98B5070A20145DD500214B54 /* DDTabbarViewController.m in Sources */,
 				989931C41F6925C300E4BCAA /* UIView+Tap.m in Sources */,
+				6B0576FC208EFD3900D3435B /* TJSearchFriendController.m in Sources */,
 				4B537A181FD55FF100A7844A /* BJtableView.m in Sources */,
 				986E5A061FAABC8D00FD391C /* LSAddressTableViewCell.m in Sources */,
 				6B0AEAD020805AC80052FBD5 /* TJSearchResultController.m in Sources */,
@@ -4742,6 +4840,7 @@
 				988D23BA1FC2CF05002C5D2C /* DDAddressModel.m in Sources */,
 				4B2E910D1FF7668000AB9B3D /* BRAddressModel.m in Sources */,
 				98C6AE4C1F7B9455001AAA47 /* DDFriendsViewController.m in Sources */,
+				6B0576FF208F36D000D3435B /* UserManager.m in Sources */,
 				98578E131F8B5A9600FEF64D /* UIView+DDPlus.m in Sources */,
 				6B781BFC2083924900B18260 /* TJDeskNoticeController.m in Sources */,
 				9831FDF41FE7B89200C4656F /* DDSystemMessageVC.m in Sources */,
@@ -4794,6 +4893,7 @@
 				98E2C6FD1FD920890050653E /* DDInviteFriedsViewController.m in Sources */,
 				6B0A052C208719740048BDB0 /* UIImage+SGImageSize.m in Sources */,
 				988E16C01FD63988003FFC72 /* DDCaptchaTimerManager.m in Sources */,
+				6B0576F8208EDA0200D3435B /* TJAddFriendController.m in Sources */,
 				98F589C21F6A7B05005E674A /* DDUserInfoManager.m in Sources */,
 				981E5A6B1FCD48C5001B6448 /* DDDeskMatchView.m in Sources */,
 			);

@@ -41,8 +41,7 @@
 
 - (void)createData {
     _keyIndexArr = @[@"nickname", @"sex", @"birthday", @"city", @"school", @"occupation"];
-    
-    
+
     // 头像相关
     _selectedPhotos = [NSMutableArray array];
     _selectedAssets = [NSMutableArray array];
@@ -334,7 +333,7 @@
 
 - (void)requestProfession:(void (^)())success {
     kWeakSelf
-    [DDResponseBaseHttp getWithAction:kTJCareerList params:@{@"token":[DDUserDefault objectForKey:@"token"]} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+    [DDResponseBaseHttp getWithAction:kTJCareerList params:@{@"token":curUser.token} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
         NSArray *array = [TJProfessionModel mj_objectArrayWithKeyValuesArray:result.data];
         [weakSelf.profession updateData:array];
     } failure:^{
@@ -420,7 +419,10 @@
 - (void)okAction {
     // 完成
     [DDResponseBaseHttp getWithAction:kTJReplenishInfo params:[_profileModel mj_keyValues] type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
-        
+        if ([result.status isEqualToString:@"success"]) {
+            [MBProgressHUD showMessage:result.msg_cn];
+            [self.navigationController popViewControllerAnimated:true];
+        }
     } failure:^{
         
     }];
@@ -430,11 +432,11 @@
 
 - (void)requestData {
     kWeakSelf
-    [DDResponseBaseHttp getWithAction:kTJUserInfo params:@{@"token":[DDUserDefault objectForKey:@"token"], @"act":@"my"} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+    [DDResponseBaseHttp getWithAction:kTJUserInfo params:@{@"token":curUser.token, @"act":@"my"} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
         if ([result.status isEqualToString:@"success"]) {
             NSDictionary *data = [result.data firstObject];
             weakSelf.profileModel = [TJEditProfileModel mj_objectWithKeyValues:data];
-            weakSelf.profileModel.token = [DDUserDefault objectForKey:@"token"];
+            weakSelf.profileModel.token = curUser.token;
             [weakSelf.tableView reloadData];
         }
     } failure:^{
@@ -676,7 +678,10 @@
     
     // Deprecated, Use statusBarStyle
     // imagePickerVc.isStatusBarDefault = NO;
-    imagePickerVc.statusBarStyle = UIStatusBarStyleLightContent;
+    imagePickerVc.statusBarStyle = UIStatusBarStyleDefault;
+    [imagePickerVc setNaviBgColor:[UIColor whiteColor]];
+    [imagePickerVc setNaviTitleColor:kBtnEnable];
+    [imagePickerVc setBarItemTextColor:kBtnEnable];
     
     // 设置首选语言 / Set preferred language
     // imagePickerVc.preferredLanguage = @"zh-Hans";
@@ -697,7 +702,7 @@
 
 
 - (void)uploadHeadImage:(UIImage *)image {
-    [DDResponseBaseHttp uploadImageWithAction:kTJChangeHeadPicture params:@{@"token":[DDUserDefault objectForKey:@"token"]} image:image success:^(DDResponseModel *result) {
+    [DDResponseBaseHttp uploadImageWithAction:kTJChangeHeadPicture params:@{@"token":curUser.token} image:image success:^(DDResponseModel *result) {
         if ([result.status isEqualToString:@"success"]) {
             UIImageView *iv = [self.view viewWithTag:1823];
             iv.image = image;

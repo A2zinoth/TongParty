@@ -50,6 +50,7 @@
             [DDUserDefault setObject:username forKey:@"mobile"];
             [DDUserDefault setObject:password forKey:@"password"];
             [DDUserDefault setObject:dict[@"token"] forKey:@"token"];
+            [DDUserSingleton shareInstance].image = dict[@"head_image"];
             [MBProgressHUD showMessage:@"登录成功·" toView:KEY_WINDOW];
             block(dict);
         }

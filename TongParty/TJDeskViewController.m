@@ -293,6 +293,7 @@
             make.left.mas_equalTo(left);
         }];
     } else if (btn.tag == 10064){
+        [_deskNoticeVC updateAuthority];
         [_scrollView setContentOffset:CGPointMake(kScreenWidth, 0)];
         [btn setTitleColor:kBtnEnable forState:UIControlStateNormal];
         UIButton *leftBtn = [self.view viewWithTag:10063];

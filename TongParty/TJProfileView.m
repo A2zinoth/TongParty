@@ -38,11 +38,11 @@
             make.top.mas_equalTo(29);
         }
         make.trailing.mas_equalTo(-19);
-        make.size.mas_equalTo(CGSizeMake(24, 26));
+        make.size.mas_equalTo(CGSizeMake(26, 26));
     }];
     
     UIImageView *headImage = [[UIImageView alloc] init];
-    headImage.backgroundColor = kBtnEnable;
+    [headImage sd_setImageWithURL:[NSURL URLWithString:[DDUserSingleton shareInstance].image]];
     headImage.layerCornerRadius = 32;
     headImage.layerBorderColor = kBoyNameColor;
     headImage.layerBorderWidth = 1;
@@ -135,12 +135,12 @@
     }];
     
     
-    UIButton *followBtn = [[UIButton alloc] init];
-    [followBtn setTitle:@"341" forState:UIControlStateNormal];
-    [followBtn setTitleColor:[UIColor hx_colorWithHexString:@"#262626"] forState:UIControlStateNormal];
-    followBtn.titleLabel.font = [UIFont systemFontOfSize:18];
-    [self addSubview:followBtn];
-    [followBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    _followBtn = [[UIButton alloc] init];
+    [_followBtn setTitle:@"0" forState:UIControlStateNormal];
+    [_followBtn setTitleColor:[UIColor hx_colorWithHexString:@"#262626"] forState:UIControlStateNormal];
+    _followBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+    [self addSubview:_followBtn];
+    [_followBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0,*)) {
             make.top.mas_equalTo(self.mas_safeAreaLayoutGuideTop).offset(170);
         } else {
@@ -150,12 +150,12 @@
         make.size.mas_equalTo(CGSizeMake(148, 25));
     }];
     
-    UIButton *followerBtn = [[UIButton alloc] init];
-    [followerBtn setTitle:@"435" forState:UIControlStateNormal];
-    [followerBtn setTitleColor:[UIColor hx_colorWithHexString:@"#262626"] forState:UIControlStateNormal];
-    followerBtn.titleLabel.font = [UIFont systemFontOfSize:18];
-    [self addSubview:followerBtn];
-    [followerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    _followerBtn = [[UIButton alloc] init];
+    [_followerBtn setTitle:@"0" forState:UIControlStateNormal];
+    [_followerBtn setTitleColor:[UIColor hx_colorWithHexString:@"#262626"] forState:UIControlStateNormal];
+    _followerBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+    [self addSubview:_followerBtn];
+    [_followerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0,*)) {
             make.top.mas_equalTo(self.mas_safeAreaLayoutGuideTop).offset(170);
         } else {
@@ -165,12 +165,12 @@
         make.size.mas_equalTo(CGSizeMake(148, 25));
     }];
     
-    UIButton *friendBtn = [[UIButton alloc] init];
-    [friendBtn setTitle:@"32" forState:UIControlStateNormal];
-    [friendBtn setTitleColor:[UIColor hx_colorWithHexString:@"#262626"] forState:UIControlStateNormal];
-    friendBtn.titleLabel.font = [UIFont systemFontOfSize:18];
-    [self addSubview:friendBtn];
-    [friendBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    _friendBtn = [[UIButton alloc] init];
+    [_friendBtn setTitle:@"0" forState:UIControlStateNormal];
+    [_friendBtn setTitleColor:[UIColor hx_colorWithHexString:@"#262626"] forState:UIControlStateNormal];
+    _friendBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+    [self addSubview:_friendBtn];
+    [_friendBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0,*)) {
             make.top.mas_equalTo(self.mas_safeAreaLayoutGuideTop).offset(170);
         } else {
@@ -181,9 +181,10 @@
     }];
     
     UILabel *partake = [[UILabel alloc] init];
+    partake.tag = 1642;
     partake.font = [UIFont systemFontOfSize:15];
     partake.textColor = [UIColor hx_colorWithHexString:@"#262626"];
-    partake.text = @"实到 2/5 创建；实到 3/6 参与";
+    partake.text = @"实到 0/0 创建；实到 0/0 参与";
     [self addSubview:partake];
     [partake mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0,*)) {
@@ -195,6 +196,16 @@
         make.right.mas_equalTo(-23);
         make.height.mas_equalTo(29);
     }];
+}
+
+
+- (void)updateWithDic:(NSDictionary *)dic {
+    [_followerBtn setTitle:dic[@"follow_num"] forState:UIControlStateNormal];
+    [_followerBtn setTitle:dic[@"fans_num"] forState:UIControlStateNormal];
+    [_friendBtn setTitle:dic[@"friend_num"] forState:UIControlStateNormal];
+    
+    UILabel *partake = [self viewWithTag:1642];
+    partake.text = [NSString stringWithFormat:@"实到 %@/%@ 创建；实到 %@/%@ 参与", dic[@"create_finish"], dic[@"create_num"], dic[@"join_finish"], dic[@"join_num"]];
 }
 
 @end

@@ -35,7 +35,7 @@
 @implementation TJHeartbeatController
 - (void)createData {
     _heartbeatModel = [[TJHeartbeatModel alloc] init];
-    _heartbeatModel.token = [DDUserDefault objectForKey:@"token"];
+    _heartbeatModel.token = curUser.token;
     _heartbeatModel.latitude = [DDUserSingleton shareInstance].latitude;
     _heartbeatModel.longitude = [DDUserSingleton shareInstance].longitude;
     _heartbeatModel.aid = @"29";
@@ -187,7 +187,7 @@
 
 - (void)startAction:(UIButton *)btn {
     
-    if ([DDUserDefault objectForKey:@"token"]) {
+    if (bLogined) {
         if (btn.selected) {
             [self stopAnimation];
         } else {

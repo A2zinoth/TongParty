@@ -105,7 +105,9 @@
 + (void)otherLoginWithOpenID:(NSString *)openID act:(NSString*)act success:(void (^)(NSDictionary *dict))suceess {
     if (openID.length) {
         [self getWithAction:kTJOtherLogin params:@{@"open_id":openID, @"act":act} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
-            suceess(result.data);
+            if ([result.status isEqualToString:@"success"]) {
+                suceess(result.data);
+            }
             [MBProgressHUD showMessage:result.msg_cn toView:KEY_WINDOW];
         } failure:^{
             

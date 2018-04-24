@@ -12,4 +12,12 @@
 @property (nonatomic, strong) UIButton *cancelBtn;
 @property (nonatomic, strong) UIButton *okBtn;
 @property (nonatomic, strong) UIButton *editBtn;
+
+@property (nonatomic, strong) UIButton *followBtn;
+@property (nonatomic, strong) UIButton *followerBtn;
+@property (nonatomic, strong) UIButton *friendBtn;
+
+
+- (void)updateWithDic:(NSDictionary *)dic;
+
 @end

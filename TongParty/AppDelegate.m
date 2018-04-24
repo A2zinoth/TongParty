@@ -58,25 +58,31 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    
     self.window = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
     self.window.backgroundColor = kWhiteColor;
+    
     [self registerAmap];
     [self startLocation];
     [[DDTJShareManager sharedManager] registerAllPlatForms];
-//    [AMapServices sharedServices].apiKey = AMapKey;
+    
     if (@available(ios 9.0, *)) {
         [self initShortcutItems];
     }
     [self setTabbar];
-    if ([DDUserDefault objectForKey:@"token"]) {
-        [self.loginManager autologinWithUsername:[DDUserDefault objectForKey:@"mobile"] password:[DDUserDefault objectForKey:@"password"] block:^(NSDictionary *dict) {
-            
-        } failure:^{
-            
-        }];
+    [userManager loadUserInfo];
+    
+    
+    //第三方
+//    if ([DDUserDefault objectForKey:@"token"]) {
+//        [self.loginManager autologinWithUsername:[DDUserDefault objectForKey:@"mobile"] password:[DDUserDefault objectForKey:@"password"] block:^(NSDictionary *dict) {
+//
+//        } failure:^{
+//
+//        }];
 //        [self.loginManager loginWithUsername:[DDUserDefault objectForKey:@"mobile"]password:[DDUserDefault objectForKey:@"password"] block:^(NSDictionary *dict) {
 //        } failure:^{}];
-    }
+//    }
     if (![DDUserDefault objectForKey:@"isFirstLogin"]) {
         [self isAppFirstOpen];
     } else {

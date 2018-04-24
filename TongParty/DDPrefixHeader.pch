@@ -50,7 +50,7 @@
 
 #import "DDTJHttpRequest.h"
 #import "DDLoginManager.h"
-#import "DDUserSingleton.h"
+#import "UserManager.h"
 
 #import "LSUpLoadImageManager.h"
 #import "HexColors.h"

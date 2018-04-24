@@ -9,7 +9,7 @@
 #import "TJLoginController.h"
 #import "TJLoginView.h"
 #import "TJLoginModel.h"
-
+#import "UserManager.h"
 
 @interface TJLoginController ()
 
@@ -59,8 +59,30 @@
     WeakSelf(weakSelf);
     _loginModel = [[TJLoginModel alloc] init];
     _loginView.thirdAction = ^(NSInteger index) {
-        [weakSelf.loginModel thirdLogin:index];
+        UserLoginType type = kUserLoginTypeWeChat;
+        switch (index) {
+            case 100:
+                type = kUserLoginTypeWeibo;
+                break;
+            case 101:
+                type = kUserLoginTypeWeChat;
+                break;
+            case 102:
+                type = kUserLoginTypeQQ;
+                break;
+            default:
+                break;
+        }
+        [userManager login:type completion:^(BOOL success, NSString *des) {
+            [MBProgressHUD showMessage:des];
+            if (success) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [weakSelf dismissViewController];
+                });
+            }
+        }];
     };
+    
     _loginModel.thirdLoginSuccess = ^{
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [weakSelf dismissViewController];
@@ -79,10 +101,14 @@
 - (void)loginAction {
     _loginModel.mobile = _loginView.phoneTF.text;
     _loginModel.password = _loginView.passwordTF.text;
-    [_loginModel login:^{
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    
+    [userManager login:kUserLoginTypeAccount params:@{@"mobile":_loginView.phoneTF.text, @"password":_loginView.passwordTF.text} completion:^(BOOL success, NSString *des) {
+        if (success) {
+            [MBProgressHUD showMessage:des];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self dismissViewController];
-        });
+            });
+        }
     }];
 }
 
@@ -111,7 +137,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

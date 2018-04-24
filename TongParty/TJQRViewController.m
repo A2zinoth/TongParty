@@ -155,7 +155,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [DDResponseBaseHttp getWithAction:kTJTableQRCode params:@{@"token":[DDUserDefault objectForKey:@"token"], @"tid":self.tid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+    [DDResponseBaseHttp getWithAction:kTJTableQRCode params:@{@"token":curUser.token, @"tid":self.tid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
         if ([result.status isEqualToString:@"success"]) {
             NSString *str = result.data[@"qr_code"];
             UIImageView *imageView = [self.view viewWithTag:1928];

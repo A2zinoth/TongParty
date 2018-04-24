@@ -11,6 +11,9 @@
 #import "TJProfileCell.h"
 #import "GKPhotosView.h"
 #import "TJEditProfileController.h"
+#import "TJFollowController.h"
+#import "TJFollowerController.h"
+#import "TJFriendController.h"
 
 @interface TJProfileController ()<GKPhotosViewDelegate>
 
@@ -30,6 +33,10 @@
     
     
     [_profileView.editBtn addTarget:self action:@selector(editAction) forControlEvents:UIControlEventTouchUpInside];
+    [_profileView.followBtn addTarget:self action:@selector(followAction) forControlEvents:UIControlEventTouchUpInside];
+    [_profileView.followerBtn addTarget:self action:@selector(followerAction) forControlEvents:UIControlEventTouchUpInside];
+    [_profileView.friendBtn addTarget:self action:@selector(friendAction) forControlEvents:UIControlEventTouchUpInside];
+    
     
     [self.view addSubview:self.tableView];
     self.dataSource = @[@"我的桌子", @"桌子历史", @"我的相册"];
@@ -51,6 +58,7 @@
         make.right.mas_equalTo(self.view);
     }];
 }
+
 
 - (UIView *)setupFootView {
     UIView *background = [[UIView alloc] initWithFrame:CGRectMake(24, 0, kScreenWidth, 183+kTabBarHeigthOrigin)];
@@ -76,6 +84,11 @@
     self.navigationController.navigationBar.hidden = true;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self requestData];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -89,7 +102,9 @@
     TJProfileCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TJProfileCellID"];
     if (!cell) {
         cell = [[TJProfileCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TJProfileCellID"];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
+
     [cell updateData:self.dataSource[indexPath.row]];
     return cell;
 }
@@ -97,6 +112,22 @@
 
 #pragma mark - UITableViewDelegate
 
+#pragma mark - GKPhotosViewDelegate
+- (void)photoTapped:(UIImageView *)imgView {
+    
+}
+
+- (void)friendAction {
+    [self.navigationController pushViewController:[TJFriendController new] animated:true];
+}
+
+- (void)followerAction {
+    [self.navigationController pushViewController:[TJFollowerController new] animated:true];
+}
+
+- (void)followAction {
+    [self.navigationController pushViewController:[TJFollowController new] animated:true];
+}
 
 - (void)editAction {
     [self.navigationController pushViewController:[TJEditProfileController new] animated:true];
@@ -108,6 +139,17 @@
 
 - (void)okAction {
     // 设置
+}
+
+- (void)requestData {
+    kWeakSelf
+    [DDResponseBaseHttp getWithAction:kTJProfile params:@{@"token":curUser.token, @"act":@"my"} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+        if ([result.status isEqualToString:@"success"]) {
+            [weakSelf.profileView updateWithDic:result.data];
+        }
+    } failure:^{
+        
+    }];
 }
 
 @end

@@ -46,7 +46,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     NSDictionary *dic = @{
-                          @"token":[DDUserDefault objectForKey:@"token"],
+                          @"token":curUser,
                           @"tid":self.tid,
                           @"latitude":[DDUserSingleton shareInstance].latitude,
                           @"longitude":[DDUserSingleton shareInstance].longitude
@@ -67,7 +67,7 @@
     switch (btn.tag) {
         case 1214:{ //加入
             NSLog(@"加入");
-                [DDResponseBaseHttp getWithAction:kTJTableJoin params:@{@"token":[DDUserDefault objectForKey:@"token"], @"oid":_infoModel.oid, @"tid":self.tid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+                [DDResponseBaseHttp getWithAction:kTJTableJoin params:@{@"token":curUser.token, @"oid":_infoModel.oid, @"tid":self.tid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
                     if ([result.status isEqualToString:@"success"]) {
                         [MBProgressHUD showMessage:@"申请成功"];
                     }
@@ -96,7 +96,7 @@
 
 
 - (void)masterSign {
-    [DDResponseBaseHttp getWithAction:kTJTableMasterSign params:@{@"token":[DDUserDefault objectForKey:@"token"], @"latitude":@"39.9176", @"longitude":@"116.399", @"tid":self.tid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+    [DDResponseBaseHttp getWithAction:kTJTableMasterSign params:@{@"token":curUser.token, @"latitude":@"39.9176", @"longitude":@"116.399", @"tid":self.tid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
         if ([result.status isEqualToString:@"success"]) {
             TJQRViewController *qrVC = [[TJQRViewController alloc] init];
             qrVC.tid = self.tid;

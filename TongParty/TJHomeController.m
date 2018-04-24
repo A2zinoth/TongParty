@@ -24,6 +24,7 @@
 @end
 
 @implementation TJHomeController
+
 - (void)createData {
     _homeModel = [[TJHomeModel alloc] init];
     [self configLocationManager];
@@ -83,12 +84,11 @@
     
     NSString* deviceName = [[UIDevice currentDevice] name];
 
-    if ([deviceName isEqualToString:@"iPhoen 6"]) {
-            MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRereshing)];
-            header.automaticallyChangeAlpha = YES;
-            header.lastUpdatedTimeLabel.hidden = NO;
-            self.tableView.mj_header = header;
-    }
+
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRereshing)];
+    header.automaticallyChangeAlpha = YES;
+    header.lastUpdatedTimeLabel.hidden = NO;
+    self.tableView.mj_header = header;
 
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0,*)) {
@@ -134,7 +134,9 @@
 
 - (void)cityAction {
 #if DEBUG
-    [DDUserDefault removeObjectForKey:@"token"];
+    [userManager logout:^(BOOL success, NSString *des) {
+        
+    }];
 #endif
 }
 
@@ -153,7 +155,7 @@
 
 - (void)requestData {
     WeakSelf(weakSelf);
-    if ([DDUserDefault objectForKey:@"token"]) {
+    if (bLogined) {
         [_homeModel requestTableList:^(id obj) {
             if (obj) {
                 weakSelf.dataSource = obj;
@@ -235,8 +237,7 @@
 }
 
 - (BOOL)isLogin {
-        if (![DDUserDefault objectForKey:@"token"]) {
-  
+        if (!bLogined) {
             return false;
         } else
             return true;

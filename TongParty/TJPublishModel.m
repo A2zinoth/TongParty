@@ -24,7 +24,7 @@
 
 - (void)getActivityList:(void(^)(NSArray *))success {
     
-    [DDResponseBaseHttp getWithAction:KTJActivityList params:@{@"token":[DDUserDefault objectForKey:@"token"]} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+    [DDResponseBaseHttp getWithAction:KTJActivityList params:@{@"token":curUser.token} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
         if ([result.status isEqualToString:@"success"]) {
             success(result.data);
         }

@@ -50,7 +50,7 @@
     _publishModel = [[TJPublishModel alloc] init];
     NSString *str = [NSString stringWithFormat:@"%.0f",[[NSDate date] timeIntervalSince1970]/3600];
 //
-    _publishModel = [_publishModel mj_setKeyValues:@{@"token":[DDUserDefault objectForKey:@"token"],
+    _publishModel = [_publishModel mj_setKeyValues:@{@"token":curUser.token,
                                                      @"title":@"狼人杀到黎明",
                                                      @"aid":@"29",
                                                      @"place":@"北京市朝阳区望京 SOHO",

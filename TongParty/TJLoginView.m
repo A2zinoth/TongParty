@@ -201,7 +201,7 @@
         UIButton *thirdBtn = [[UIButton alloc] init];
         [self addSubview:thirdBtn];
         [thirdBtn setBackgroundImage:[UIImage imageNamed:thirdImageArr[i]] forState:UIControlStateNormal];
-        thirdBtn.tag = 10+i;
+        thirdBtn.tag = 100+i;
         [thirdBtn addTarget:self action:@selector(thirdLogin:) forControlEvents:UIControlEventTouchUpInside];
         [thirdBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(600);

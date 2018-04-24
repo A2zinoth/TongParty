@@ -7,11 +7,13 @@
 //
 
 #import "TJLoginModel.h"
+
 #import <UMSocialCore/UMSocialCore.h>
 
 @implementation TJLoginModel
 
 - (void)login:(void (^)(void))success {
+
     [self.loginManager loginWithUsername:_mobile password:_password block:^(NSDictionary *dict) {
         success();
     } failure:^{
@@ -61,7 +63,7 @@
             NSLog(@"Wechat gender: %@", resp.gender);
             // 第三方平台SDK源数据
             NSLog(@"Wechat originalResponse: %@", resp.originalResponse);
-            [self otherLoginWithOpenID:resp.openid act:@"wx"];
+            [self otherLoginWithOpenID:resp.openid act:@"wx" imageURL:resp.iconurl];
         }
     }];
 }
@@ -89,7 +91,7 @@
             NSLog(@"QQ gender: %@", resp.gender);
             // 第三方平台SDK源数据
             NSLog(@"QQ originalResponse: %@", resp.originalResponse);
-            [self otherLoginWithOpenID:resp.openid act:@"qq"];
+            [self otherLoginWithOpenID:resp.openid act:@"qq" imageURL:resp.iconurl];
         }
     }];
 }
@@ -110,7 +112,7 @@
         NSLog(@" gender: %@", resp.gender);
         // 第三方平台SDK原始数据
         NSLog(@" originalResponse: %@", resp.originalResponse);
-        [self otherLoginWithOpenID:resp.openid act:@"wb"];
+        [self otherLoginWithOpenID:resp.openid act:@"wb" imageURL:resp.iconurl];
     }];
 }
 
@@ -121,16 +123,19 @@
     return _loginManager;
 }
 
-- (void)otherLoginWithOpenID:(NSString *)openID act:(NSString *)act {
-    WeakSelf(weakSelf);
+- (void)otherLoginWithOpenID:(NSString *)openID act:(NSString *)act imageURL:(NSString *)imageURL {
+    kWeakSelf
     [MBProgressHUD showLoading:@"登录中..." toView:KEY_WINDOW];
-    [DDTJHttpRequest otherLoginWithOpenID:openID act:act success:^(NSDictionary *dict) {
+    [DDResponseBaseHttp getWithAction:kTJOtherLogin params:@{@"open_id":openID, @"act":act, @"image_url":imageURL} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
         [MBProgressHUD hideAllHUDsInView:KEY_WINDOW];
-        // [DDUserDefault setObject:username forKey:@"mobile"];
-        // [DDUserDefault setObject:password forKey:@"password"];
-        [DDUserDefault setObject:dict[@"token"] forKey:@"token"];
-        
-        weakSelf.thirdLoginSuccess();
+        if ([result.status isEqualToString:@"success"]) {
+            [DDUserDefault setObject:result.data[@"token"] forKey:@"token"];
+            [DDUserSingleton shareInstance].image = result.data[@"head_image"];
+            weakSelf.thirdLoginSuccess();
+        }
+        [MBProgressHUD showMessage:result.msg_cn toView:KEY_WINDOW];
+    } failure:^{
+        [MBProgressHUD hideAllHUDsInView:KEY_WINDOW];
     }];
 }
 

@@ -158,7 +158,7 @@
 }
 
 - (void)memberSign:(NSString *)qr_code {
-    [DDResponseBaseHttp getWithAction:kTJTableMemberSign params:@{@"token":[DDUserDefault objectForKey:@"token"],@"tid":self.tid,@"qr_code":qr_code, @"oid":self.oid,@"latitude":@"39.9176", @"longitude":@"116.399"} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+    [DDResponseBaseHttp getWithAction:kTJTableMemberSign params:@{@"token":curUser.token,@"tid":self.tid,@"qr_code":qr_code, @"oid":self.oid,@"latitude":@"39.9176", @"longitude":@"116.399"} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
         [MBProgressHUD showMessage:result.msg_cn];
         if ([result.status isEqualToString:@"success"]) {
             [_manager videoPreviewLayerRemoveFromSuperlayer];

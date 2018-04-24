@@ -252,7 +252,7 @@
     }
     
     kWeakSelf
-    [DDResponseBaseHttp getWithAction:kTJSendTableNotice params:@{@"token":[DDUserDefault objectForKey:@"token"], @"tid":self.tid, @"notice":_noticeBottomView.input.text} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+    [DDResponseBaseHttp getWithAction:kTJSendTableNotice params:@{@"token":curUser.token, @"tid":self.tid, @"notice":_noticeBottomView.input.text} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
         if ([result.status isEqualToString:@"success"]) {
             [MBProgressHUD showMessage:result.msg_cn];
             [weakSelf requestNotice];
@@ -265,7 +265,7 @@
 
 - (void)requestNotice {
     kWeakSelf
-    [DDResponseBaseHttp getWithAction:kTJTableNotice params:@{@"token":[DDUserDefault objectForKey:@"token"], @"tid":self.tid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+    [DDResponseBaseHttp getWithAction:kTJTableNotice params:@{@"token":curUser.token, @"tid":self.tid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
         weakSelf.dataSource = result.data;
         [weakSelf.tableView reloadData];
     } failure:^{
@@ -273,7 +273,7 @@
     }];
     
     
-    [DDResponseBaseHttp getWithAction:KTJNoticeList params:@{@"token":[DDUserDefault objectForKey:@"token"]} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+    [DDResponseBaseHttp getWithAction:KTJNoticeList params:@{@"token":curUser.token} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
                 if ([result.status isEqualToString:@"success"]) {
                     weakSelf.shortcutArr = result.data;
                     [weakSelf.shortcutTableView reloadData];
