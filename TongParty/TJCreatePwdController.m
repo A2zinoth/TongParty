@@ -67,14 +67,21 @@
 
 - (void)registerUser {
     
-    [_createPwdModel registerUser:^{
+    [userManager login:kUserLoginTypeCaptcha params:[_createPwdModel mj_keyValues] completion:^(BOOL success, NSString *des) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             UIViewController *rootVC = self.navigationController.childViewControllers[0];
             [rootVC dismissViewControllerAnimated:true completion:nil];
         });
-    } failure:^(id msg) {
-    
     }];
+    
+//    [_createPwdModel registerUser:^{
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            UIViewController *rootVC = self.navigationController.childViewControllers[0];
+//            [rootVC dismissViewControllerAnimated:true completion:nil];
+//        });
+//    } failure:^(id msg) {
+//    
+//    }];
 }
 
 - (void)loginAction {

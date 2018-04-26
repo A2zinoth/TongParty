@@ -31,9 +31,9 @@ static DDUserSingleton *_instance;
     return _instance;
 }
 
-+ (NSDictionary *)replacedKeyFromPropertyName {
++ (NSDictionary *)mj_replacedKeyFromPropertyName {
     return @{
-             @"image":@"image_url"
+             @"image":@"head_image"
              };
 }
 

@@ -22,18 +22,38 @@
 #import "LSBlindPhoneVC.h"
 
 @interface DDSettingVc ()
+
 @end
 
 @implementation DDSettingVc
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //    self.navItemTitle = @"设置";
     [self navigationWithTitle:@"设置"];
     [self setUpViews];
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = false;
+    
+    kWeakSelf
+    [DDTJHttpRequest getUserDetailInfoWithToken:curUser.token block:^(NSDictionary *dict) {
+        weakSelf.userModel = [DDUserInfoModel mj_objectWithKeyValues:dict];
+//        weakSelf.userModel.photo = [LSAlbumEtity mj_objectArrayWithKeyValuesArray:_model.photo];
+        //主线程刷新
+//        [_headerView updateUserInfoWith:_model];
+        [weakSelf.tableView reloadData];
+        
+    } failure:^{
+        //
+    }];
+}
+
+
 // 设置子视图
 - (void)setUpViews {
+    
     self.sepLineColor = kSeperatorColor;
     self.refreshType = DDBaseTableVcRefreshTypeNone;
 }
@@ -224,9 +244,13 @@
 //退出登录
 - (void)pushLoginVC
 {
-    DDLoginViewController *vc = [[DDLoginViewController alloc]init];
-    vc.isPopToRoot = YES;
-    [self.navigationController pushViewController:vc animated:YES];
+//    DDLoginViewController *vc = [[DDLoginViewController alloc]init];
+//    vc.isPopToRoot = YES;
+//    [self.navigationController pushViewController:vc animated:YES];
+    
+    [userManager logout:^(BOOL success, NSString *des) {
+        
+    }];
 }
 
 #pragma mark - push

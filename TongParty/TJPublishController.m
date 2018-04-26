@@ -336,15 +336,15 @@
         [alertControl setValue:attrStr forKey:@"attributedMessage"];
         [self enumrateSubviewsInView:alertControl.view];
         
-        UIAlertAction *alertAlbum = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            weakSelf.publishModel.is_heart = @"1";
-        }];
-        
-        UIAlertAction *alertCancle = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertAction *alertCancle = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             switchButton.on = false;
             weakSelf.publishModel.is_heart = @"0";
             NSLog(@"撤！");
         }];
+        UIAlertAction *alertAlbum = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            weakSelf.publishModel.is_heart = @"1";
+        }];
+        
         [alertControl addAction:alertCancle];
         [alertControl addAction:alertAlbum];
         [alertCancle setValue:[UIColor hx_colorWithHexString:@"#BDC9D4"] forKey:@"titleTextColor"];
@@ -384,7 +384,7 @@
     [self.locationManager setDelegate:self];
     
     //设置期望定位精度
-    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyThreeKilometers];
+    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
     
     //设置不允许系统暂停定位
     [self.locationManager setPausesLocationUpdatesAutomatically:NO];

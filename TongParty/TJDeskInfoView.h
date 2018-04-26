@@ -11,12 +11,14 @@
 @class TJDeskInfoModel;
 
 typedef void (^NoticeLock)(NSString*);
+typedef void (^MemberSelected)(NSInteger);
 
 @interface TJDeskInfoView : TJBaseView
 
-@property (nonatomic, strong) UIButton      *contactBtn;
-@property (nonatomic, strong) UIButton      *nextButton;
-@property (nonatomic, strong) NoticeLock    noticeLock;
+@property (nonatomic, strong) UIButton       *contactBtn;
+@property (nonatomic, strong) UIButton       *nextButton;
+@property (nonatomic, strong) NoticeLock     noticeLock;
+@property (nonatomic, strong) MemberSelected memberSelected;
 
 - (void)updateWithModel:(TJDeskInfoModel *)model;
 

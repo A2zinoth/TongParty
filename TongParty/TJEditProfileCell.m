@@ -45,6 +45,7 @@
     
     UIButton *_moreBtn = [[UIButton alloc] init];
     [_moreBtn setImage:[UIImage imageNamed:@"TJMoreBtn"] forState:UIControlStateNormal];
+    _moreBtn.tag = 1913;
     [self.contentView addSubview:_moreBtn];
     [_moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(0);
@@ -112,6 +113,21 @@
             _endEdit(@"");
         }
     }
+}
+
+- (void)updateMoreBtn {
+    UIButton *moreButton = [self.contentView viewWithTag:1913];
+    moreButton.hidden = true;
+    
+    UIView *dot = [[UIView alloc] init];
+    dot.backgroundColor = [UIColor hx_colorWithHexString:@"#BBC8D3"];
+    dot.layerCornerRadius = 3;
+    [self.contentView addSubview:dot];
+    [dot mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(0);
+        make.trailing.mas_equalTo(-24);
+        make.size.mas_equalTo(CGSizeMake(6, 6));
+    }];
 }
 
 

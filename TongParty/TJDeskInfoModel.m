@@ -15,7 +15,8 @@
     [DDResponseBaseHttp getWithAction:kTJTableInfo params:dic type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
         if ([result.status isEqualToString:@"success"]) {
             success([TJDeskInfoModel mj_objectWithKeyValues:result.data]);
-        }
+        } else
+            [MBProgressHUD showMessage:result.msg_cn];
     } failure:^{
     }];
 }

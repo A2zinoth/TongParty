@@ -106,7 +106,7 @@
     UIButton *showPassword = [[UIButton alloc] init];
     [self addSubview:showPassword];
     [showPassword setTitle:@"显示" forState:UIControlStateNormal];
-    [showPassword setTitle:@"显示" forState:UIControlStateSelected];
+    [showPassword setTitle:@"隐藏" forState:UIControlStateSelected];
     [showPassword setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [showPassword.titleLabel setFont:[UIFont systemFontOfSize:13]];
     [showPassword addTarget:self action:@selector(showPasswordAction:) forControlEvents:UIControlEventTouchUpInside];

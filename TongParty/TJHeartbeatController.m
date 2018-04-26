@@ -36,8 +36,8 @@
 - (void)createData {
     _heartbeatModel = [[TJHeartbeatModel alloc] init];
     _heartbeatModel.token = curUser.token;
-    _heartbeatModel.latitude = [DDUserSingleton shareInstance].latitude;
-    _heartbeatModel.longitude = [DDUserSingleton shareInstance].longitude;
+    _heartbeatModel.latitude = curUser.latitude;
+    _heartbeatModel.longitude = curUser.longitude;
     _heartbeatModel.aid = @"29";
     _heartbeatModel.range = @"15000";
     NSString *str = [NSString stringWithFormat:@"%.0f",[[NSDate date] timeIntervalSince1970]/3600];
@@ -187,7 +187,7 @@
 
 - (void)startAction:(UIButton *)btn {
     
-    if (bLogined) {
+    if (curUser.token) {
         if (btn.selected) {
             [self stopAnimation];
         } else {

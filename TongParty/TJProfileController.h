@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface TJProfileController : BaseViewController
-
+@property (nonatomic, copy)   NSString      *act; // uid
 @end

@@ -19,6 +19,7 @@
 @property (nonatomic, copy) NSString *school;
 @property (nonatomic, copy) NSString *occupation;
 @property (nonatomic, copy) NSString *profession;
+@property (nonatomic, copy) NSString *head_image;
 
 
 @end

@@ -10,6 +10,9 @@
 #import "UIColor+Image.h"
 
 
+#define leftBtnCount  6
+#define rightBtnCount 16
+
 @interface TJThemeView()
 
 @property (nonatomic, strong) UIView    *maskView;
@@ -82,12 +85,12 @@
     }];
     
 
-    for (NSInteger i = 0; i < 6; i++) {
+    for (NSInteger i = 0; i < leftBtnCount; i++) {
         UIButton *button = [[UIButton alloc] init];
         button.tag = 1318+i;
         button.hidden = true;
         
-        [button setTitleColor:kBtnEnable forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor hx_colorWithHexString:@"#859CB0"] forState:UIControlStateNormal];
         [button setTitleColor:kBtnEnable forState:UIControlStateSelected];
         
         [button setBackgroundImage:[UIImage imageNamed:@"TJButtonBackgroundImage"] forState:UIControlStateSelected];
@@ -110,7 +113,7 @@
         space =  86;
     }
     
-    for (NSInteger i = 0; i < 16; i++) {
+    for (NSInteger i = 0; i < rightBtnCount; i++) {
         UIButton *button = [[UIButton alloc] init];
         button.tag = 2343+i;
         button.hidden = true;
@@ -143,7 +146,7 @@
 }
 
 - (NSInteger)getKind {
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < leftBtnCount; i++) {
         UIButton *btn = [self viewWithTag:1318+i];
         if (btn.selected) {
             return i;
@@ -153,7 +156,7 @@
 }
 
 - (NSString *)getSelectTheme {
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < rightBtnCount; i++) {
         UIButton *otherBtn = [self viewWithTag:2343+i];
         if(otherBtn.selected == true) {
             //aid string
@@ -169,7 +172,7 @@
 
 - (void)rightButtonAction:(UIButton *)btn {
     NSInteger index = btn.tag - 2343;
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < rightBtnCount; i++) {
         if (i == index) {
             btn.selected = true;
         } else {
@@ -181,7 +184,7 @@
 
 - (void)buttonAction:(UIButton *)btn {
     NSInteger index = btn.tag-1318;
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < leftBtnCount; i++) {
         if (i == index) {
             btn.selected = true;
             // 更新右面
@@ -196,7 +199,7 @@
 - (void)updateRightBtn:(NSInteger )index {
     TJThemeModel *model = self.themeModelArr[index];
     NSArray *submode = model.child;
-    for (int j = 0; j < 16; j++) {
+    for (int j = 0; j < rightBtnCount; j++) {
         UIButton *rightBtn = [self viewWithTag:2343+j];
         rightBtn.hidden = false;
         if (j == 0) {
@@ -219,7 +222,7 @@
 - (void)updateData:(NSArray *)arr {
     self.themeModelArr = arr;
     
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < leftBtnCount; i++) {
         UIButton *otherBtn = [self viewWithTag:1318+i];
         if (i == 2) {
             otherBtn.selected = true;

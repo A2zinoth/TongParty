@@ -178,7 +178,7 @@
         if ([DDUserSingleton shareInstance].city) {
             city = [DDUserSingleton shareInstance].city;
         } else {
-            city = ![DDUserDefault objectForKey:@"current_city"] ? @"北京市" : [DDUserDefault objectForKey:@"current_city"];
+            city = !curUser.city ? @"北京市" : curUser.city;
         }
         tips.city = city;
         [self.search AMapInputTipsSearch:tips];

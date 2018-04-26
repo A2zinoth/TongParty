@@ -12,7 +12,7 @@
 
 
 - (void)requestTableList:(void(^)(id))success failure:(void(^)())failure {
-    [DDResponseBaseHttp getWithAction:KTJTableList params:@{@"token":curUser.token, @"latitude":@"40.002581", @"longitude":@"116.487706"} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+    [DDResponseBaseHttp getWithAction:KTJTableList params:@{@"token":curUser.token, @"latitude":curUser.latitude, @"longitude":curUser.longitude} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
         if ([result.status isEqualToString:@"success"]) {
             success([TJHomeModel mj_objectArrayWithKeyValuesArray:result.data[@"table"]]);
         } else {

@@ -112,9 +112,9 @@
     [self addSubview:notice];
     [notice mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0, *)) {
-            make.top.mas_equalTo(self.mas_safeAreaLayoutGuideTop).offset(k5(354));
+            make.top.mas_equalTo(self.mas_safeAreaLayoutGuideTop).offset(k5(351));
         } else {
-            make.top.mas_equalTo(self).offset(k5(374));
+            make.top.mas_equalTo(self).offset(k5(371));
         }
         make.centerX.mas_equalTo(0);
         make.size.mas_equalTo(CGSizeMake(kScreenWidth, 37));
@@ -151,6 +151,7 @@
         button.titleLabel.font = [UIFont systemFontOfSize:k5(15)];
         button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         [button setImage:kImage(arr[i][@"pic"]) forState:UIControlStateNormal];
+        button.adjustsImageWhenHighlighted = false;
         button.imageEdgeInsets = UIEdgeInsetsMake(0, -k5(10), 0, 0);
         [button addTarget:self action:@selector(filterAction:) forControlEvents:UIControlEventTouchUpInside];
         [filterBackground addSubview:button];

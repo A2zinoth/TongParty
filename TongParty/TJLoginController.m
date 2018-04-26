@@ -37,21 +37,9 @@
 //        [_loginView.phoneTF becomeFirstResponder];
     } else if ([_phone isEqualToString:@"直接"]) {
 //        [_loginView.phoneTF becomeFirstResponder];
-#ifdef DEBUG
-        NSString* deviceName = [[UIDevice currentDevice] name];
-        if ([deviceName isEqualToString:@"iPhoen 6"])
-            _loginView.phoneTF.text = @"13693326733";
-        else
-            _loginView.phoneTF.text = @"15210030317";
-        
-        _loginView.passwordTF.text = @"123456789";
-#endif
     } else {
         _loginView.phoneTF.text = _phone;
         [_loginView.passwordTF becomeFirstResponder];
-#if DEBUG
-        _loginView.passwordTF.text = @"helloworld";
-#endif
     }
     
     [self addUserAction];

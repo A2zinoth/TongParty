@@ -10,6 +10,7 @@
 #import "TJVerifyController.h"
 #import "TJLoginController.h"
 
+
 @implementation TJRegisterController
 
 - (void)createData {
@@ -38,8 +39,8 @@
     NSString* deviceName = [[UIDevice currentDevice] name];
     if ([deviceName isEqualToString:@"iPhoen 6"])
         _registerView.phoneTF.text = @"13693326733";
-    else
-        _registerView.phoneTF.text = @"15210030317";
+//    else
+//        _registerView.phoneTF.text = @"15210030317";
 //    _registerView.phoneTF.text = @"13693326733";//15210030317  17600368817 15731629742
 #endif
     
@@ -50,7 +51,11 @@
     [super viewDidLoad];
     
     self.navigationController.navigationBar.hidden = true;
+    
+}
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
 }
 
 

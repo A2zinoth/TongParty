@@ -12,6 +12,7 @@
 #import "TJQRViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import "TJQRScanViewController.h"
+#import "TJProfileController.h"
 
 @interface TJDeskInfoController ()
 
@@ -37,6 +38,17 @@
     
     _infoModel = [[TJDeskInfoModel alloc] init];
     [_infoView.nextButton addTarget:self action:@selector(joinAction:) forControlEvents:UIControlEventTouchUpInside];
+    
+    _infoView.memberSelected = ^(NSInteger index) {
+        NSLog(@"index:%zd", index);
+        [weakSelf requestProfile:index];
+    };
+}
+
+- (void)requestProfile:(NSInteger)index {
+    TJProfileController *profile = [[TJProfileController alloc] init];
+    profile.act = _infoModel.member[index][@"uid"];;
+    [self.navigationController pushViewController:profile animated:true];
 }
 
 - (void)viewDidLoad {
@@ -46,10 +58,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     NSDictionary *dic = @{
-                          @"token":curUser,
+                          @"token":curUser.token,
                           @"tid":self.tid,
-                          @"latitude":[DDUserSingleton shareInstance].latitude,
-                          @"longitude":[DDUserSingleton shareInstance].longitude
+                          @"latitude":curUser.latitude,
+                          @"longitude":curUser.longitude
                           };
     
     WeakSelf(weakSelf);
@@ -96,7 +108,7 @@
 
 
 - (void)masterSign {
-    [DDResponseBaseHttp getWithAction:kTJTableMasterSign params:@{@"token":curUser.token, @"latitude":@"39.9176", @"longitude":@"116.399", @"tid":self.tid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+    [DDResponseBaseHttp getWithAction:kTJTableMasterSign params:@{@"token":curUser.token, @"latitude":curUser.latitude, @"longitude":curUser.longitude, @"tid":self.tid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
         if ([result.status isEqualToString:@"success"]) {
             TJQRViewController *qrVC = [[TJQRViewController alloc] init];
             qrVC.tid = self.tid;

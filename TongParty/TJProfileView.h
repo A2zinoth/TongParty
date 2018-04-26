@@ -9,6 +9,12 @@
 #import "TJBaseView.h"
 
 @interface TJProfileView : TJBaseView
+
+@property (nonatomic, copy  ) NSString *act;
+@property (nonatomic, strong) UILabel  *nickName;
+@property (nonatomic, strong) UIImageView *headImage;
+@property (nonatomic, strong) UIButton    *addFollowBtn;
+
 @property (nonatomic, strong) UIButton *cancelBtn;
 @property (nonatomic, strong) UIButton *okBtn;
 @property (nonatomic, strong) UIButton *editBtn;
@@ -17,7 +23,7 @@
 @property (nonatomic, strong) UIButton *followerBtn;
 @property (nonatomic, strong) UIButton *friendBtn;
 
-
+- (instancetype)initWithAct:(NSString *)act;
 - (void)updateWithDic:(NSDictionary *)dic;
 
 @end

@@ -31,7 +31,7 @@ static CGFloat   photoH;
         photoMargin = margin;
         
         photoW      = (width - (photosMaxCol - 1) * margin) / photosMaxCol;
-        photoH      = photoW;
+        photoH      = 84; //photoW
     }
     return self;
 }
@@ -45,6 +45,8 @@ static CGFloat   photoH;
     for (NSInteger i = 0; i < photos.count; i++) {
         UIImageView *imgView = [UIImageView new];
         imgView.tag = i;
+        imgView.contentMode = UIViewContentModeScaleAspectFill;
+        imgView.clipsToBounds = YES;
         [self addSubview:imgView];
         
         imgView.userInteractionEnabled = YES;
@@ -67,15 +69,16 @@ static CGFloat   photoH;
     [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     for (NSInteger i = 0; i < images.count; i++) {
-        UIImageView *imgView = [UIImageView new];
+        UIImageView *imgView = [[UIImageView alloc] init];;
         imgView.tag = i;
+        imgView.contentMode = UIViewContentModeScaleAspectFill;
+        imgView.clipsToBounds = YES;
         [self addSubview:imgView];
         
         imgView.userInteractionEnabled = YES;
         [imgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgClick:)]];
         
         GKTimeLineImage *image = images[i];
-        
         if ([image.url hasPrefix:@"http"]) {
             [imgView sd_setImageWithURL:[NSURL URLWithString:image.thumbnail_url ? image.thumbnail_url : image.url]];
         }else {
@@ -86,13 +89,13 @@ static CGFloat   photoH;
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
+
     if (self.subviews.count == 1) {
         UIImageView *subview = self.subviews.firstObject;
-        
+
         if (self.images) {
             GKTimeLineImage *image = self.images.firstObject;
-            
+
             if (image.width > maxWidth) {
                 photoW = maxWidth;
                 photoH = maxWidth / image.scale;
@@ -106,25 +109,25 @@ static CGFloat   photoH;
         }
     }else {
         photoW = (maxWidth - (photosMaxCol - 1) * photoMargin) / photosMaxCol;
-        photoH = photoW;
+        photoH = 87; //photoW
     }
-    
+
     // 布局
     __block CGFloat x = 0;
     __block CGFloat y = 0;
     CGFloat w = photoW;
     CGFloat h = photoH;
-    
+
     [self.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        
+
         NSInteger maxCol = self.subviews.count == 4 ? 2 : photosMaxCol;
-        
+
         NSInteger col = idx % maxCol;
         NSInteger row = idx / maxCol;
-        
+
         x = col * (photoW + photoMargin);
         y = row * (photoH + photoMargin);
-        
+
         obj.frame = CGRectMake(x, y, w, h);
     }];
 }
@@ -204,5 +207,6 @@ static CGFloat   photoH;
     
     return CGSizeMake(photosW, photosH);
 }
+
 
 @end

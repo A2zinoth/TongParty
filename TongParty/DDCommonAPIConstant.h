@@ -46,6 +46,11 @@
 #define kTJCareerList                    @"/tojoin/api/career_list.php"
 #define kTJChangeHeadPicture             @"/tojoin/api/change_head_picture.php"
 
+// 好友
+#define kTJFollowUser                    @"/tojoin/api/follow_user.php"
+#define kTJCancelFollow                  @"/tojoin/api/cancel_follow.php"
+
+
 
 /** host*/
 UIKIT_EXTERN NSString *const kTJHostAPI;

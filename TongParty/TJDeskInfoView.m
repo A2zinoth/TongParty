@@ -22,6 +22,9 @@
         imageView.layerCornerRadius = 25;
         imageView.layerBorderColor = random? kBoyNameColor: kGirlNameColor;
         imageView.layerBorderWidth = 2;
+        imageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(selectHeaderImage:)];
+        [imageView addGestureRecognizer:tap];
         [self addSubview:imageView];
         [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(73+i/2*72);
@@ -199,6 +202,14 @@
     }];
 }
 
+- (void)selectHeaderImage:(UIGestureRecognizer *)sender {
+    UIImageView *imageView = (UIImageView *)sender.view;
+    NSLog(@"%zd", imageView.tag);
+    if (_memberSelected) {
+        _memberSelected(imageView.tag-1722);
+    }
+}
+
 - (void)updateWithModel:(TJDeskInfoModel *)model {
     NSArray *members = model.member;
     for (NSInteger i = 0; i < 12; i++) {
@@ -208,8 +219,8 @@
         if(i < members.count) {
             if (i == 0) {
                 [DDUserDefault setObject:members[i][@"head_image"] forKey:@"masterHeadImage"];
-//                [DDUserDefault setObject:members[i][@"uid"] forKey:@"masterID"];
             }
+            iv.userInteractionEnabled = true;
             [iv sd_setImageWithURL:[NSURL URLWithString:members[i][@"head_image"]]];
             label.text = members[i][@"nickname"];
             if ([members[i][@"sex"] isEqualToString:@"2"]) {
@@ -221,6 +232,7 @@
             }
         } else {
             iv.image = [UIImage imageNamed:@"TJDeskInfoDefault"];
+            iv.userInteractionEnabled = false;
             iv.layerBorderColor = [UIColor clearColor];
             label.text = @"空位";
             label.textColor = [UIColor hx_colorWithHexString:@"#C6D0DA"];

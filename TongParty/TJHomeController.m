@@ -15,6 +15,7 @@
 #import "TJCreatePwdController.h"
 #import "TJHomeModel.h"
 #import "TJDeskViewController.h"
+#import "AppDelegate+AppLocation.h"
 
 @interface TJHomeController ()<AMapLocationManagerDelegate>
 
@@ -30,7 +31,7 @@
     [self configLocationManager];
 }
 - (void)createUI {
-    // 城市按钮
+//    // 城市按钮
     UIImageView *cityIV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"TJCity"]];
     [self.view addSubview:cityIV];
     [cityIV mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -49,6 +50,7 @@
     cityBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [cityBtn setTitleColor:[UIColor hx_colorWithHexString:@"#2E3041"] forState:UIControlStateNormal];
 //    [cityBtn setImage:[UIImage imageNamed:@"TJCity"] forState:UIControlStateNormal];
+    cityBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -6, 0, 0);
     [cityBtn addTarget:self action:@selector(cityAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:cityBtn];
     [cityBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -57,7 +59,7 @@
         } else {
             make.top.mas_equalTo(self.view).offset(34);
         }
-        make.left.mas_equalTo(self.view).offset(34);
+        make.left.mas_equalTo(self.view).offset(40);
         make.width.mas_lessThanOrEqualTo(65);
         make.height.mas_equalTo(18);
     }];
@@ -81,9 +83,6 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    
-    NSString* deviceName = [[UIDevice currentDevice] name];
-
 
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRereshing)];
     header.automaticallyChangeAlpha = YES;
@@ -132,49 +131,21 @@
     }];
 }
 
-- (void)cityAction {
-#if DEBUG
-    [userManager logout:^(BOOL success, NSString *des) {
-        
-    }];
-#endif
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.navigationController.navigationBar.hidden = true;
     
 //    self.title = @"首页";
 //    if (@available(ios 11,*)) {
 //        self.navigationController.navigationBar.prefersLargeTitles = true;
 //    }
-    
-    [DDUserDefault setObject:@"" forKey:@"isFirstOpenApp"];
 }
 
-- (void)requestData {
-    WeakSelf(weakSelf);
-    if (bLogined) {
-        [_homeModel requestTableList:^(id obj) {
-            if (obj) {
-                weakSelf.dataSource = obj;
-                [weakSelf.tableView reloadData];
-            }
-            
-            [weakSelf.tableView.mj_header endRefreshing];
-        } failure:^{
-            [weakSelf.tableView.mj_header endRefreshing];
-        }];
-    } else {
-        [self gotoLogin];
-    }
-}
+
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self startLocation];
     [self requestData];
 }
 
@@ -198,16 +169,38 @@
 }
 
 #pragma mark - UITableViewDelegate
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([DDUserSingleton shareInstance].latitude) {
-        TJDeskViewController *deskVC = [[TJDeskViewController alloc] init];
-        TJHomeModel *model = (TJHomeModel *)self.dataSource[indexPath.row];
-        deskVC.tid = model.table_id;
-        [self.navigationController pushViewController:deskVC animated:true];
-    } else {
-        [self startLocation];
+
+- (BOOL)checkLocationAuthorizationStatus {
+    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
+        UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"打开[定位服务]来允许桐聚确定您的位置" message:@"请在系统设置中开启定位服务(设置>隐私>定位服务>开启)" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+            if( [[UIApplication sharedApplication]canOpenURL:url] ) {
+                [[UIApplication sharedApplication] openURL:url];
+            }
+        }];
+        
+        [ac addAction:cancel];
+        [ac addAction:ok];
+        
+        [self presentViewController:ac animated:true completion:nil];
+        return false;
     }
-    
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self checkLocationAuthorizationStatus]) {
+        if (curUser.latitude) {
+            TJDeskViewController *deskVC = [[TJDeskViewController alloc] init];
+            TJHomeModel *model = (TJHomeModel *)self.dataSource[indexPath.row];
+            deskVC.tid = model.table_id;
+            [self.navigationController pushViewController:deskVC animated:true];
+        } else {
+            [self startLocation];
+        }
+    }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 119.0;
@@ -224,16 +217,11 @@
     }
 }
 - (void)gotoLogin {
-    if (![self isLogin]) {
-        TJLoginController *vc = [TJLoginController new];
-        vc.phone = @"直接";
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[TJRegisterController new]];
-        //[TJRegisterController new]
+//    TJLoginController *vc = [TJLoginController new];
+//    vc.phone = @"直接";
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[TJRegisterController new]];
 
-        [self presentViewController:nav animated:true completion:nil];
-        [DDUserDefault removeObjectForKey:@"isFirstOpenApp"];
-    }
-
+    [self presentViewController:nav animated:true completion:nil];
 }
 
 - (BOOL)isLogin {
@@ -243,17 +231,7 @@
             return true;
 }
 
-- (void)publishAction {
-    if ([self isLogin]) {
-        [self.navigationController pushViewController:[TJPublishController new] animated:YES];
-    } else {
-        [self gotoLogin];
-    }
-}
 
-- (void)headerRereshing {
-    [self requestData];
-}
 
 - (void)configLocationManager {
     self.locationManager = [[AMapLocationManager alloc] init];
@@ -261,7 +239,7 @@
     [self.locationManager setDelegate:self];
     
     //设置期望定位精度
-    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyThreeKilometers];
+    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
     
     //设置不允许系统暂停定位
     [self.locationManager setPausesLocationUpdatesAutomatically:NO];
@@ -280,30 +258,83 @@
 }
 
 - (void)startLocation {
+
     // 带逆地理（返回坐标和地址信息）。将下面代码中的 YES 改成 NO ，则不会返回地址信息。
     [self.locationManager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
-        
+
         if (error)
         {
+
             NSLog(@"locError:{%ld - %@};", (long)error.code, error.localizedDescription);
-            
+
             if (error.code == AMapLocationErrorLocateFailed)
             {
                 return;
             }
         } else {
             NSLog(@"location:%@", location);
-            [DDUserSingleton shareInstance].latitude = [NSString stringWithFormat:@"%f",location.coordinate.latitude];
-            [DDUserSingleton shareInstance].longitude = [NSString stringWithFormat:@"%f",location.coordinate.longitude];
-            [DDUserSingleton shareInstance].city = regeocode.city;
-            [DDUserDefault setObject:regeocode.city forKey:@"current_city"];
+            curUser.latitude = [NSString stringWithFormat:@"%f",location.coordinate.latitude];
+            curUser.longitude = [NSString stringWithFormat:@"%f",location.coordinate.longitude];
+            curUser.city = regeocode.city;
+            [userManager saveUserInfo];
         }
-        
+
         if (regeocode)
         {
             NSLog(@"reGeocode:%@", regeocode);
         }
     }];
 }
+
+- (void)requestData {
+    WeakSelf(weakSelf);
+    
+    if (curUser.token) {
+        if ([self checkLocationAuthorizationStatus]) {
+            if(curUser.latitude) {
+                [_homeModel requestTableList:^(id obj) {
+                    if (obj) {
+                        weakSelf.dataSource = obj;
+                        [weakSelf.tableView reloadData];
+                    }
+                    
+                    [weakSelf.tableView.mj_header endRefreshing];
+                } failure:^{
+                    [weakSelf.tableView.mj_header endRefreshing];
+                }];
+            } else {
+                [self.tableView.mj_header endRefreshing];
+                [self startLocation];
+            }
+        }
+    } else {
+        [self gotoLogin];
+    }
+}
+
+- (void)headerRereshing {
+    [self requestData];
+}
+
+- (void)publishAction {
+    if ([self isLogin]) {
+        if ([self checkLocationAuthorizationStatus]) {
+            [self.navigationController pushViewController:[TJPublishController new] animated:YES];
+        }
+    } else {
+        [self gotoLogin];
+    }
+}
+
+
+
+- (void)cityAction {
+#if DEBUG
+    [userManager logout:^(BOOL success, NSString *des) {
+        
+    }];
+#endif
+}
+
 
 @end

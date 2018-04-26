@@ -81,6 +81,11 @@
     WeakSelf(weakSelf);
     _showPwd.textTapAction = ^ (UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
         weakSelf.passwordTF.secureTextEntry = !weakSelf.passwordTF.secureTextEntry;
+        if(weakSelf.passwordTF.secureTextEntry) {
+            weakSelf.showPwd.text = @"显示";
+        } else {
+            weakSelf.showPwd.text = @"隐藏";
+        }
     };
     [_showPwd mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(240);

@@ -10,6 +10,7 @@
 
 @interface TJEditProfileController : BaseViewController
 
+@property (nonatomic, copy  ) NSString *act;
 @property (nonatomic, strong) UIButton *cancelBtn;
 @property (nonatomic, strong) UIButton *okBtn;
 

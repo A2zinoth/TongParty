@@ -22,7 +22,7 @@
         if (@available(ios 11.0,*)) {
             make.top.mas_equalTo(self.mas_safeAreaLayoutGuideTop).offset(225);
         } else {
-            make.top.mas_equalTo(self).offset(225);
+            make.top.mas_equalTo(self).offset(245);
         }
         make.left.mas_equalTo(self);
         make.bottom.mas_equalTo(self);

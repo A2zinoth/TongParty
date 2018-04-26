@@ -63,20 +63,22 @@ static const NSString *locationManagerKey = @"locationManagerKey";
 //                self.locationBlock(nil, nil, NO, nil); return;
 //            }
 //        }
-        [DDUserSingleton shareInstance].latitude = [NSString stringWithFormat:@"%f",location.coordinate.latitude];
-        [DDUserSingleton shareInstance].longitude = [NSString stringWithFormat:@"%f",location.coordinate.longitude];
-        [DDUserSingleton shareInstance].city = regeocode.city;
-        [DDUserDefault setObject:regeocode.city forKey:@"current_city"];
+        curUser.latitude = [NSString stringWithFormat:@"%f",location.coordinate.latitude];
+        curUser.longitude = [NSString stringWithFormat:@"%f",location.coordinate.longitude];
+        curUser.city = regeocode.city;
+        [userManager saveUserInfo];
+        
         [self.locationManager startUpdatingLocation];
         //逆向编码、传值(定位成功)
         NSLog(@"位置：%@",regeocode);
        // if(regeocode){ self.locationBlock(location, regeocode, YES, nil); }
     }];
+    
 }
 
 - (void)amapLocationManager:(AMapLocationManager *)manager didUpdateLocation:(CLLocation *)location {
-    [DDUserSingleton shareInstance].latitude = [NSString stringWithFormat:@"%f",location.coordinate.latitude];
-    [DDUserSingleton shareInstance].longitude = [NSString stringWithFormat:@"%f",location.coordinate.longitude];
+    curUser.latitude = [NSString stringWithFormat:@"%f",location.coordinate.latitude];
+    curUser.longitude = [NSString stringWithFormat:@"%f",location.coordinate.longitude];
 }
 
 //接收block
@@ -84,6 +86,10 @@ static const NSString *locationManagerKey = @"locationManagerKey";
     if (block) {
         self.locationBlock = [block copy];
     }
+}
+
++ (AppDelegate *)shareAppDelegate {
+    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
 }
 
 @end

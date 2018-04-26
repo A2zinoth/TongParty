@@ -61,7 +61,7 @@
     
     _addr = [[YYLabel alloc] init];
     _addr.text = @"北京市首都剧场王府井大街22号";
-    _addr.font = [UIFont systemFontOfSize:13 weight:UIFontWeightThin];
+    _addr.font = [UIFont systemFontOfSize:13 weight:UIFontWeightUltraLight];
     _addr.textColor = [UIColor hx_colorWithHexString:@"#2E3041"];
     [self.contentView addSubview:_addr];
     [_addr mas_makeConstraints:^(MASConstraintMaker *make) {

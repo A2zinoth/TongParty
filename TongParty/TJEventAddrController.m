@@ -15,7 +15,7 @@
 #define StatusHeight [[UIApplication sharedApplication] statusBarFrame].size.height
 
 @interface TJEventAddrController ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,
-UISearchControllerDelegate>
+UISearchControllerDelegate,AMapLocationManagerDelegate>
 
 @property (nonatomic, strong) TJEventAddrView           *eventAddrView;
 
@@ -307,7 +307,7 @@ UISearchControllerDelegate>
     [self.locationManager setDelegate:self];
     
     //设置期望定位精度
-    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyThreeKilometers];
+    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
     
     //设置不允许系统暂停定位
     [self.locationManager setPausesLocationUpdatesAutomatically:NO];

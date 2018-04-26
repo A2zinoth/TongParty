@@ -55,8 +55,9 @@
     
     _actionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [_actionBtn setTitle:@"已关注" forState:UIControlStateNormal];
-    [_actionBtn setTitle:@"+关注" forState:UIControlStateSelected];
-    [_actionBtn setBackgroundImage:kImage(@"TJButtonNormal") forState:UIControlStateNormal];
+    [_actionBtn setTitle:@"+ 关注" forState:UIControlStateSelected];
+    _actionBtn.titleLabel.font = [UIFont systemFontOfSize:10];
+    [_actionBtn setBackgroundImage:kImage(@"TJButtonNormal1") forState:UIControlStateNormal];
     [_actionBtn setBackgroundImage:kImage(@"TJButtonSelect") forState:UIControlStateSelected];
     [self.contentView addSubview:_actionBtn];
     [_actionBtn mas_makeConstraints:^(MASConstraintMaker *make) {

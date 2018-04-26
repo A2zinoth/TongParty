@@ -11,13 +11,13 @@
 @interface DDUserSingleton : DDModel
 
 /**唯一标示*/
-@property (nonatomic, copy) NSString *token;
+@property (nonatomic, copy) NSString *token;  // local save
 /**名字*/
 @property (nonatomic, copy) NSString *name;
 /**手机号*/
 @property (nonatomic, copy) NSString *mobile;
 /**头像*/
-@property (nonatomic, copy) NSString *image;
+@property (nonatomic, copy) NSString *image;  // local save
 /**唯一标示
  * (0保密,1男,2女)
  */

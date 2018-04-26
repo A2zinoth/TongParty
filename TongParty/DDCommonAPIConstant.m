@@ -27,7 +27,7 @@ NSString *const kTJUserLoginAPI = @"/tojoin/api/login.php";
 /** 信息完善*/
 NSString *const kTJUserInfoEditAPI = @"/tojoin/api/set_user_info.php";
 /** 用户详情*/
-NSString *const kTJUserInfoDetailAPI = @"/tojoin/api/get_user_info.php";
+NSString *const kTJUserInfoDetailAPI = @"/tongju/api/get_user_info.php";
 /** 修改密码*/
 NSString *const kTJUserChangePasswordAPI = @"/tojoin/api/update_pwd.php";
 /** 忘记密码*/

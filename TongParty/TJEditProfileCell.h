@@ -20,5 +20,7 @@ typedef void (^EndEdit)(NSString *);
 
 - (void)updateData:(NSString *)data;
 - (void)updateValue:(NSString *)value;
+- (void)updateMoreBtn;
+
 
 @end

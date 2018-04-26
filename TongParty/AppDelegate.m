@@ -63,26 +63,37 @@
     self.window.backgroundColor = kWhiteColor;
     
     [self registerAmap];
-    [self startLocation];
+    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
+        UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"打开[定位服务]来允许桐聚确定您的位置" message:@"请在系统设置中开启定位服务(设置>隐私>定位服务>开启)" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+            if( [[UIApplication sharedApplication]canOpenURL:url] ) {
+                [[UIApplication sharedApplication] openURL:url];
+            }
+        }];
+        
+        [ac addAction:cancel];
+        [ac addAction:ok];
+        
+        [self.window.rootViewController presentViewController:ac animated:true completion:nil];
+        
+    } else {
+        [self startLocation];
+    }
     [[DDTJShareManager sharedManager] registerAllPlatForms];
     
     if (@available(ios 9.0, *)) {
         [self initShortcutItems];
     }
+    
     [self setTabbar];
+    
+    // 加载用户信息
     [userManager loadUserInfo];
     
+    [DDUserDefault removeObjectForKey:@"isFirstOpen"];
     
-    //第三方
-//    if ([DDUserDefault objectForKey:@"token"]) {
-//        [self.loginManager autologinWithUsername:[DDUserDefault objectForKey:@"mobile"] password:[DDUserDefault objectForKey:@"password"] block:^(NSDictionary *dict) {
-//
-//        } failure:^{
-//
-//        }];
-//        [self.loginManager loginWithUsername:[DDUserDefault objectForKey:@"mobile"]password:[DDUserDefault objectForKey:@"password"] block:^(NSDictionary *dict) {
-//        } failure:^{}];
-//    }
     if (![DDUserDefault objectForKey:@"isFirstLogin"]) {
         [self isAppFirstOpen];
     } else {
@@ -95,7 +106,7 @@
     //控制键盘上的工具条文字颜色是否用户自定义
     manager.shouldToolbarUsesTextFieldTintColor = YES;
     //控制是否显示键盘上的工具条。
-    manager.enableAutoToolbar = YES;
+    manager.enableAutoToolbar = false;
 
     return YES;
 }

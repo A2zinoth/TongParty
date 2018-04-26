@@ -30,7 +30,10 @@
     }];
     
     _inputTF = [[UITextField alloc] init];
-    _inputTF.placeholder = @"请输入活动描述";
+    _inputTF.font = [UIFont systemFontOfSize:13];
+    _inputTF.textColor = [UIColor hx_colorWithHexString:@"#BAC6D2"];
+    NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"请输入活动描述" attributes:@{NSForegroundColorAttributeName:[UIColor hx_colorWithHexString:@"#BAC6D2"],NSFontAttributeName:kFont(13)}];
+    _inputTF.attributedPlaceholder = attr;
     _inputTF.backgroundColor = kWhiteColor;
     [self addSubview:_inputTF];
     [_inputTF mas_makeConstraints:^(MASConstraintMaker *make) {

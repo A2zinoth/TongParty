@@ -15,6 +15,7 @@ typedef NS_ENUM(NSInteger, UserLoginType){
     kUserLoginTypeWeChat,       //微信登录
     kUserLoginTypeQQ,           //QQ登录
     kUserLoginTypeWeibo,        //微博登录
+    kUserLoginTypeCaptcha,      // 验证码
 };
 
 typedef void (^loginBlock)(BOOL success, NSString * des);
@@ -41,6 +42,7 @@ typedef void (^loginBlock)(BOOL success, NSString * des);
 @property (nonatomic, strong) DDUserSingleton   *curUserInfo; //当前用户
 @property (nonatomic, assign) UserLoginType     loginType;
 @property (nonatomic, assign) BOOL              isLogined;
+@property (nonatomic, strong) YYCache           *cache;
 
 + (instancetype)sharedUserManager;
 
@@ -83,5 +85,7 @@ typedef void (^loginBlock)(BOOL success, NSString * des);
  @return 是否成功
  */
 -(BOOL)loadUserInfo;
+
+-(void)saveUserInfo;
 
 @end

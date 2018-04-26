@@ -66,7 +66,10 @@
     
     YYLabel *titleLabel = [[YYLabel alloc] init];
     [self.view addSubview:titleLabel];
-    titleLabel.text = @"编辑个人资料";
+    if (_act) {
+        titleLabel.text = @"个人资料";
+    } else
+        titleLabel.text = @"编辑个人资料";
     titleLabel.font = [UIFont systemFontOfSize:14];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -79,21 +82,24 @@
         make.size.mas_equalTo(CGSizeMake(200, 20));
     }];
     
-    _okBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_okBtn setTitle:@"完成" forState:UIControlStateNormal];
-    [_okBtn setTitleColor:kBtnEnable forState:UIControlStateNormal];
-    _okBtn.titleLabel.font = [UIFont systemFontOfSize:13];
-    _okBtn.titleEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
-    [self.view addSubview:_okBtn];
-    [_okBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        if (@available(ios 11.0,*)) {
-            make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(3);
-        } else {
-            make.top.mas_equalTo(self.view).offset(23);
-        }
-        make. trailing.mas_equalTo(self.view).offset(-14);
-        make.size.mas_equalTo(CGSizeMake(48, 38));
-    }];
+    if (!_act) {
+        _okBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_okBtn setTitle:@"完成" forState:UIControlStateNormal];
+        [_okBtn setTitleColor:kBtnEnable forState:UIControlStateNormal];
+        _okBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+        _okBtn.titleEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
+        [self.view addSubview:_okBtn];
+        [_okBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            if (@available(ios 11.0,*)) {
+                make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(3);
+            } else {
+                make.top.mas_equalTo(self.view).offset(23);
+            }
+            make. trailing.mas_equalTo(self.view).offset(-14);
+            make.size.mas_equalTo(CGSizeMake(48, 38));
+        }];
+    }
+    
     
     UIView *line = [[UIView alloc] init];
     [self.view addSubview:line];
@@ -109,11 +115,10 @@
     [_okBtn addTarget:self action:@selector(okAction) forControlEvents:UIControlEventTouchUpInside];
     
     UIImageView *headImage = [[UIImageView alloc] init];
-    headImage.backgroundColor = kBtnEnable;
+    if (!_act)
+        [headImage sd_setImageWithURL:[NSURL URLWithString:curUser.image]];
     headImage.tag = 1823;
     headImage.layerCornerRadius = 31;
-    headImage.layerBorderColor = kBoyNameColor;
-    headImage.layerBorderWidth = 1;
     [self.view addSubview:headImage];
     [headImage mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0, *)) {
@@ -125,30 +130,31 @@
         make.size.mas_equalTo(CGSizeMake(64, 64));
     }];
     
-    UIButton *editHeadImageBtn = [[UIButton alloc] init];
-    [editHeadImageBtn setTitle:@"更换头像" forState:UIControlStateNormal];
-    editHeadImageBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-    editHeadImageBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [editHeadImageBtn setTitleColor:[UIColor hx_colorWithHexString:@"#262626"] forState:UIControlStateNormal];
-    [editHeadImageBtn addTarget:self action:@selector(editHeadImageAction) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:editHeadImageBtn];
-    [editHeadImageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(headImage);
-        make.left.mas_equalTo(headImage.mas_right).offset(24);
-        make.right.mas_equalTo(-24);
-        make.height.mas_equalTo(22);
-    }];
-    
-    UIButton *_moreBtn = [[UIButton alloc] init];
-    [_moreBtn setImage:[UIImage imageNamed:@"TJMoreBtn"] forState:UIControlStateNormal];
-    [_moreBtn addTarget:self action:@selector(editHeadImageAction) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_moreBtn];
-    [_moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(headImage);
-        make.trailing.mas_equalTo(-24);
-        make.size.mas_equalTo(CGSizeMake(9, 15));
-    }];
-    
+    if (!_act) {
+        UIButton *editHeadImageBtn = [[UIButton alloc] init];
+        [editHeadImageBtn setTitle:@"更换头像" forState:UIControlStateNormal];
+        editHeadImageBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+        editHeadImageBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        [editHeadImageBtn setTitleColor:[UIColor hx_colorWithHexString:@"#262626"] forState:UIControlStateNormal];
+        [editHeadImageBtn addTarget:self action:@selector(editHeadImageAction) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:editHeadImageBtn];
+        [editHeadImageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(headImage);
+            make.left.mas_equalTo(headImage.mas_right).offset(24);
+            make.right.mas_equalTo(-24);
+            make.height.mas_equalTo(22);
+        }];
+        
+        UIButton *_moreBtn = [[UIButton alloc] init];
+        [_moreBtn setImage:[UIImage imageNamed:@"TJMoreBtn"] forState:UIControlStateNormal];
+        [_moreBtn addTarget:self action:@selector(editHeadImageAction) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_moreBtn];
+        [_moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(headImage);
+            make.trailing.mas_equalTo(-24);
+            make.size.mas_equalTo(CGSizeMake(9, 15));
+        }];
+    }
     
     self.dataSource = @[@"昵称", @"性别", @"生日", @"城市", @"学校", @"职业"];
     [self.view addSubview:self.tableView];
@@ -175,7 +181,10 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self requestData];
+    if (_act) {
+        [self requestDataWithUid:_act];
+    } else
+        [self requestData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -197,6 +206,7 @@
     [cell updateData:self.dataSource[indexPath.row]];
     if (indexPath.row == 0){
         [cell updateValue:_profileModel.nickname];
+        [cell updateMoreBtn];
     } else if (indexPath.row == 1) {// 性别
         NSString *sex = _profileModel.sex;
         if ([sex isEqualToString:@"0"]) {
@@ -207,6 +217,7 @@
             sex = @"女";
         }
         [cell updateValue:sex];
+        
     } else if (indexPath.row == 2) {
         [cell updateValue:_profileModel.birthday];
     } else if (indexPath.row == 3) {
@@ -219,6 +230,7 @@
             weakSelf.profileModel.school = school;
         };
         [cell updateValue:_profileModel.school];
+        [cell updateMoreBtn];
     } else if (indexPath.row == 5) {
         if (_profileModel.profession) {
             [cell updateValue:_profileModel.profession];
@@ -233,6 +245,7 @@
 
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (_act) return;
     kWeakSelf
     if (indexPath.row == 0) {
         [self.view addSubview:self.editNicknameView];
@@ -428,13 +441,26 @@
     }];
 }
 
-
+- (void)requestDataWithUid:(NSString *)uid {
+    kWeakSelf
+    [DDResponseBaseHttp getWithAction:kTJUserInfo params:@{@"token":curUser.token, @"act":@"others", @"uid":uid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+        if ([result.status isEqualToString:@"success"]) {
+            NSDictionary *data = result.data;
+            weakSelf.profileModel = [TJEditProfileModel mj_objectWithKeyValues:data];
+            [weakSelf.tableView reloadData];
+            UIImageView *iv = [weakSelf.view viewWithTag:1823];
+            [iv sd_setImageWithURL:[NSURL URLWithString:result.data[@"head_image"]]];
+        }
+    } failure:^{
+        
+    }];
+}
 
 - (void)requestData {
     kWeakSelf
     [DDResponseBaseHttp getWithAction:kTJUserInfo params:@{@"token":curUser.token, @"act":@"my"} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
         if ([result.status isEqualToString:@"success"]) {
-            NSDictionary *data = [result.data firstObject];
+            NSDictionary *data = result.data;
             weakSelf.profileModel = [TJEditProfileModel mj_objectWithKeyValues:data];
             weakSelf.profileModel.token = curUser.token;
             [weakSelf.tableView reloadData];
@@ -640,7 +666,7 @@
     imagePickerVc.allowPickingMultipleVideo = false; // 是否可以多选视频
     
     // 4. 照片排列按修改时间升序
-    imagePickerVc.sortAscendingByModificationDate = false;
+    imagePickerVc.sortAscendingByModificationDate = true;
     
     // imagePickerVc.minImagesCount = 3;
     // imagePickerVc.alwaysEnableDoneBtn = YES;
@@ -651,20 +677,20 @@
     /// 5. Single selection mode, valid when maxImagesCount = 1
     /// 5. 单选模式,maxImagesCount为1时才生效
     imagePickerVc.showSelectBtn = NO;
-    imagePickerVc.allowCrop = false;
+    imagePickerVc.allowCrop = true;
     imagePickerVc.needCircleCrop = false;
     // 设置竖屏下的裁剪尺寸
-//    NSInteger left = 30;
-//    NSInteger widthHeight = self.view.tz_width - 2 * left;
-//    NSInteger top = (self.view.tz_height - widthHeight) / 2;
-//    imagePickerVc.cropRect = CGRectMake(left, top, widthHeight, widthHeight);
+    NSInteger left = 5;
+    NSInteger widthHeight = self.view.width -2 * left;
+    NSInteger top = (self.view.height - widthHeight) / 2;
+    imagePickerVc.cropRect = CGRectMake(left, top, widthHeight, widthHeight);
     // 设置横屏下的裁剪尺寸
     // imagePickerVc.cropRectLandscape = CGRectMake((self.view.tz_height - widthHeight) / 2, left, widthHeight, widthHeight);
-    /*
+    
      [imagePickerVc setCropViewSettingBlock:^(UIView *cropView) {
-     cropView.layer.borderColor = [UIColor redColor].CGColor;
-     cropView.layer.borderWidth = 2.0;
-     }];*/
+         cropView.layer.borderColor = kBtnEnable.CGColor;
+         cropView.layer.borderWidth = 2.0;
+     }];
     
     //imagePickerVc.allowPreview = NO;
     // 自定义导航栏上的返回按钮
@@ -706,6 +732,8 @@
         if ([result.status isEqualToString:@"success"]) {
             UIImageView *iv = [self.view viewWithTag:1823];
             iv.image = image;
+            curUser.image = result.data[@"head_image"];
+            [userManager saveUserInfo];
         }
     } fail:^{
     }];

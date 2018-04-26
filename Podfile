@@ -20,6 +20,7 @@ pod 'DZNEmptyDataSet'   #空列表提示
 pod 'AMap3DMap-NO-IDFA' #3D地图SDK
 pod 'AMapSearch-NO-IDFA' #搜索功能
 pod 'AMapLocation-NO-IDFA' #搜索功能
+pod 'TZImagePickerController'
 end
 
 
