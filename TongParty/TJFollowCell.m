@@ -20,7 +20,6 @@
 
 - (void)createUI {
     _headImage = [[UIImageView alloc] init];
-    _headImage.image = kImage(@"Image-0");
     _headImage.layerCornerRadius = 24;
     [self.contentView addSubview:_headImage];
     [_headImage mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -57,8 +56,9 @@
     [_actionBtn setTitle:@"已关注" forState:UIControlStateNormal];
     [_actionBtn setTitle:@"+ 关注" forState:UIControlStateSelected];
     _actionBtn.titleLabel.font = [UIFont systemFontOfSize:10];
-    [_actionBtn setBackgroundImage:kImage(@"TJButtonNormal1") forState:UIControlStateNormal];
-    [_actionBtn setBackgroundImage:kImage(@"TJButtonSelect") forState:UIControlStateSelected];
+    [_actionBtn setBackgroundImage:kImage(@"TJButtonSelect") forState:UIControlStateNormal];
+    [_actionBtn setBackgroundImage:kImage(@"TJButtonNormal1") forState:UIControlStateSelected];
+    _actionBtn.layerCornerRadius = 15;
     [self.contentView addSubview:_actionBtn];
     [_actionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(0);
@@ -67,5 +67,19 @@
     }];
 }
 
+- (void)updateMasterNotice {
+    [_actionBtn setTitle:@"同意" forState:UIControlStateNormal];
+    [_actionBtn setTitle:@"已同意" forState:UIControlStateSelected];
+}
 
+
+- (void)updateMasterNoticeWith:(NSDictionary *)dic {
+    [_headImage sd_setImageWithURL:[NSURL URLWithString:dic[@"head_image"]]];
+    _titleL.text = dic[@"nickname"];
+    _contentL.text = dic[@"msg_text"];;
+}
+
+- (void)updateBtnTag:(NSInteger)index {
+    _actionBtn.tag = index;
+}
 @end

@@ -93,7 +93,7 @@
     }];
     
     UILabel *aid = [[UILabel alloc] init];
-    aid.text = @"桌子ID：111743";
+    aid.text = @"桌子ID";
     aid.tag = 2737;
     aid.textAlignment = NSTextAlignmentCenter;
     aid.font = [UIFont systemFontOfSize:10 weight:UIFontWeightThin];
@@ -152,7 +152,7 @@
     remaind.backgroundColor = [UIColor hx_colorWithHexString:@"#FFCD76"];
     [self addSubview:remaind];
     [remaind mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(169);
+        make.top.mas_equalTo(171);
         make.left.mas_equalTo(107);
         make.size.mas_equalTo(CGSizeMake(50, 18));
     }];
@@ -169,7 +169,7 @@
     distance.backgroundColor = [UIColor hx_colorWithHexString:@"#FFCD76"];
     [self addSubview:distance];
     [distance mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(content.mas_bottom);
+        make.top.mas_equalTo(content.mas_bottom).offset(2);
         make.left.mas_equalTo(107);
         make.size.mas_equalTo(CGSizeMake(80, 18));
     }];
@@ -245,7 +245,7 @@
     event.text = model.title;
     
     UILabel *aid = [self viewWithTag:2737];
-    aid.text = [NSString stringWithFormat:@"桌子ID：%@",model.aid];
+    aid.text = [NSString stringWithFormat:@"桌子ID：%@",model.table_id];
     
     NSArray *arr = [NSArray arrayWithObjects:[NSString stringWithFormat:@"开始时间：%@",[self deleteSecond:model.begin_time]],[NSString stringWithFormat:@"活动人数：%@人", model.person_num], [NSString stringWithFormat:@"人均消费：%@/人", model.average_price],[NSString stringWithFormat:@"活动地点：%@", model.place], nil];
     for (NSInteger i = 0; i < 4; i++) {
@@ -288,12 +288,26 @@
     [DDUserDefault synchronize];
     
     if ([dic[@"is_join"] isEqualToString:@"1"]) {
-        [_nextButton setTitle:@"签到" forState:UIControlStateNormal];
         _contactBtn.enabled = true;
         _contactBtn.tintColor = kBtnEnable;
         [_contactBtn setTitleColor:kBtnEnable forState:UIControlStateNormal];
         [_contactBtn setImage:[UIImage imageNamed:@"TJDeskContact_enable"] forState:UIControlStateNormal];
         _noticeLock(@"1");
+        if ([dic[@"is_sign"] isEqualToString:@"1"]) {
+            if ([[DDUserDefault objectForKey:@"is_master"] isEqualToString:@"1"]) {
+                [_nextButton setTitle:@"签到二维码" forState:UIControlStateNormal];
+                [_nextButton setBackgroundColor:kBtnEnable];
+                _nextButton.enabled = true;
+            } else {
+                [_nextButton setTitle:@"已签到" forState:UIControlStateNormal];
+                [_nextButton setBackgroundColor:kBtnDisable];
+                _nextButton.enabled = false;
+            }
+        } else {
+            [_nextButton setTitle:@"签到" forState:UIControlStateNormal];
+            [_nextButton setBackgroundColor:kBtnEnable];
+            _nextButton.enabled = true;
+        }
     } else {
         _nextButton.tag = 1214;
         [_nextButton setTitle:@"加入桌子" forState:UIControlStateNormal];

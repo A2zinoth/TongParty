@@ -48,18 +48,18 @@
                         @{@"title":@"是否加入心跳桌", @"pic":@"TJCreteDesk_6"}];
     
     _publishModel = [[TJPublishModel alloc] init];
-    NSString *str = [NSString stringWithFormat:@"%.0f",[[NSDate date] timeIntervalSince1970]/3600];
-//
+    NSString *str = [NSString stringWithFormat:@"%.0f",[[NSDate date] timeIntervalSince1970]/1800];
+
     _publishModel = [_publishModel mj_setKeyValues:@{@"token":curUser.token,
                                                      @"title":@"狼人杀到黎明",
                                                      @"aid":@"29",
-                                                     @"place":@"北京市朝阳区望京 SOHO",
-                                                     @"begin_time":[NSString stringWithFormat:@"%zd",[str integerValue]*3600],
+                                                     @"place":[NSString stringWithFormat:@"%@%@%@", curUser.city,curUser.district, curUser.AOIName],
+                                                     @"begin_time":[NSString stringWithFormat:@"%zd",[str integerValue]*1800],
                                                      @"average_price":@"200",
                                                      @"person_num":@"2",
                                                      @"is_heart":@"0",
-                                                     @"latitude":@"40.002581",
-                                                     @"longitude":@"116.487706",
+                                                     @"latitude":curUser.latitude,
+                                                     @"longitude":curUser.longitude,
                                                      @"activity":@"狼人杀"
                                      }];
     
@@ -226,6 +226,7 @@
         }];
     } else if (indexPath.row == 2) {
         [self.view addSubview:self.datePicker];
+        [_datePicker setCurrentTime:_publishModel.begin_time];
         [_datePicker mas_makeConstraints:^(MASConstraintMaker *make) {
             if (@available(ios 11.0,*)) {
                 make.bottom.mas_equalTo(self.view.mas_safeAreaLayoutGuideBottom);
@@ -329,7 +330,6 @@
     UISwitch *switchButton = (UISwitch*)sender;
     BOOL isButtonOn = [switchButton isOn];
     if (isButtonOn) {
-        
         NSAttributedString *attrStr = [DDUtils attStringWithString:@"心跳桌会直接帮您匹配空闲桌位\n是否确定创建心跳桌" keyWord:@"" font:[UIFont systemFontOfSize:13] highlightedColor:nil textColor:[UIColor hx_colorWithHexString:@"#262626"]];
         
         UIAlertController *alertControl = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
@@ -375,7 +375,12 @@
 
 - (void)okAction {
     // 发布
-    [_publishModel publishWithModel];
+    kWeakSelf
+    [_publishModel publishWithModel:^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [weakSelf.navigationController popViewControllerAnimated:true];
+        });
+    }];
 }
 
 - (void)configLocationManager {

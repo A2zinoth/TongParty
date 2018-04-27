@@ -276,6 +276,8 @@
             curUser.latitude = [NSString stringWithFormat:@"%f",location.coordinate.latitude];
             curUser.longitude = [NSString stringWithFormat:@"%f",location.coordinate.longitude];
             curUser.city = regeocode.city;
+            curUser.district = regeocode.district;
+            curUser.AOIName = regeocode.AOIName;
             [userManager saveUserInfo];
         }
 

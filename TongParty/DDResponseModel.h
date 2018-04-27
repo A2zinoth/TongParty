@@ -18,4 +18,5 @@ typedef NS_ENUM(NSUInteger, DDResponseState) {
 @property (nonatomic, strong) id       data;       //数据
 @property (nonatomic, copy)   NSString *msg;       //服务器返回消息(英文)
 @property (nonatomic, copy)   NSString *msg_cn;    //服务器返回消息(中文)
+@property (nonatomic, copy)   NSString *code;
 @end

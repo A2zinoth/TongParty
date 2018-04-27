@@ -164,6 +164,8 @@
     
     UILabel *separateLine = [[UILabel alloc] init];
     separateLine.backgroundColor = [UIColor hx_colorWithHexString:@"#DFE3E2"];
+    separateLine.shadowOffset = CGSizeMake(kScreenWidth, 1);
+    separateLine.shadowColor = [UIColor hx_colorWithHexString:@"#DFE3E2" alpha:0.3];
     [self.view addSubview:separateLine];
     [separateLine mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0,*)) {
@@ -173,7 +175,7 @@
         }
         make.left.mas_equalTo(0);
         make.right.mas_equalTo(0);
-        make.height.mas_equalTo(2);
+        make.height.mas_equalTo(0.5);
     }];
 
 }

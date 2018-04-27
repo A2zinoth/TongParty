@@ -11,14 +11,17 @@
 
 @implementation TJPublishModel
 
-- (void)publishWithModel {
+- (void)publishWithModel:(void (^)())success {
     [MBProgressHUD showLoading:@"创建中..." toView:KEY_WINDOW];
-    NSLog(@"%@", [self mj_keyValues]);
     
     [DDResponseBaseHttp getWithAction:kTJCreateTable params:[self mj_keyValues] type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
-        
+        [MBProgressHUD hideAllHUDsInView:KEY_WINDOW];
+        [MBProgressHUD showMessage:result.msg_cn];
+        if([result.status isEqualToString:@"success"]) {
+            success();
+        }
     } failure:^{
-        
+        [MBProgressHUD hideAllHUDsInView:KEY_WINDOW];
     }];
 }
 

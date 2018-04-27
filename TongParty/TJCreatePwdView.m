@@ -20,7 +20,7 @@
         make.left.mas_equalTo(14);
         make.size.mas_equalTo(CGSizeMake(26, 26));
     }];
-    
+//
 //    _signupBtn = [[UIButton alloc] init];
 //    [self addSubview:_signupBtn];
 //    [_signupBtn setTitle:@"登录" forState:UIControlStateNormal];

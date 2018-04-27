@@ -130,5 +130,9 @@
     }];
 }
 
+- (void)hiddenRightAccessory {
+    UIButton *moreButton = [self.contentView viewWithTag:1913];
+    moreButton.hidden = true;
+}
 
 @end

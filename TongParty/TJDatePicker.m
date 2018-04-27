@@ -83,8 +83,7 @@
     float labelWidth = 50;
     float labelHeight = 98;
     float left = (kScreenWidth/2-labelWidth/2)/labelWidth;
-    
-    float offsetLeft = -left+3*labelWidth;
+    float offsetLeft = -left;
     
     _datePicker = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 48, kScreenWidth, labelHeight)];
     [self addSubview:_datePicker];
@@ -96,7 +95,7 @@
     // 中间框
     _centerLabel = [[UILabel alloc] initWithFrame:CGRectMake(left*labelWidth, 48, labelWidth, labelHeight)];
     [self addSubview:_centerLabel];
-    _centerLabel.text = dataArr[3][1];
+    _centerLabel.text = dataArr[0][1];
     _centerLabel.backgroundColor = kBtnEnable;
     _centerLabel.font = [UIFont systemFontOfSize:11];
     _centerLabel.textAlignment = NSTextAlignmentCenter;
@@ -148,23 +147,25 @@
     //时间
     NSMutableArray *timeArr = [NSMutableArray arrayWithCapacity:24];
     for (NSInteger i = 0; i < 24; i++) {
-        if (i < 10)
+        if (i < 10){
             [timeArr addObject:[NSString stringWithFormat:@"0%zd:00", i]];
-        else
+            [timeArr addObject:[NSString stringWithFormat:@"0%zd:30", i]];
+        }
+        else{
             [timeArr addObject:[NSString stringWithFormat:@"%zd:00", i]];
+            [timeArr addObject:[NSString stringWithFormat:@"%zd:30", i]];
+        }
     }
     
     
+    [timeArr insertObject:@"23:30" atIndex:0];
     [timeArr insertObject:@"23:00" atIndex:0];
+    [timeArr insertObject:@"22:30" atIndex:0];
     [timeArr insertObject:@"22:00" atIndex:0];
-    [timeArr insertObject:@"21:00" atIndex:0];
-    [timeArr insertObject:@"20:00" atIndex:0];
     [timeArr addObject:@"00:00"];
+    [timeArr addObject:@"00:30"];
     [timeArr addObject:@"01:00"];
-    [timeArr addObject:@"02:00"];
-    [timeArr addObject:@"03:00"];
-    
-    
+    [timeArr addObject:@"01:30"];
     
     
     _timePicker = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 48+98, kScreenWidth, labelHeight)];
@@ -216,17 +217,17 @@
     CGPoint targetOffset = [self timeNearestTargetOffsetForOffset:_timePicker.contentOffset];
     CGFloat pageSize = 50;
     float left = (kScreenWidth/2-pageSize/2)/pageSize;
-    NSInteger leftI = round((kScreenWidth/2-pageSize/2)/pageSize);
-    targetOffset.x += (-left+leftI)*pageSize;
+    NSInteger leftI = floorf((kScreenWidth/2-pageSize/2)/pageSize);
+    targetOffset.x += (1-left+leftI)*pageSize;
     [_timePicker setContentOffset:targetOffset animated:YES];
     [self getTimeCurrentContent];
 }
 
 - (void)getTimeCurrentContent {
     CGFloat pageSize = 50;
-//    NSInteger leftI = ceil((kScreenWidth/2-pageSize/2)/pageSize);
+    NSInteger leftI = roundf((kScreenWidth/2-pageSize/2)/pageSize);
     CGPoint targetOffset = [self timeNearestTargetOffsetForOffset:_timePicker.contentOffset];
-    UILabel *label = (UILabel *)[_timePicker viewWithTag:(targetOffset.x)/pageSize+400+3];
+    UILabel *label = (UILabel *)[_timePicker viewWithTag:(targetOffset.x)/pageSize+400+leftI];
     _timeLabel.text = label.text;
 }
 
@@ -333,6 +334,23 @@
         return _maskView;
     }
     return hitView;
+}
+
+- (void)setCurrentTime:(NSString *)time {
+    NSString *formatterTime = [NSDate timestampSwitchTime:[time doubleValue] andFormatter:@"HH:mm"];
+    NSArray *arr = [formatterTime componentsSeparatedByString:@":"];
+    NSInteger index = 0;
+    index = [arr[0] integerValue]*2;
+    if ([arr[1] isEqualToString:@"30"]) {
+        index += 1;
+    }
+
+   
+    float labelWidth = 50;
+    float left = (kScreenWidth/2-labelWidth/2)/labelWidth;
+    NSInteger leftI = floorf(left);
+    
+    [_timePicker setContentOffset:CGPointMake((1-left+leftI+index)*labelWidth, 0)];
 }
 
 @end

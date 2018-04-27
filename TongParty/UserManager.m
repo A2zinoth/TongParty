@@ -55,7 +55,7 @@
     } else if (loginType == kUserLoginTypeCaptcha) {
         
         [MBProgressHUD showLoading:@"登录中..." toView:KEY_WINDOW];
-        [DDResponseBaseHttp getWithAction:kTJUserRegisterAPI params:[self mj_keyValues] type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+        [DDResponseBaseHttp getWithAction:kTJUserRegisterAPI params:params type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
             [MBProgressHUD hideAllHUDsInView:KEY_WINDOW];
             [self LoginSuccess:result completion:completion];
         } failure:^{

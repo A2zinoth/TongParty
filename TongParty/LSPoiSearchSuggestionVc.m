@@ -73,6 +73,7 @@
         [searchBar setBackgroundColor:[UIColor clearColor]];
         searchBar.layer.cornerRadius = 2.f;
         searchBar.placeholder = @"搜索地点";
+
     }
     return _view_search;
 }
@@ -94,6 +95,7 @@
         _tv_suggestions.hidden = YES;
         _tv_suggestions.delegate = self;
         _tv_suggestions.dataSource = self;
+        _tv_suggestions.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
         [_tv_suggestions registerNib:[UINib nibWithNibName:@"LSDateSortCell" bundle:nil] forCellReuseIdentifier:@"LSDateSortCell"];
     }
     return _tv_suggestions;
@@ -171,6 +173,7 @@
         _tv_suggestions.hidden = YES;
     } else {
         _tv_suggestions.hidden = NO;
+
         AMapInputTipsSearchRequest *tips = [[AMapInputTipsSearchRequest alloc] init];
         tips.keywords = searchText;
         // 设置搜索范围的关键地名
@@ -181,8 +184,13 @@
             city = !curUser.city ? @"北京市" : curUser.city;
         }
         tips.city = city;
+        tips.location = [NSString stringWithFormat:@"%@,%@", curUser.longitude, curUser.latitude];
         [self.search AMapInputTipsSearch:tips];
     }
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
 }
 
 - (void)onInputTipsSearchDone:(AMapInputTipsSearchRequest *)request response:(AMapInputTipsSearchResponse *)response {

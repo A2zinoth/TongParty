@@ -15,4 +15,10 @@
 @property (nonatomic, strong) UILabel *contentL;
 @property (nonatomic, strong) UIButton *actionBtn;
 
+- (void)updateMasterNotice;
+
+- (void)updateMasterNoticeWith:(NSDictionary *)dic;
+
+- (void)updateBtnTag:(NSInteger)index;
+
 @end

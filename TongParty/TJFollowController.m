@@ -41,6 +41,7 @@
     titleLabel.text = @"我的关注";
     titleLabel.textColor = [UIColor hx_colorWithHexString:@"#262626"];
     titleLabel.font = [UIFont systemFontOfSize:14];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0,*)) {
             make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(12);
@@ -80,13 +81,6 @@
     }];
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

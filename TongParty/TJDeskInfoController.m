@@ -80,9 +80,7 @@
         case 1214:{ //加入
             NSLog(@"加入");
                 [DDResponseBaseHttp getWithAction:kTJTableJoin params:@{@"token":curUser.token, @"oid":_infoModel.oid, @"tid":self.tid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
-                    if ([result.status isEqualToString:@"success"]) {
-                        [MBProgressHUD showMessage:@"申请成功"];
-                    }
+                    [MBProgressHUD showMessage:result.msg_cn];
                 } failure:^{
                     
                 }];
@@ -108,16 +106,31 @@
 
 
 - (void)masterSign {
-    [DDResponseBaseHttp getWithAction:kTJTableMasterSign params:@{@"token":curUser.token, @"latitude":curUser.latitude, @"longitude":curUser.longitude, @"tid":self.tid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
-        if ([result.status isEqualToString:@"success"]) {
-            TJQRViewController *qrVC = [[TJQRViewController alloc] init];
-            qrVC.tid = self.tid;
-            [self.navigationController pushViewController:qrVC animated:true];
-        } else  {
+    kWeakSelf
+    if([_infoView.nextButton.titleLabel.text isEqualToString:@"签到"]) {
+        [DDResponseBaseHttp getWithAction:kTJTableMasterSign params:@{@"token":curUser.token, @"latitude":curUser.latitude, @"longitude":curUser.longitude, @"tid":self.tid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+            if ([result.status isEqualToString:@"success"]) {
+                [weakSelf.infoView.nextButton setTitle:@"签到二维码" forState:UIControlStateNormal];
+                [weakSelf.infoView.nextButton setBackgroundColor:kBtnEnable];
+                weakSelf.infoView.nextButton.enabled = true;
+            }
             [MBProgressHUD showMessage:result.msg_cn];
-        }
-    } failure:^{
-    }];
+        } failure:^{
+        }];
+    } else {
+        [DDResponseBaseHttp getWithAction:kTJTableQRCode params:@{@"token":curUser.token, @"tid":self.tid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+            if ([result.status isEqualToString:@"success"]) {
+                TJQRViewController *qrVC = [[TJQRViewController alloc] init];
+                qrVC.tid = self.tid;
+                [self.navigationController pushViewController:qrVC animated:true];
+            } else  {
+                [MBProgressHUD showMessage:result.msg_cn];
+            }
+        } failure:^{
+        }];
+    }
+    
+    
 }
 
 

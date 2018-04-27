@@ -20,15 +20,15 @@
 }
 
 - (void)createView {
-    _closeBtn = [[UIButton alloc] init];
-    [self addSubview:_closeBtn];
-    [_closeBtn setImage:[UIImage imageNamed:@"TJCloseBlack"] forState:UIControlStateNormal];
-    _closeBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
-    [_closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(26);
-        make.left.mas_equalTo(14);
-        make.size.mas_equalTo(CGSizeMake(28, 28));
-    }];
+//    _closeBtn = [[UIButton alloc] init];
+//    [self addSubview:_closeBtn];
+//    [_closeBtn setImage:[UIImage imageNamed:@"TJCloseBlack"] forState:UIControlStateNormal];
+//    _closeBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
+//    [_closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.mas_equalTo(26);
+//        make.left.mas_equalTo(14);
+//        make.size.mas_equalTo(CGSizeMake(28, 28));
+//    }];
     
     
     _signupBtn = [[UIButton alloc] init];

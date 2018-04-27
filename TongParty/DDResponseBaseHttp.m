@@ -23,9 +23,13 @@
 
 
 +(void)getWithAction:(NSString *)action params:(NSDictionary *)params type:(DDHttpResponseType)type block:(void (^)(DDResponseModel *result))block failure:(void(^)())failure{
-    
+
     [super requestWithGET:kTJHostAPI path:action parameters:params type:type success:^(id responseObject) {
         DDResponseModel *result = [DDResponseModel mj_objectWithKeyValues:responseObject];
+        if ([result.code isEqualToString:@"4011"]) {
+            // 登出
+            [userManager logout:nil];
+        }
         block(result);
     } failure:^{
         failure();

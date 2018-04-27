@@ -23,4 +23,7 @@ typedef void (^FormatDate)(NSString *);
 @property (nonatomic, strong) UILabel       *timeLabel;
 @property (nonatomic, copy)   FormatDate    formatDate;
 
+
+- (void)setCurrentTime:(NSString *)time;
+
 @end

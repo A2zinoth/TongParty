@@ -206,7 +206,8 @@
     [cell updateData:self.dataSource[indexPath.row]];
     if (indexPath.row == 0){
         [cell updateValue:_profileModel.nickname];
-        [cell updateMoreBtn];
+        if (!_act)
+            [cell updateMoreBtn];
     } else if (indexPath.row == 1) {// 性别
         NSString *sex = _profileModel.sex;
         if ([sex isEqualToString:@"0"]) {
@@ -230,7 +231,8 @@
             weakSelf.profileModel.school = school;
         };
         [cell updateValue:_profileModel.school];
-        [cell updateMoreBtn];
+        if (!_act)
+            [cell updateMoreBtn];
     } else if (indexPath.row == 5) {
         if (_profileModel.profession) {
             [cell updateValue:_profileModel.profession];
@@ -238,8 +240,8 @@
             [cell updateValue:_profileModel.occupation];
         }
     }
-    
-        
+    if(_act)
+       [cell hiddenRightAccessory];
     return cell;
 }
 
@@ -413,20 +415,22 @@
 }
 
 - (void)closeAction {
-    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"提示" message:@"是否放弃修改" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"否" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        
-    }];
-    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"是" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-         [self.navigationController popViewControllerAnimated:true];
-    }];
-    
-    [ac addAction:cancel];
-    [ac addAction:ok];
-    
-    [self presentViewController:ac animated:true completion:nil];
-    
-   
+//    if (_act) {
+        [self.navigationController popViewControllerAnimated:true];
+//    } else {
+//        UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"提示" message:@"是否放弃修改" preferredStyle:UIAlertControllerStyleAlert];
+//        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"否" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+//
+//        }];
+//        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"是" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//             [self.navigationController popViewControllerAnimated:true];
+//        }];
+//
+//        [ac addAction:cancel];
+//        [ac addAction:ok];
+//
+//        [self presentViewController:ac animated:true completion:nil];
+//    }
 }
 
 - (void)okAction {

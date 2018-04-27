@@ -22,7 +22,7 @@
 @property (nonatomic, copy)   NSString        *longitude;
 @property (nonatomic, copy)   NSString        *activity;
 
-- (void)publishWithModel;
+- (void)publishWithModel:(void (^)())success;
 - (void)getActivityList:(void(^)(NSArray *))success;
 
 @end

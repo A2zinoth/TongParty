@@ -180,16 +180,39 @@
         _suggestionsVc = [[LSPoiSearchSuggestionVc alloc] init];
         _suggestionsVc.view.frame = CGRectMake(0, kStatusBarHeight, kScreenWidth, kScreenHeight);
         _suggestionsVc.suggestionResultBlock = ^(AMapTip *tip) {
+            
+            AMapInputTipsSearchRequest *tips = [[AMapInputTipsSearchRequest alloc] init];
+            tips.keywords = tip.name;
+            // 设置搜索范围的关键地名
+            NSString *city;
+            if ([DDUserSingleton shareInstance].city) {
+                city = [DDUserSingleton shareInstance].city;
+            } else {
+                city = !curUser.city ? @"北京市" : curUser.city;
+            }
+            tips.city = city;
+            [weakSelf.search AMapInputTipsSearch:tips];
+            
             AMapPOIAroundSearchRequest *request = [[AMapPOIAroundSearchRequest alloc] init];
             request.keywords            = tip.name;
             request.sortrule            = 0;
-            request.requireExtension    = YES;
+            request.requireExtension    = false;
             [MBProgressHUD showLoading:nil toView:weakSelf.tableView];
             [weakSelf.search AMapPOIAroundSearch:request];
             weakSelf.mapView.centerCoordinate = CLLocationCoordinate2DMake(tip.location.latitude, tip.location.longitude);
         };
     }
     return _suggestionsVc;
+}
+
+
+- (void)onInputTipsSearchDone:(AMapInputTipsSearchRequest *)request response:(AMapInputTipsSearchResponse *)response {
+    if (response.tips.count == 0) {
+        return;
+    } else {
+        self.dataArray = response.tips;
+        [self.tableView reloadData];
+    }
 }
 
 
@@ -207,7 +230,7 @@
     //request.types = @"汽车服务|汽车销售|汽车维修|摩托车服务|餐饮服务|购物服务|生活服务|体育休闲服务|医疗保健服务|住宿服务|风景名胜|商务住宅|政府机构及社会团体|科教文化服务|交通设施服务|金融保险服务|公司企业|道路附属设施|地名地址信息|公共设施";
     /* 按照距离排序. */
     request.sortrule            = 0;
-    request.requireExtension    = YES;
+    request.requireExtension    = false;
     [MBProgressHUD showLoading:nil toView:self.tableView];
     [self.search AMapPOIAroundSearch:request];
 }
@@ -309,10 +332,18 @@
         cell.selectedLabel.hidden = true;
     }
     
-    AMapPOI *poi = _dataArray[indexPath.row];
-    cell.selectedLabel.text = poi.name;
-    cell.titleLabel.text = poi.name;
-    cell.addrLabel.text = [NSString stringWithFormat:@"%@%@%@%@",poi.province,poi.city,poi.district,poi.address];
+    if ([_dataArray[indexPath.row] isKindOfClass:[AMapPOI class]]) {
+        AMapPOI *poi = _dataArray[indexPath.row];
+        cell.selectedLabel.text = poi.name;
+        cell.titleLabel.text = poi.name;
+        cell.addrLabel.text = [NSString stringWithFormat:@"%@%@%@%@",poi.province,poi.city,poi.district,poi.address];
+    } else {
+        AMapTip *tip = _dataArray[indexPath.row];
+        cell.selectedLabel.text = tip.name;
+        cell.titleLabel.text = tip.name;
+        cell.addrLabel.text = [NSString stringWithFormat:@"%@%@",tip.district, tip.address];
+    }
+
     return cell;
 }
 

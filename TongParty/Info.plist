@@ -80,6 +80,8 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>iosampa</string>
@@ -182,5 +184,16 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>provisioningProfiles</key>
+	<dict>
+		<key>cn.guolu.tongParty</key>
+		<string>Dev_TongParty_0417</string>
+		<key>method</key>
+		<string>ad-hoc</string>
+		<key>uploadBitcode</key>
+		<false/>
+		<key>uploadSymbols</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

@@ -16,6 +16,8 @@
 #import "TJFriendController.h"
 #import "DDSettingVc.h"
 #import "GKPhotoBrowser.h"
+#import "TJNoticeController.h"
+#import "TJTableController.h"
 
 @interface TJProfileController ()<GKPhotosViewDelegate,GKPhotoBrowserDelegate>
 
@@ -48,18 +50,14 @@
     
     [self.view addSubview:self.tableView];
     if(_act)
-        self.dataSource = @[@"他的桌子", @"桌子历史", @"他的相册", @""];
+        self.dataSource = @[@"他的桌子", @"桌子历史", @"他的相册"];
     else
-        self.dataSource = @[@"我的桌子", @"桌子历史", @"我的相册", @""];
+        self.dataSource = @[@"我的桌子", @"桌子历史", @"我的相册"];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-
+    
     CGFloat bottom = 0;
-    if (!_act) {
-        bottom = -kTabBarHeigthOrigin;
-    }
-    
-    
+    if (!_act) bottom = -kTabBarHeigthOrigin;
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0,*)) {
             make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(297);
@@ -74,10 +72,6 @@
 }
 
 
-//- (UIView *)setupFootView {
-//
-//}
-
 - (void)imgClick:(id)sneder {
     
 }
@@ -85,29 +79,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationController.navigationBar.hidden = true;
-    
-//    UIImageView *imgView = [[UIImageView alloc] init];
-//    imgView.frame = CGRectMake(0, 0, 100, 100);
-//    imgView.contentMode = UIViewContentModeScaleAspectFill;
-//    imgView.clipsToBounds = YES;
-//    [self.view addSubview:imgView];
-//    
-//    imgView.userInteractionEnabled = YES;
-//    [imgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgClick:)]];
-//    imgView.image = [UIImage imageNamed:[NSString stringWithFormat:@"Image-0"]];
-    
-    CGFloat photoW = kScreenWidth - 24*2;
-    GKPhotosView *photosView = [GKPhotosView photosViewWithWidth:photoW andMargin:3];
-    photosView.delegate = self;
-
-    NSMutableArray *arr = [NSMutableArray arrayWithCapacity:6];
-    for (NSInteger i = 0; i < 6; i ++) {
-        GKTimeLineImage *image = [[GKTimeLineImage alloc] init];
-        image.url = [NSString stringWithFormat:@"Image-%ld",(long)i];
-        [arr addObject:image];
-    }
-    photosView.images = arr;
-    [self.view addSubview:photosView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -135,11 +106,12 @@
         cell = [[TJProfileCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TJProfileCellID"];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-    if (indexPath.row < 3) {
-        [cell updateData:self.dataSource[indexPath.row]];
-    } else {
-        
+
+    [cell updateData:self.dataSource[indexPath.row]];
+    if (indexPath.row == 2) {
+        cell.separatorInset = UIEdgeInsetsMake(0, kScreenWidth, 0, 0);
     }
+    
     return cell;
 }
 
@@ -149,6 +121,15 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.row < 3)return 67;
     else return 171+8;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 0) {
+        TJTableController *table = [[TJTableController alloc] init];
+        if (_act)
+            table.act = _act;
+        [self.navigationController pushViewController:table animated:true];
+    }
 }
 
 #pragma mark - GKPhotosViewDelegate
@@ -171,6 +152,8 @@
     
     [browser showFromVC:self];
 }
+
+
 
 - (void)addFollowAction:(UIButton *)btn {
     if (!btn.selected) {// 关注
@@ -195,15 +178,15 @@
 }
 
 - (void)friendAction {
-    [self.navigationController pushViewController:[TJFriendController new] animated:true];
+//    [self.navigationController pushViewController:[TJFriendController new] animated:true];
 }
 
 - (void)followerAction {
-    [self.navigationController pushViewController:[TJFollowerController new] animated:true];
+//    [self.navigationController pushViewController:[TJFollowerController new] animated:true];
 }
 
 - (void)followAction {
-    [self.navigationController pushViewController:[TJFollowController new] animated:true];
+//    [self.navigationController pushViewController:[TJFollowController new] animated:true];
 }
 
 - (void)editAction {
@@ -216,6 +199,10 @@
 
 - (void)closeAction {
     // 消息
+    if (!_act) {
+        [self.navigationController pushViewController:[TJNoticeController new] animated:true];
+    } else
+        [self.navigationController popViewControllerAnimated:true];
 }
 
 - (void)okAction {
@@ -230,6 +217,7 @@
     [DDResponseBaseHttp getWithAction:kTJProfile params:@{@"token":curUser.token, @"act":@"others", @"uid":uid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
         if ([result.status isEqualToString:@"success"]) {
             [weakSelf.profileView updateWithDic:result.data];
+            [weakSelf setupFootView:result.data[@"album"]];
         }
     } failure:^{
         
@@ -241,10 +229,34 @@
     [DDResponseBaseHttp getWithAction:kTJProfile params:@{@"token":curUser.token, @"act":@"my"} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
         if ([result.status isEqualToString:@"success"]) {
             [weakSelf.profileView updateWithDic:result.data];
+            [weakSelf setupFootView:result.data[@"album"]];
         }
     } failure:^{
         
     }];
 }
+
+- (void)setupFootView:(NSArray *)arr {
+    UIView *background = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 171)];
+    CGFloat width = (kScreenWidth -24*2-3*2)/3;
+    for (NSInteger i = 0; i < arr.count; i++) {
+        UIImageView *imgView = [[UIImageView alloc] init];
+        imgView.frame = CGRectMake(24+i%3*(3+width), i/3*(84+3), width, 84);
+        imgView.contentMode = UIViewContentModeScaleAspectFill;
+        imgView.clipsToBounds = YES;
+        [background addSubview:imgView];
+        
+        imgView.userInteractionEnabled = YES;
+        [imgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgClick:)]];
+        [imgView sd_setImageWithURL:[NSURL URLWithString:arr[i][@"image"]]];
+    }
+    if (arr.count<4) {
+        self.tableView.tableFooterView.height = 86;
+    } else {
+        self.tableView.tableFooterView.height = 171;
+    }
+    self.tableView.tableFooterView = background;
+}
+
 
 @end

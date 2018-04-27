@@ -157,6 +157,7 @@ const char DDBaseTableVcNavLeftItemHandleKey;
     if ([navItemTitle isEqualToString:_navItemTitle]) return ;
     _navItemTitle = navItemTitle.copy;
     self.navigationItem.title = navItemTitle;
+    self.navigationController.navigationBar.hidden = true;
 }
 
 - (NSString *)navItemTitle {

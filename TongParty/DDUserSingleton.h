@@ -26,6 +26,8 @@
 @property (nonatomic, copy) NSString *signature;
 /**城市*/
 @property (nonatomic, copy) NSString *city;
+@property (nonatomic, copy) NSString *district;
+@property (nonatomic, copy) NSString *AOIName;
 
 /**经度*/
 @property (nonatomic, copy) NSString *longitude;

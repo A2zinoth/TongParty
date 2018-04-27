@@ -16,6 +16,7 @@
         if ([result.status isEqualToString:@"success"]) {
             success([TJHomeModel mj_objectArrayWithKeyValuesArray:result.data[@"table"]]);
         } else {
+            [MBProgressHUD showMessage:result.msg_cn];
             success(nil);
         }
     } failure:^{

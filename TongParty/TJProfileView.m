@@ -20,7 +20,7 @@
 }
 
 - (void)updateUI {
-    [_cancelBtn setImage:kImage(@"TJCloseBtn") forState:UIControlStateNormal];
+    [_cancelBtn setImage:kImage(@"TJBackBtn") forState:UIControlStateNormal];
     _okBtn.hidden = true;
     
     [self addSubview:self.addFollowBtn];
@@ -223,6 +223,9 @@
 
 
 - (void)updateWithDic:(NSDictionary *)dic {
+    [_headImage sd_setImageWithURL:[NSURL URLWithString:dic[@"head_image"]]];
+    _nickName.text = dic[@"nickname"];
+    
     [_followerBtn setTitle:dic[@"follow_num"] forState:UIControlStateNormal];
     [_followerBtn setTitle:dic[@"fans_num"] forState:UIControlStateNormal];
     [_friendBtn setTitle:dic[@"friend_num"] forState:UIControlStateNormal];

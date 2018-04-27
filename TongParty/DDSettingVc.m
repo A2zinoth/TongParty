@@ -20,6 +20,7 @@
 #import "DDLoginViewController.h"
 #import "LSCleanCacheTool.h"
 #import "LSBlindPhoneVC.h"
+#import "TJRegisterController.h"
 
 @interface DDSettingVc ()
 
@@ -59,7 +60,7 @@
 }
 #pragma mark - UITableViewDelegate
 - (NSInteger)tj_numberOfSections {
-    return 6;
+    return 1;//6
 }
 - (NSInteger)tj_numberOfRowsInSection:(NSInteger)section
 {
@@ -103,50 +104,51 @@
 - (DDBaseTableViewCell *)tj_cellAtIndexPath:(NSIndexPath *)indexPath {
     DDSettingTableViewCell *cell = [DDSettingTableViewCell cellWithTableView:self.tableView];
     
-    if (indexPath.section == 5) {
+    if (indexPath.section == 0) {
         cell.style = DDSettingCellStyleCentertext;
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.centerText = @"退出登录";
-    }else{
-        cell.style = DDSettingCellStyleNormal;
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        NSArray *authArr = @[@"手机认证",@"绑定微信",@"绑定QQ",@"绑定微博"];
-        NSString *mobileString = _userModel.mobile;
-        if (!mobileString || [_userModel.mobile isEqualToString:@""]) {
-            mobileString = @"尚未绑定手机号";
-        }
-        NSArray *authValueArr = @[mobileString,@"fxd1101",@"755788561",@"方嘚瑟"];
-        NSArray *psdArr= @[@"个人认证",@"密码设置"];
-        NSArray *psdValueArr =@[@"",@""];
-        NSArray *mindArr= @[@"提醒设置",@"隐私"];
-        NSArray *mindValueArr =@[@"",@""];
-        NSArray *aboutArr= @[@"清除缓存",@"帮助",@"关于桐聚",@"分享桐聚"];
-        NSArray *aboutValueArr =@[[NSString stringWithFormat:@"%.2fM",[LSCleanCacheTool folderSizeAtPath]],@"",@"",@""];
-        NSString *name;
-        NSString *value;
-        if (indexPath.section == 0) {
-            name = @"修改个人资料";
-        }else if (indexPath.section == 1){
-            name = authArr[indexPath.row];
-            value = authValueArr[indexPath.row];
-        }else if (indexPath.section == 2)
-        {
-            name = psdArr[indexPath.row];
-            value = psdValueArr[indexPath.row];
-        }else if (indexPath.section == 3)
-        {
-            name = mindArr[indexPath.row];
-            value = mindValueArr[indexPath.row];
-            
-        }else if(indexPath.section == 4)
-        {
-            name = aboutArr[indexPath.row];
-            value = aboutValueArr[indexPath.row];
-        }else{
-        }
-        cell.namestring = name;
-        cell.valuestring   = value;
     }
+//    else{
+//        cell.style = DDSettingCellStyleNormal;
+//        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//        NSArray *authArr = @[@"手机认证",@"绑定微信",@"绑定QQ",@"绑定微博"];
+//        NSString *mobileString = _userModel.mobile;
+//        if (!mobileString || [_userModel.mobile isEqualToString:@""]) {
+//            mobileString = @"尚未绑定手机号";
+//        }
+//        NSArray *authValueArr = @[mobileString,@"",@"",@""];
+//        NSArray *psdArr= @[@"个人认证",@"密码设置"];
+//        NSArray *psdValueArr =@[@"",@""];
+//        NSArray *mindArr= @[@"提醒设置",@"隐私"];
+//        NSArray *mindValueArr =@[@"",@""];
+//        NSArray *aboutArr= @[@"清除缓存",@"帮助",@"关于桐聚",@"分享桐聚"];
+//        NSArray *aboutValueArr =@[[NSString stringWithFormat:@"%.2fM",[LSCleanCacheTool folderSizeAtPath]],@"",@"",@""];
+//        NSString *name;
+//        NSString *value;
+//        if (indexPath.section == 0) {
+//            name = @"修改个人资料";
+//        }else if (indexPath.section == 1){
+//            name = authArr[indexPath.row];
+//            value = authValueArr[indexPath.row];
+//        }else if (indexPath.section == 2)
+//        {
+//            name = psdArr[indexPath.row];
+//            value = psdValueArr[indexPath.row];
+//        }else if (indexPath.section == 3)
+//        {
+//            name = mindArr[indexPath.row];
+//            value = mindValueArr[indexPath.row];
+//
+//        }else if(indexPath.section == 4)
+//        {
+//            name = aboutArr[indexPath.row];
+//            value = aboutValueArr[indexPath.row];
+//        }else{
+//        }
+//        cell.namestring = name;
+//        cell.valuestring   = value;
+//    }
     
     
     return cell;
@@ -160,7 +162,7 @@
 }
 - (void)tj_didSelectCellAtIndexPath:(NSIndexPath *)indexPath cell:(DDBaseTableViewCell *)cell {
     switch (indexPath.section) {
-        case 0:
+        case 5:
         {//个人资料
             [self pushPersonInformationVC];
         }
@@ -213,7 +215,7 @@
             }else{
             }
         }break;
-        case 5:
+        case 0:
         {
             //退出登录
             [self logoutRequest];
@@ -230,12 +232,19 @@
         NSLog(@"点击index====%ld",(long)clickIndex);
         
         if (clickIndex == 1) {
-            [DDUserDefault removeObjectForKey:@"token"];
-            [DDUserDefault removeObjectForKey:@"mobile"];
-            [DDUserDefault removeObjectForKey:@"password"];
-            [[DDUserSingleton shareInstance] clearUserInfo];
-            [kNotificationCenter postNotificationName:kUpdateUserInfoNotification object:nil];
-            [self.navigationController popViewControllerAnimated:YES];
+//            [DDUserDefault removeObjectForKey:@"token"];
+//            [DDUserDefault removeObjectForKey:@"mobile"];
+//            [DDUserDefault removeObjectForKey:@"password"];
+//            [[DDUserSingleton shareInstance] clearUserInfo];
+//            [kNotificationCenter postNotificationName:kUpdateUserInfoNotification object:nil];
+//            [self.navigationController popViewControllerAnimated:YES];
+            
+            [userManager logout:^(BOOL success, NSString *des) {
+                if (success) {
+                    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[TJRegisterController new]];
+                    [self presentViewController:nav animated:true completion:nil];
+                }
+            }];
         }
     }];
     alert.animationStyle=LXASAnimationDefault;

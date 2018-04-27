@@ -21,6 +21,6 @@ typedef void (^EndEdit)(NSString *);
 - (void)updateData:(NSString *)data;
 - (void)updateValue:(NSString *)value;
 - (void)updateMoreBtn;
-
+- (void)hiddenRightAccessory;
 
 @end
