@@ -14,8 +14,8 @@ typedef void (^BackBlock)();
 
 @interface TJCreatePwdController : BaseViewController
 
-@property (nonatomic, copy)   BackBlock        backBlock;
-
+@property (nonatomic, strong) NSString         *type; // 创建密码   忘记密码
+@property (nonatomic, copy  ) BackBlock        backBlock;
 @property (nonatomic, strong) TJCreatePwdView  *createPwdView;
 @property (nonatomic, strong) TJCreatePwdModel *createPwdModel;
 

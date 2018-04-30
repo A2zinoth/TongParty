@@ -8,6 +8,8 @@
 
 #import "TJAddFriendController.h"
 #import "TJSearchFriendController.h"
+#import "ZLLAuthorizationCheckTool.h"
+#import "TJContactController.h"
 
 @interface TJAddFriendController ()
 
@@ -168,6 +170,13 @@
 }
 
 - (void)addContactAction {
+    kWeakSelf
+    [ZLLAuthorizationCheckTool availablecheckAccessForContacts:self jumpSettering:true alertNotAvailable:true resultBlock:^(BOOL isAvailable, ZLLAuthorizationStatus status) {
+        if (isAvailable) {
+            [weakSelf.navigationController pushViewController:[TJContactController new] animated:true];
+        }
+    }];
+
     
 }
 

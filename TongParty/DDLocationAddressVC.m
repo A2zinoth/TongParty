@@ -20,7 +20,7 @@
 @property (nonatomic, strong) AMapSearchAPI *search;
 @property (nonatomic, strong) MAMapView     *mapView;
 @property (nonatomic, strong) CLLocation    *currentLocation;
-@property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, strong) NSArray       *dataArray;
 @property (nonatomic, strong) UITableView   *tableView;
 @property (nonatomic, strong) UIView        *view_searchBar;
 @property (nonatomic, strong) UIButton      *btn_backLocal;
@@ -58,7 +58,7 @@
 }
 
 - (void)setupViews {
-//    _index = 0;
+    
     self.navigationItem.leftBarButtonItem = [self backButtonForNavigationBarWithAction:@selector(pop)];
     [self navigationWithTitle:@"选择地点"];
     [self.view addSubview:self.mapView];
@@ -101,10 +101,6 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-//        float bottom = 0;
-//        if (iPhoneX) {
-//            bottom = 39;
-//        }
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.mapView.bottom, kScreenWidth, self.view.height - self.mapView.bottom) style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
@@ -180,40 +176,33 @@
         _suggestionsVc = [[LSPoiSearchSuggestionVc alloc] init];
         _suggestionsVc.view.frame = CGRectMake(0, kStatusBarHeight, kScreenWidth, kScreenHeight);
         _suggestionsVc.suggestionResultBlock = ^(AMapTip *tip) {
+//            AMapInputTipsSearchRequest *tips = [[AMapInputTipsSearchRequest alloc] init];
+//            tips.keywords = tip.name;
+//            // 设置搜索范围的关键地名
+//            tips.city = curUser.city ? curUser.city : @"北京市";
+//            tips.location = [NSString stringWithFormat:@"%@,%@", curUser.longitude, curUser.latitude];
+//            [weakSelf.search AMapInputTipsSearch:tips];
             
-            AMapInputTipsSearchRequest *tips = [[AMapInputTipsSearchRequest alloc] init];
-            tips.keywords = tip.name;
-            // 设置搜索范围的关键地名
-            NSString *city;
-            if ([DDUserSingleton shareInstance].city) {
-                city = [DDUserSingleton shareInstance].city;
-            } else {
-                city = !curUser.city ? @"北京市" : curUser.city;
-            }
-            tips.city = city;
-            [weakSelf.search AMapInputTipsSearch:tips];
-            
-            AMapPOIAroundSearchRequest *request = [[AMapPOIAroundSearchRequest alloc] init];
-            request.keywords            = tip.name;
-            request.sortrule            = 0;
-            request.requireExtension    = false;
+//            AMapPOIAroundSearchRequest *request = [[AMapPOIAroundSearchRequest alloc] init];
+//            request.keywords            = tip.name;
+//            request.sortrule            = 0;
+//            request.requireExtension    = true;
+//            request.requireSubPOIs      = false;
+//            request.location = tip.location;
+//            [weakSelf.search AMapPOIAroundSearch:request];
+//                    AMapPOIKeywordsSearchRequest *poiKwywords = [[AMapPOIKeywordsSearchRequest alloc] init];
+//                    poiKwywords.keywords = tip.name;
+//                    poiKwywords.city = curUser.city?curUser.city:@"北京";
+//                    poiKwywords.location = [AMapGeoPoint locationWithLatitude:[curUser.latitude floatValue] longitude:[curUser.longitude floatValue]];
+//                    [weakSelf.search AMapPOIKeywordsSearch:poiKwywords];
+
             [MBProgressHUD showLoading:nil toView:weakSelf.tableView];
-            [weakSelf.search AMapPOIAroundSearch:request];
             weakSelf.mapView.centerCoordinate = CLLocationCoordinate2DMake(tip.location.latitude, tip.location.longitude);
         };
     }
     return _suggestionsVc;
 }
 
-
-- (void)onInputTipsSearchDone:(AMapInputTipsSearchRequest *)request response:(AMapInputTipsSearchResponse *)response {
-    if (response.tips.count == 0) {
-        return;
-    } else {
-        self.dataArray = response.tips;
-        [self.tableView reloadData];
-    }
-}
 
 
 - (void)keyWorkSearchPois:(UITapGestureRecognizer *)tap {
@@ -222,11 +211,24 @@
 
 
 
+// InputTips search
+- (void)searchInputTips:(CLLocationCoordinate2D)coordinate {
+    oldCoordinate = coordinate;
+    AMapInputTipsSearchRequest *tips = [[AMapInputTipsSearchRequest alloc] init];
+    tips.keywords = @"美丽新世界";
+    tips.location = [NSString stringWithFormat:@"%f,%f",coordinate.longitude,coordinate.latitude];
+    // 设置搜索范围的关键地名
+    tips.city = curUser.city ? curUser.city : @"北京市";
+    [self.search AMapInputTipsSearch:tips];
+}
+
+
+// POI search
 - (void)searchPOIWith:(CLLocationCoordinate2D)coordinate {
     oldCoordinate = coordinate;
     AMapPOIAroundSearchRequest *request = [[AMapPOIAroundSearchRequest alloc] init];
     request.location            = [AMapGeoPoint locationWithLatitude:coordinate.latitude longitude:coordinate.longitude];
-    //    request.keywords            = @"电影院";
+    //request.keywords        = @"电影院";
     //request.types = @"汽车服务|汽车销售|汽车维修|摩托车服务|餐饮服务|购物服务|生活服务|体育休闲服务|医疗保健服务|住宿服务|风景名胜|商务住宅|政府机构及社会团体|科教文化服务|交通设施服务|金融保险服务|公司企业|道路附属设施|地名地址信息|公共设施";
     /* 按照距离排序. */
     request.sortrule            = 0;
@@ -291,14 +293,22 @@
     }
 }
 
+- (void)onInputTipsSearchDone:(AMapInputTipsSearchRequest *)request response:(AMapInputTipsSearchResponse *)response {
+    if (response.tips.count == 0) {
+        return;
+    } else {
+        self.dataArray = [NSArray arrayWithArray:response.tips];
+        [MBProgressHUD hideAllHUDsInView:self.tableView];
+        [self.tableView reloadData];
+    }
+}
+
 /** POI 搜索回调. */
 - (void)onPOISearchDone:(AMapPOISearchBaseRequest *)request response:(AMapPOISearchResponse *)response {
-    if (response.pois.count == 0)
-    {
-        return;
-    }
+    if (response.pois.count == 0) return;
+    
     //解析response获取POI信息，具体解析见 Demo
-    self.dataArray = [NSMutableArray arrayWithArray:response.pois];
+    self.dataArray = [NSArray arrayWithArray:response.pois];
     [MBProgressHUD hideAllHUDsInView:self.tableView];
     // 周边搜索完成后，刷新tableview
     [self.tableView reloadData];
@@ -331,7 +341,7 @@
         cell.selectedMark.hidden = true;
         cell.selectedLabel.hidden = true;
     }
-    
+
     if ([_dataArray[indexPath.row] isKindOfClass:[AMapPOI class]]) {
         AMapPOI *poi = _dataArray[indexPath.row];
         cell.selectedLabel.text = poi.name;
@@ -368,10 +378,16 @@
         cell.selectedLabel.hidden = false;
         self.index = indexPath.row;
         
+        CLLocationCoordinate2D coordinate;
+        if([_dataArray[indexPath.row] isKindOfClass:[AMapPOI class]]) {
+            AMapPOI *poi = _dataArray[indexPath.row];
+            coordinate = CLLocationCoordinate2DMake(poi.location.latitude, poi.location.longitude);
+        } else {
+            AMapTip *tip = _dataArray[indexPath.row];
+            coordinate = CLLocationCoordinate2DMake(tip.location.latitude, tip.location.longitude);
+        }
         
-//        AMapPOI *poi = _dataArray[indexPath.row];
-//        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(poi.location.latitude, poi.location.longitude);
-//        [self.mapView convertCoordinate:coordinate toPointToView:self.mapView];
+        [self.mapView convertCoordinate:coordinate toPointToView:self.mapView];
     }
     
 //    if (_locationAddressSelectBlcok) {
@@ -387,28 +403,29 @@
 #pragma mark - scrollView delegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     if ([scrollView isEqual: self.tableView]) {
-        if (self.tableView.contentOffset.y > _oldY) {
-            [UIView animateWithDuration: 0.25 delay: 0 options: UIViewAnimationOptionCurveEaseInOut animations: ^{
-                _mapView.frame = CGRectMake(0, 0, kScreenWidth, self.view.height/2.5f);
-                 _tableView.frame = CGRectMake(0, self.mapView.bottom - self.view_searchBar.bottom, kScreenWidth, self.view.height - self.mapView.bottom + self.view_searchBar.bottom);
-                _iv_mapMark.center = self.mapView.center;
-            } completion: ^(BOOL finished) {
-                
-            }];
-        }
-        else{
-            if (scrollView.contentOffset.y > 0) {
-                //滑到顶部更新
-                return;
-            }
-            [UIView animateWithDuration: 0.25 delay: 0 options: UIViewAnimationOptionCurveEaseInOut animations: ^{
-                _mapView.frame = CGRectMake(0, self.view_searchBar.bottom, kScreenWidth, self.view.height/2.5f);
-                _tableView.frame = CGRectMake(0, self.mapView.bottom, kScreenWidth, self.view.height - self.mapView.bottom);
-                _iv_mapMark.center = self.mapView.center;
-            } completion: ^(BOOL finished) {
-                
-            }];
-        }
+//        if (self.tableView.contentOffset.y > _oldY) {
+//            [UIView animateWithDuration: 0.25 delay: 0 options: UIViewAnimationOptionCurveEaseInOut animations: ^{
+//                _mapView.frame = CGRectMake(0, 90, kScreenWidth, self.view.height/2.5f);
+//                _tableView.frame = CGRectMake(0, self.mapView.bottom - self.view_searchBar.bottom, kScreenWidth, self.view.height - self.mapView.bottom + self.view_searchBar.bottom);
+//                _iv_mapMark.center = CGPointMake(self.mapView.center.x, self.mapView.center.y-12);
+//            } completion: ^(BOOL finished) {
+//
+//            }];
+//        }
+//        else{
+//            if (scrollView.contentOffset.y > 0) {
+//                //滑到顶部更新
+//                return;
+//            }
+//            NSLog(@"%f", self.view_searchBar.bottom);
+//            [UIView animateWithDuration: 0.25 delay: 0 options: UIViewAnimationOptionCurveEaseInOut animations: ^{
+//                _mapView.frame = CGRectMake(0, self.view_searchBar.bottom, kScreenWidth, self.view.height/2.5f);
+//                _tableView.frame = CGRectMake(0, self.mapView.bottom, kScreenWidth, self.view.height - self.mapView.bottom);
+//                _iv_mapMark.center = CGPointMake(self.mapView.center.x, self.mapView.center.y-12);
+//            } completion: ^(BOOL finished) {
+//
+//            }];
+//        }
     }
 }
 
@@ -435,7 +452,7 @@
 }
 
 - (float)radians:(float)degrees{
-    return (degrees*3.14159265)/180.0;
+    return (degrees*M_PI)/180.0;
 }
 
 - (void)didReceiveMemoryWarning {

@@ -10,7 +10,7 @@
 
 @interface TJCreatePwdView : TJBaseView
 
-
+@property (nonatomic, strong) UILabel     *titleLabel;
 @property (nonatomic, strong) UIButton    *closeBtn;
 @property (nonatomic, strong) UIButton    *signupBtn;
 @property (nonatomic, strong) UILabel     *phoneNum;

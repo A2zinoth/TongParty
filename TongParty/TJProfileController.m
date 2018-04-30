@@ -14,7 +14,7 @@
 #import "TJFollowController.h"
 #import "TJFollowerController.h"
 #import "TJFriendController.h"
-#import "DDSettingVc.h"
+#import "TJSettingController.h"
 #import "GKPhotoBrowser.h"
 #import "TJNoticeController.h"
 #import "TJTableController.h"
@@ -178,7 +178,7 @@
 }
 
 - (void)friendAction {
-//    [self.navigationController pushViewController:[TJFriendController new] animated:true];
+    [self.navigationController pushViewController:[TJFriendController new] animated:true];
 }
 
 - (void)followerAction {
@@ -207,9 +207,8 @@
 
 - (void)okAction {
     // 设置
-    DDSettingVc *settingVC =[[DDSettingVc alloc]init];
-//    settingVC.userModel = _model;
-    [self.navigationController pushViewController:settingVC animated:YES];
+    TJSettingController *setVC = [[TJSettingController alloc] init];
+    [self.navigationController pushViewController:setVC animated:true];
 }
 
 - (void)requestDataWithUid:(NSString *)uid {

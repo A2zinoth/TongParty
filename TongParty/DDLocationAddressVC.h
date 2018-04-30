@@ -12,5 +12,5 @@
 #import <AMapSearchKit/AMapSearchKit.h>
 
 @interface DDLocationAddressVC : DDBaseViewController
-@property (nonatomic, copy) void(^locationAddressSelectBlcok)(AMapPOI *POI);
+@property (nonatomic, copy) void(^locationAddressSelectBlcok)(AMapTip *Tip);
 @end

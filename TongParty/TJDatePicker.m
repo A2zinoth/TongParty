@@ -80,45 +80,22 @@
         [dataArr addObject:@[month, day, week]];
     }
     
+    _dateDataArr = [dataArr copy];
+    
     float labelWidth = 50;
     float labelHeight = 98;
-    float left = (kScreenWidth/2-labelWidth/2)/labelWidth;
-    float offsetLeft = -left;
+    _left = (kScreenWidth/2-labelWidth/2)/labelWidth;
+    float offsetLeft = -_left;
+    _offsetX = (-_left)*labelWidth;
     
     _datePicker = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 48, kScreenWidth, labelHeight)];
     [self addSubview:_datePicker];
-    _datePicker.contentSize = CGSizeMake((dataArr.count+left*2)*labelWidth, labelHeight);
+    _datePicker.contentSize = CGSizeMake((dataArr.count+_left*2)*labelWidth, labelHeight);
     _datePicker.contentOffset = CGPointMake(offsetLeft, 0);
     _datePicker.showsHorizontalScrollIndicator = false;
     _datePicker.delegate = self;
-    
-    // 中间框
-    _centerLabel = [[UILabel alloc] initWithFrame:CGRectMake(left*labelWidth, 48, labelWidth, labelHeight)];
-    [self addSubview:_centerLabel];
-    _centerLabel.text = dataArr[0][1];
-    _centerLabel.backgroundColor = kBtnEnable;
-    _centerLabel.font = [UIFont systemFontOfSize:11];
-    _centerLabel.textAlignment = NSTextAlignmentCenter;
-    _centerLabel.textColor = [UIColor whiteColor];
-    
-    _weekLabel = [[UILabel alloc] initWithFrame:CGRectMake(left*labelWidth+7, 48+7, 36, 16)];
-    [self addSubview:_weekLabel];
-    _weekLabel.text = [self getWeekWithNum:dataArr[3][2]];
-    _weekLabel.font = [UIFont systemFontOfSize:11];
-    _weekLabel.textAlignment = NSTextAlignmentCenter;
-    _weekLabel.textColor = kWhiteColor;
-    
-    
-    _monthLabel = [[UILabel alloc] initWithFrame:CGRectMake(left*labelWidth+15, 48+77, 21, 12)];
-    [self addSubview:_monthLabel];
-    _monthLabel.text = [NSString stringWithFormat:@"%@月", dataArr[3][0]];
-    _monthLabel.font = [UIFont systemFontOfSize:8];
-    _monthLabel.textAlignment = NSTextAlignmentCenter;
-    _monthLabel.textColor = kWhiteColor;
-    
-    
     for (int i = 0; i < dataArr.count; i++) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((left+i)*labelWidth, 0, labelWidth, labelHeight)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((_left+i)*labelWidth, 0, labelWidth, labelHeight)];
         [_datePicker addSubview:label];
         label.tag = i+100;
         label.font = [UIFont systemFontOfSize:11];
@@ -126,7 +103,7 @@
         label.textColor = [UIColor hx_colorWithHexString:@"#999999"];
         label.text = dataArr[i][1];
         
-        UILabel *weekLabel = [[UILabel alloc] initWithFrame:CGRectMake((left+i)*labelWidth+7, 7, 36, 16)];
+        UILabel *weekLabel = [[UILabel alloc] initWithFrame:CGRectMake((_left+i)*labelWidth+7, 7, 36, 16)];
         [_datePicker addSubview:weekLabel];
         weekLabel.tag = i+200;
         weekLabel.font = [UIFont systemFontOfSize:11];
@@ -134,13 +111,44 @@
         weekLabel.textColor = [UIColor hx_colorWithHexString:@"#999999"];
         weekLabel.text = [self getWeekWithNum:dataArr[i][2]];
         
-        UILabel *monthLabel = [[UILabel alloc] initWithFrame:CGRectMake((left+i)*labelWidth+15, 77, 21, 12)];
+        UILabel *monthLabel = [[UILabel alloc] initWithFrame:CGRectMake((_left+i)*labelWidth+15, 77, 21, 12)];
         [_datePicker addSubview:monthLabel];
         monthLabel.tag = i+300;
         monthLabel.font = [UIFont systemFontOfSize:8];
         monthLabel.textAlignment = NSTextAlignmentCenter;
         monthLabel.textColor = [UIColor hx_colorWithHexString:@"#999999"];
         monthLabel.text = [NSString stringWithFormat:@"%@月", dataArr[i][0]];
+    }
+    
+    _datePickerUP = [[UIScrollView alloc] initWithFrame:CGRectMake((kScreenWidth-labelWidth)/2, 48, labelWidth, labelHeight)];
+    [self addSubview:_datePickerUP];
+    _datePickerUP.contentSize = CGSizeMake((dataArr.count)*labelWidth, labelHeight);
+    _datePickerUP.showsHorizontalScrollIndicator = false;
+    _datePickerUP.delegate = self;
+    _datePickerUP.backgroundColor = kBtnEnable;
+    
+    for (NSInteger i = 0; i < dataArr.count; i++) {
+        // 中间框
+        UILabel *_centerLabel = [[UILabel alloc] initWithFrame:CGRectMake(i*labelWidth, 0, labelWidth, labelHeight)];
+        [_datePickerUP addSubview:_centerLabel];
+        _centerLabel.text = dataArr[i][1];
+        _centerLabel.font = [UIFont systemFontOfSize:11];
+        _centerLabel.textAlignment = NSTextAlignmentCenter;
+        _centerLabel.textColor = [UIColor whiteColor];
+        
+        UILabel *_weekLabel = [[UILabel alloc] initWithFrame:CGRectMake(i*labelWidth+7, 7, 36, 16)];
+        [_datePickerUP addSubview:_weekLabel];
+        _weekLabel.text = [self getWeekWithNum:dataArr[i][2]];
+        _weekLabel.font = [UIFont systemFontOfSize:11];
+        _weekLabel.textAlignment = NSTextAlignmentCenter;
+        _weekLabel.textColor = kWhiteColor;
+        
+        UILabel *_monthLabel = [[UILabel alloc] initWithFrame:CGRectMake(i*labelWidth+15, 77, 21, 12)];
+        [_datePickerUP addSubview:_monthLabel];
+        _monthLabel.text = [NSString stringWithFormat:@"%@月", dataArr[i][0]];
+        _monthLabel.font = [UIFont systemFontOfSize:8];
+        _monthLabel.textAlignment = NSTextAlignmentCenter;
+        _monthLabel.textColor = kWhiteColor;
     }
     
     
@@ -157,7 +165,6 @@
         }
     }
     
-    
     [timeArr insertObject:@"23:30" atIndex:0];
     [timeArr insertObject:@"23:00" atIndex:0];
     [timeArr insertObject:@"22:30" atIndex:0];
@@ -167,36 +174,43 @@
     [timeArr addObject:@"01:00"];
     [timeArr addObject:@"01:30"];
     
+    _timeDataArr = [timeArr copy];
     
+
     _timePicker = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 48+98, kScreenWidth, labelHeight)];
     [self addSubview:_timePicker];
     _timePicker.contentSize = CGSizeMake((timeArr.count)*labelWidth, labelHeight);
-    NSInteger leftI = floor((kScreenWidth/2-labelWidth/2)/labelWidth);
-    _timePicker.contentOffset = CGPointMake((1-left+leftI)*labelWidth, 0);
+    _leftI = roundf((kScreenWidth/2-labelWidth/2)/labelWidth);
+//    _timePicker.contentOffset = CGPointMake((1-left+leftI)*labelWidth, 0);
     _timePicker.showsHorizontalScrollIndicator = false;
     _timePicker.delegate = self;
     
-    // 中间框
-    _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(left*labelWidth, 48+98, labelWidth, labelHeight)];
-    [self addSubview:_timeLabel];
-    _timeLabel.text = timeArr[4];
-    _timeLabel.backgroundColor = [UIColor hx_colorWithHexString:@"#D1D9E1"];
-    _timeLabel.font = [UIFont systemFontOfSize:11];
-    _timeLabel.textAlignment = NSTextAlignmentCenter;
-    _timeLabel.textColor = [UIColor whiteColor];
-    
     for (int i = 0; i < timeArr.count; i++) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(i*labelWidth, 0, labelWidth, labelHeight)];
-//        \CGRectMake((left+i)*labelWidth, 0, labelWidth, labelHeight)
-        [_timePicker addSubview:label];
-        label.tag = i+400;
+        label.text = timeArr[i];
         label.font = [UIFont systemFontOfSize:11];
         label.textAlignment = NSTextAlignmentCenter;
         label.textColor = [UIColor hx_colorWithHexString:@"#999999"];
-        label.text = timeArr[i];
+        [_timePicker addSubview:label];
     }
     
+    _timePickerUP = [[UIScrollView alloc] initWithFrame:CGRectMake((kScreenWidth-labelWidth)/2, 48+98, labelWidth, labelHeight)];
+    [self addSubview:_timePickerUP];
+    _timePickerUP.contentSize = CGSizeMake((timeArr.count)*labelWidth, labelHeight);
+    _timePickerUP.backgroundColor = [UIColor hx_colorWithHexString:@"#D1D9E1"];
+    _timePickerUP.showsHorizontalScrollIndicator = false;
+    _timePickerUP.delegate = self;
+    for (int i = 0; i < timeArr.count; i++) {
+        UILabel *upLabel = [[UILabel alloc] initWithFrame:CGRectMake(i*labelWidth, 0, labelWidth, labelHeight)];
+        upLabel.text = timeArr[i];
+        upLabel.font = [UIFont systemFontOfSize:11];
+        upLabel.textAlignment = NSTextAlignmentCenter;
+        upLabel.textColor = [UIColor whiteColor];
+        [_timePickerUP addSubview:upLabel];
+    }
 }
+
+
 - (NSString *)getWeekWithNum:(NSString *)num {
     NSInteger index = [num integerValue];
     NSArray *weekdays = [NSArray arrayWithObjects:@"星期日", @"星期一", @"星期二", @"星期三", @"星期四", @"星期五", @"星期六", nil];
@@ -216,42 +230,19 @@
 - (void)timeSnapToNearestItem {
     CGPoint targetOffset = [self timeNearestTargetOffsetForOffset:_timePicker.contentOffset];
     CGFloat pageSize = 50;
-    float left = (kScreenWidth/2-pageSize/2)/pageSize;
-    NSInteger leftI = floorf((kScreenWidth/2-pageSize/2)/pageSize);
-    targetOffset.x += (1-left+leftI)*pageSize;
+    targetOffset.x += (-_left+_leftI)*pageSize;
     [_timePicker setContentOffset:targetOffset animated:YES];
-    [self getTimeCurrentContent];
+//    [self getTimeCurrentContent];
 }
 
-- (void)getTimeCurrentContent {
-    CGFloat pageSize = 50;
-    NSInteger leftI = roundf((kScreenWidth/2-pageSize/2)/pageSize);
-    CGPoint targetOffset = [self timeNearestTargetOffsetForOffset:_timePicker.contentOffset];
-    UILabel *label = (UILabel *)[_timePicker viewWithTag:(targetOffset.x)/pageSize+400+leftI];
-    _timeLabel.text = label.text;
-}
+//- (void)getTimeCurrentContent {
+//    CGFloat pageSize = 50;
 
+//    CGPoint targetOffset = [self timeNearestTargetOffsetForOffset:_timePicker.contentOffset];
+//    UILabel *label = (UILabel *)[_timePicker viewWithTag:(targetOffset.x)/pageSize+400+leftI];
+//    _timeLabel.text = label.text;
 
-// 滚动到最近的item
-- (void)snapToNearestItem{
-    CGPoint targetOffset = [self nearestTargetOffsetForOffset:_datePicker.contentOffset];
-    [_datePicker setContentOffset:targetOffset animated:YES];
-    [self getCurrentContent];
-}
-
-- (void)getCurrentContent {
-    CGFloat pageSize = 50;
-    CGPoint targetOffset = [self nearestTargetOffsetForOffset:_datePicker.contentOffset];
-    UILabel *label = (UILabel *)[_datePicker viewWithTag:targetOffset.x/pageSize+100];
-    _centerLabel.text = label.text;
-    
-    UILabel *weekLabel = (UILabel *)[_datePicker viewWithTag:targetOffset.x/pageSize+200];
-    _weekLabel.text = weekLabel.text;
-    
-    UILabel *monthLabel = (UILabel *)[_datePicker viewWithTag:targetOffset.x/pageSize+300];
-    _monthLabel.text = monthLabel.text;
-}
-
+//}
 
 
 // 找到最近目标点
@@ -262,21 +253,47 @@
     return CGPointMake(targetX, 0);
 }
 
+// 滚动到最近的item
+- (void)snapToNearestItem{
+    CGPoint targetOffset = [self nearestTargetOffsetForOffset:_datePicker.contentOffset];
+    [_datePicker setContentOffset:targetOffset animated:YES];
+//    [self getCurrentContent];
+}
+
+- (void)getCurrentContent {
+//    CGFloat pageSize = 50;
+//    CGPoint targetOffset = [self nearestTargetOffsetForOffset:_datePicker.contentOffset];
+//    UILabel *label = (UILabel *)[_datePicker viewWithTag:targetOffset.x/pageSize+100];
+//    _centerLabel.text = label.text;
+//
+//    UILabel *weekLabel = (UILabel *)[_datePicker viewWithTag:targetOffset.x/pageSize+200];
+//    _weekLabel.text = weekLabel.text;
+//
+//    UILabel *monthLabel = (UILabel *)[_datePicker viewWithTag:targetOffset.x/pageSize+300];
+//    _monthLabel.text = monthLabel.text;
+}
+
 // 即将拖拽
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (scrollView == _datePicker) {
-        [self getCurrentContent];
+        _datePickerUP.contentOffset = CGPointMake(scrollView.contentOffset.x, 0);
+//        [self getCurrentContent];
     } else if (scrollView == _timePicker) {
-        [self getTimeCurrentContent];
+//        [self getTimeCurrentContent:scrollView];
+        _timePickerUP.contentOffset = CGPointMake(scrollView.contentOffset.x -_offsetX, 0);
         
         if(scrollView.contentOffset.x > scrollView.contentSize.width-kScreenWidth) {
             scrollView.contentOffset = CGPointMake(22, 0);
         }else if (scrollView.contentOffset.x < 0) {
             scrollView.contentOffset = CGPointMake(scrollView.contentSize.width-kScreenWidth-25, 0);
         }
+    } else if (scrollView == _timePickerUP) {
+        _timePicker.contentOffset = CGPointMake(scrollView.contentOffset.x + _offsetX, 0);
+    } else if (scrollView == _datePickerUP) {
+        _datePicker.contentOffset = CGPointMake(scrollView.contentOffset.x, 0);
     }
 }
 
@@ -315,8 +332,9 @@
 
 
 - (void)okAction {
-    
-    NSString *time = [NSString stringWithFormat:@"%@/%@/%@ %@", [self getYear], [_monthLabel.text stringByReplacingOccurrencesOfString:@"月" withString:@""],_centerLabel.text, _timeLabel.text];
+    NSInteger date = (NSInteger)(_datePickerUP.contentOffset.x/50);
+    NSInteger page = (NSInteger)(_timePicker.contentOffset.x + (_left)*50)/50;
+    NSString *time = [NSString stringWithFormat:@"%@/%@/%@ %@", [self getYear], [_dateDataArr[date][0] stringByReplacingOccurrencesOfString:@"月" withString:@""],_dateDataArr[date][1], _timeDataArr[page]];
     if(_formatDate)
         self.formatDate(time);
     NSInteger stamp = [NSDate timeSwitchTimestamp:time andFormatter:@"YYYY/MM/dd HH:mm"];
@@ -349,7 +367,7 @@
     float labelWidth = 50;
     float left = (kScreenWidth/2-labelWidth/2)/labelWidth;
     NSInteger leftI = floorf(left);
-    
+
     [_timePicker setContentOffset:CGPointMake((1-left+leftI+index)*labelWidth, 0)];
 }
 

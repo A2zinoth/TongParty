@@ -12,11 +12,12 @@ typedef void (^ThirdAction)(NSInteger);
 
 @interface TJLoginView : UIView
 
-@property (nonatomic, strong)UIButton *closeBtn;
-@property (nonatomic, strong)UIButton *signupBtn;
-@property (nonatomic, strong)UITextField *phoneTF;
-@property (nonatomic, strong)UITextField *passwordTF;
-@property (nonatomic, strong)UIButton *loginBtn;
-@property (nonatomic, copy)  ThirdAction thirdAction;
+@property (nonatomic, strong) UIButton      *closeBtn;
+@property (nonatomic, strong) UIButton      *signupBtn;
+@property (nonatomic, strong) UITextField   *phoneTF;
+@property (nonatomic, strong) UITextField   *passwordTF;
+@property (nonatomic, strong) UIButton      *loginBtn;
+@property (nonatomic, copy  ) ThirdAction   thirdAction;
+@property (nonatomic, strong) UIButton      *forgetBtn;
 
 @end

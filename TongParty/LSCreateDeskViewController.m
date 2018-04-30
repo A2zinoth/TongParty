@@ -395,11 +395,13 @@ static NSString *addPicCell = @"addPicCell";
             case 1:{
                 // 地图选择地点
                 DDLocationAddressVC *locationVC   = [[DDLocationAddressVC alloc] init];
-                locationVC.locationAddressSelectBlcok = ^(AMapPOI *POI) {
-                    cell.tf_action_content.text = POI.name;
-                    weakSelf.requestEntity.place = POI.name;
-                    weakSelf.requestEntity.longitude = [NSString stringWithFormat:@"%lf",POI.location.longitude];
-                    weakSelf.requestEntity.latitude = [NSString stringWithFormat:@"%lf",POI.location.latitude];;
+                locationVC.locationAddressSelectBlcok = ^(AMapTip *tip) {
+                    
+                    
+//                    cell.tf_action_content.text = POI.name;
+//                    weakSelf.requestEntity.place = POI.name;
+//                    weakSelf.requestEntity.longitude = [NSString stringWithFormat:@"%lf",POI.location.longitude];
+//                    weakSelf.requestEntity.latitude = [NSString stringWithFormat:@"%lf",POI.location.latitude];
                 };
                 [self.navigationController pushViewController:locationVC animated:YES];
             }break;

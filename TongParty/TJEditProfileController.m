@@ -562,6 +562,7 @@
         ok();
     }];
     [ac addAction:okAction];
+    [self presentViewController:ac animated:true completion:nil];
 }
 
 

@@ -115,10 +115,10 @@
 - (void)pushLocationVC{
     DDLocationAddressVC *locationVC   = [[DDLocationAddressVC alloc] init];
     
-    locationVC.locationAddressSelectBlcok = ^(AMapPOI *POI) {
-        
-        [_editView updateWithMap:POI];
-    };
+//    locationVC.locationAddressSelectBlcok = ^(AMapPOI *POI) {
+//        
+//        [_editView updateWithMap:POI];
+//    };
     [self.navigationController pushViewController:locationVC animated:YES];
 }
 

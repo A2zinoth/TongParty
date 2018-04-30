@@ -15,13 +15,18 @@ typedef void (^FormatDate)(NSString *);
 @property (nonatomic, strong) UIView        *maskView;
 
 @property (nonatomic, strong) UIScrollView  *datePicker;
-@property (nonatomic, strong) UILabel       *centerLabel;
-@property (nonatomic, strong) UILabel       *weekLabel;
-@property (nonatomic, strong) UILabel       *monthLabel;
+@property (nonatomic, strong) UIScrollView  *datePickerUP;
+@property (nonatomic, strong) NSArray       *dateDataArr;
 
 @property (nonatomic, strong) UIScrollView  *timePicker;
-@property (nonatomic, strong) UILabel       *timeLabel;
+@property (nonatomic, strong) UIScrollView  *timePickerUP;
+@property (nonatomic, strong) NSArray       *timeDataArr;
+
 @property (nonatomic, copy)   FormatDate    formatDate;
+
+@property (nonatomic, assign) CGFloat       left;
+@property (nonatomic, assign) CGFloat       leftI;
+@property (nonatomic, assign) CGFloat       offsetX;
 
 
 - (void)setCurrentTime:(NSString *)time;

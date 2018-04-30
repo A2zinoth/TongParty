@@ -1,17 +1,19 @@
 //
-//  TJRegisterView.h
+//  TJBindView.h
 //  TongParty
 //
-//  Created by tojoin on 2018/4/9.
+//  Created by tojoin on 2018/4/28.
 //  Copyright © 2018年 桐聚. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "TJBaseView.h"
 
-@interface TJRegisterView : UIView
+@interface TJBindView : TJBaseView
 
 @property (nonatomic, strong) UIButton    *closeBtn;
-@property (nonatomic, strong) UIButton    *signupBtn;
+@property (nonatomic, strong) UILabel     *titleLabel;
+@property (nonatomic, strong) UILabel     *phoneNum;
 @property (nonatomic, strong) UITextField *phoneTF;
 @property (nonatomic, strong) UIButton    *nextButton;
+
 @end

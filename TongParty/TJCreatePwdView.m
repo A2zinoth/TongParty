@@ -32,11 +32,11 @@
 //        make.size.mas_equalTo(CGSizeMake(33, 22));
 //    }];
     
-    UILabel *titleLabel = [[UILabel alloc] init];
-    [self addSubview:titleLabel];
-    titleLabel.text = @"创建密码";
-    titleLabel.font = [UIFont systemFontOfSize:29];
-    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    _titleLabel = [[UILabel alloc] init];
+    [self addSubview:_titleLabel];
+    _titleLabel.text = @"创建密码";
+    _titleLabel.font = [UIFont systemFontOfSize:29];
+    [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(87);
         make.left.mas_equalTo(22);
         make.size.mas_equalTo(CGSizeMake(200, 35));

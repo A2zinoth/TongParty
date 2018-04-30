@@ -61,7 +61,6 @@
 
 #pragma mark - UITextFieldDelegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    NSLog(@"textfield:%@", string);
     if ([string isEqualToString:@""]) {
         _registerView.nextButton.enabled = false;
         _registerView.nextButton.backgroundColor = kBtnDisable;

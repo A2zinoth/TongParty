@@ -73,6 +73,7 @@
         [searchBar setBackgroundColor:[UIColor clearColor]];
         searchBar.layer.cornerRadius = 2.f;
         searchBar.placeholder = @"搜索地点";
+        [searchBar becomeFirstResponder];
 
     }
     return _view_search;
@@ -173,17 +174,26 @@
         _tv_suggestions.hidden = YES;
     } else {
         _tv_suggestions.hidden = NO;
+        
+//        AMapPOIKeywordsSearchRequest *poiKwywords = [[AMapPOIKeywordsSearchRequest alloc] init];
+//        poiKwywords.keywords = searchText;
+//        poiKwywords.city = curUser.city?curUser.city:@"北京";
+//        poiKwywords.location = [AMapGeoPoint locationWithLatitude:[curUser.latitude floatValue] longitude:[curUser.longitude floatValue]];
+//        [self.search AMapPOIKeywordsSearch:poiKwywords];
+        
+//        AMapPOIAroundSearchRequest *request = [[AMapPOIAroundSearchRequest alloc] init];
+//        request.keywords            = searchText;
+//        request.sortrule            = 0;
+//        request.requireExtension    = false;
+//        request.location = [AMapGeoPoint locationWithLatitude:[curUser.latitude floatValue] longitude:[curUser.longitude floatValue]];
+//        [self.search AMapPOIAroundSearch:request];
+        
 
+        
         AMapInputTipsSearchRequest *tips = [[AMapInputTipsSearchRequest alloc] init];
         tips.keywords = searchText;
         // 设置搜索范围的关键地名
-        NSString *city;
-        if ([DDUserSingleton shareInstance].city) {
-            city = [DDUserSingleton shareInstance].city;
-        } else {
-            city = !curUser.city ? @"北京市" : curUser.city;
-        }
-        tips.city = city;
+        tips.city = !curUser.city ? @"北京市" : curUser.city;
         tips.location = [NSString stringWithFormat:@"%@,%@", curUser.longitude, curUser.latitude];
         [self.search AMapInputTipsSearch:tips];
     }
@@ -192,6 +202,7 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [searchBar resignFirstResponder];
 }
+
 
 - (void)onInputTipsSearchDone:(AMapInputTipsSearchRequest *)request response:(AMapInputTipsSearchResponse *)response {
     if (response.tips.count == 0) {

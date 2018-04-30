@@ -7,10 +7,12 @@
 //
 
 #import "BaseViewController.h"
+#import <AMapSearchKit/AMapSearchKit.h>
+
 
 @interface TJSearchResultController : BaseViewController<UISearchResultsUpdating>
 
-@property (strong, nonatomic) UINavigationController *nav;
-@property (strong, nonatomic) UISearchBar *searchBar;
+
+@property (nonatomic, copy) void(^suggestionResultBlock)(AMapTip *tip);
 
 @end

@@ -183,6 +183,8 @@ typedef NS_ENUM(NSUInteger, DDHomeAttentionListType) {
 #define AMapKey @"ceb5cd0e123e1b54347117883f0365a0" //高德地图key
 
 
+#define kiPhoen [[[UIDevice currentDevice] name] isEqualToString:@"iPhoen 6"]  || \
+                [[[UIDevice currentDevice] name] isEqualToString:@"tojoin的MacBook Pro"]
 
 
 #endif /* NHDefaultHeader_h */

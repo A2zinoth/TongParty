@@ -134,6 +134,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 //    [self.locationManager startUpdatingLocation];
+    self.navigationController.navigationBar.hidden = true;
   
 }
 
@@ -242,12 +243,24 @@
             [weakSelf.tableView reloadData];
         };
     } else if (indexPath.row == 3) {
+        TJEventAddrController *eventAddr = [[TJEventAddrController alloc] init];
+        [self.navigationController pushViewController:eventAddr animated:YES];
+        
+        return;
         // 地图选择地点
         DDLocationAddressVC *locationVC   = [[DDLocationAddressVC alloc] init];
-        locationVC.locationAddressSelectBlcok = ^(AMapPOI *POI) {
-            weakSelf.publishModel.place = [NSString stringWithFormat:@"%@%@%@", POI.city, POI.district,POI.name];
-            weakSelf.publishModel.latitude = [NSString stringWithFormat:@"%lf",POI.location.latitude];
-            weakSelf.publishModel.longitude =[NSString stringWithFormat:@"%lf",POI.location.longitude];
+        locationVC.locationAddressSelectBlcok = ^(AMapTip *tip) {
+
+            if ([tip isKindOfClass:[AMapTip class]]) {
+                weakSelf.publishModel.place = [NSString stringWithFormat:@"%@%@",tip.district,tip.name];
+                weakSelf.publishModel.latitude = [NSString stringWithFormat:@"%lf",tip.location.latitude];
+                weakSelf.publishModel.longitude =[NSString stringWithFormat:@"%lf",tip.location.longitude];
+            } else {
+                AMapPOI *POI = (AMapPOI *)tip;
+                weakSelf.publishModel.place = [NSString stringWithFormat:@"%@%@%@", POI.city, POI.district,POI.name];
+                weakSelf.publishModel.latitude = [NSString stringWithFormat:@"%lf",POI.location.latitude];
+                weakSelf.publishModel.longitude =[NSString stringWithFormat:@"%lf",POI.location.longitude];
+            }
             [weakSelf.tableView reloadData];
         };
         [self.navigationController pushViewController:locationVC animated:YES];

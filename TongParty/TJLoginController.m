@@ -10,6 +10,7 @@
 #import "TJLoginView.h"
 #import "TJLoginModel.h"
 #import "UserManager.h"
+#import "TJVerifyController.h"
 
 @interface TJLoginController ()
 
@@ -86,6 +87,18 @@
 
 
 #pragma mark - UserAction
+- (void)forgetAction {
+    if (_loginView.phoneTF.text.length<11) {
+        [MBProgressHUD showMessage:@"请输入手机号码"];
+        return;
+    }
+    
+    TJVerifyController *vf = [[TJVerifyController alloc] init];
+    vf.phone = _loginView.phoneTF.text;
+    vf.type = @"忘记密码";
+    [self.navigationController pushViewController:vf animated:true];
+}
+
 - (void)loginAction {
     _loginModel.mobile = _loginView.phoneTF.text;
     _loginModel.password = _loginView.passwordTF.text;
@@ -121,6 +134,7 @@
     [_loginView.closeBtn addTarget:self action:@selector(closeAction) forControlEvents:UIControlEventTouchUpInside];
     [_loginView.signupBtn addTarget:self action:@selector(signupAction) forControlEvents:UIControlEventTouchUpInside];
     [_loginView.loginBtn addTarget:self action:@selector(loginAction) forControlEvents:UIControlEventTouchUpInside];
+    [_loginView.forgetBtn addTarget:self action:@selector(forgetAction) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)didReceiveMemoryWarning {

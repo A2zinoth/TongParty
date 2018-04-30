@@ -150,13 +150,13 @@
         make.height.mas_equalTo(40);
     }];
     
-    UIButton *forgetBtn = [[UIButton alloc] init];
-    [self addSubview:forgetBtn];
-    [forgetBtn setTitle:@"忘记密码？" forState:UIControlStateNormal];
+    _forgetBtn = [[UIButton alloc] init];
+    [self addSubview:_forgetBtn];
+    [_forgetBtn setTitle:@"忘记密码？" forState:UIControlStateNormal];
     
-    [forgetBtn setTitleColor:kGreyNotice forState:UIControlStateNormal];
-    [forgetBtn.titleLabel setFont:[UIFont systemFontOfSize:12]];
-    [forgetBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_forgetBtn setTitleColor:kGreyNotice forState:UIControlStateNormal];
+    [_forgetBtn.titleLabel setFont:[UIFont systemFontOfSize:12]];
+    [_forgetBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(438);
         make.centerX.mas_equalTo(self);
         make.size.mas_equalTo(CGSizeMake(85, 17));
@@ -169,7 +169,7 @@
     other.textColor = [UIColor hx_colorWithHexString:@"#A0A0A0"];
     other.font = [UIFont systemFontOfSize:12];
     [other mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(559);
+        make.top.mas_equalTo(k5(559));
         make.centerX.mas_equalTo(self);
         make.size.mas_equalTo(CGSizeMake(85, 17));
     }];
@@ -178,7 +178,7 @@
     [self addSubview:line3];
     line3.backgroundColor = kSeparateLine;
     [line3 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(567);
+        make.top.mas_equalTo(k5(567));
         make.left.mas_equalTo(24);
         make.right.mas_equalTo(other.mas_left).offset(-13);
         make.height.mas_equalTo(0.5);
@@ -188,7 +188,7 @@
     [self addSubview:line4];
     line4.backgroundColor = kSeparateLine;
     [line4 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(567);
+        make.top.mas_equalTo(k5(567));
         make.left.mas_equalTo(other.mas_right).offset(13);
         make.right.mas_equalTo(-24);
         make.height.mas_equalTo(0.5);
@@ -204,7 +204,7 @@
         thirdBtn.tag = 100+i;
         [thirdBtn addTarget:self action:@selector(thirdLogin:) forControlEvents:UIControlEventTouchUpInside];
         [thirdBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(600);
+            make.top.mas_equalTo(k5(600));
             make.left.mas_equalTo([leftInsets[i] floatValue]-15);
             make.size.mas_equalTo(CGSizeMake(30, 30));
         }];

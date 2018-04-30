@@ -21,6 +21,7 @@
 #import "LSCleanCacheTool.h"
 #import "LSBlindPhoneVC.h"
 #import "TJRegisterController.h"
+#import "TJBindPhoneController.h"
 
 @interface DDSettingVc ()
 
@@ -60,7 +61,7 @@
 }
 #pragma mark - UITableViewDelegate
 - (NSInteger)tj_numberOfSections {
-    return 1;//6
+    return 2;//6
 }
 - (NSInteger)tj_numberOfRowsInSection:(NSInteger)section
 {
@@ -72,7 +73,7 @@
         }break;
         case 1:
         {
-            numRows = 4;
+            numRows = 1;
         }break;
         case 2:
         {
@@ -104,10 +105,19 @@
 - (DDBaseTableViewCell *)tj_cellAtIndexPath:(NSIndexPath *)indexPath {
     DDSettingTableViewCell *cell = [DDSettingTableViewCell cellWithTableView:self.tableView];
     
-    if (indexPath.section == 0) {
+    if (indexPath.section == 1) {
         cell.style = DDSettingCellStyleCentertext;
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.centerText = @"退出登录";
+    }else if (indexPath.section == 0) {
+        cell.style = DDSettingCellStyleNormal;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        NSArray *authArr = @[@"手机认证"];
+        NSString *name;
+        NSString *value;
+        name = authArr[indexPath.row];
+        cell.namestring = name;
+        cell.valuestring   = value;
     }
 //    else{
 //        cell.style = DDSettingCellStyleNormal;
@@ -162,14 +172,13 @@
 }
 - (void)tj_didSelectCellAtIndexPath:(NSIndexPath *)indexPath cell:(DDBaseTableViewCell *)cell {
     switch (indexPath.section) {
-        case 5:
+        case 90:
         {//个人资料
             [self pushPersonInformationVC];
         }
             break;
-        case 1:
+        case 0:
         {
-            //绑定的社交账号
             [self pushSocialBlindWithType:indexPath.row];
         }break;
         case 2:
@@ -215,7 +224,7 @@
             }else{
             }
         }break;
-        case 0:
+        case 1:
         {
             //退出登录
             [self logoutRequest];
@@ -293,19 +302,22 @@
     [self pushtoVC:aboutVC];
 }
 -(void)pushSocialBlindWithType:(DDSocialBlindType)type{
-    if (!_userModel.mobile || [_userModel.mobile isEqualToString:@""]) {
-        LSBlindPhoneVC *testVC = [[LSBlindPhoneVC alloc] init];
-        [self pushVc:testVC];
-    } else {
-        DDShowBlindViewController *showBlindVc = [[DDShowBlindViewController alloc] init];
-        showBlindVc.userModel = _userModel;
-        showBlindVc.type = type;
-        [self pushtoVC:showBlindVc];
-    }
+    TJBindPhoneController *bindPhone = [[TJBindPhoneController alloc] init];
+    [self pushVc:bindPhone];
     
     
-    
+//    if (!_userModel.mobile || [_userModel.mobile isEqualToString:@""]) {
+//        LSBlindPhoneVC *testVC = [[LSBlindPhoneVC alloc] init];
+//        [self pushVc:testVC];
+//    } else {
+//        DDShowBlindViewController *showBlindVc = [[DDShowBlindViewController alloc] init];
+//        showBlindVc.userModel = _userModel;
+//        showBlindVc.type = type;
+//        [self pushtoVC:showBlindVc];
+//    }
 }
+
+
 -(void)pushtoVC:(UIViewController *)controller{
     [self.navigationController pushViewController:controller animated:YES];
 }

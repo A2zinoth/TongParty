@@ -10,6 +10,8 @@
 
 @interface TJVerifyController : BaseViewController
 
+@property (nonatomic, assign) NSInteger         isBind;// 是否是绑定手机号码
+@property (nonatomic, copy)   NSString          *type; // 验证码 忘记密码
 @property (nonatomic, copy)   NSString          *phone;
 @property (nonatomic, assign) BOOL              needSendVerify;
 

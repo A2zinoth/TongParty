@@ -17,6 +17,7 @@
 #define kTJUniqueness                    @"/tojoin/api/uniqueness.php"
 #define kTJOtherLogin                    @"/tojoin/api/other_login.php"
 #define kTJCheckVerifyCode               @"/tojoin/api/check_verify_code.php"
+#define kTJForgetPwd                     @"/tongju/api/forget_pwd.php"
 
 // 首页
 #define KTJTableList                     @"/tojoin/api/table_list.php"

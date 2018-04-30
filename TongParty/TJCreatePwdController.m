@@ -8,7 +8,7 @@
 
 #import "TJCreatePwdController.h"
 
-@interface TJCreatePwdController ()
+@interface TJCreatePwdController ()<UITextFieldDelegate>
 @end
 
 @implementation TJCreatePwdController
@@ -19,6 +19,9 @@
 
 - (void)createUI {
     _createPwdView = [[TJCreatePwdView alloc] init];
+    if(_type) {
+        _createPwdView.titleLabel.text = @"创建新密码";
+    }
     [self.view addSubview:_createPwdView];
     [_createPwdView mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0,*)) {
@@ -33,8 +36,6 @@
     
     [_createPwdView.closeBtn  addTarget:self action:@selector(closeAction) forControlEvents:UIControlEventTouchUpInside];
     [_createPwdView.loginBtn addTarget:self action:@selector(loginAction) forControlEvents:UIControlEventTouchUpInside];
-    
-//    _createPwdView.l
   
     _createPwdView.passwordTF.delegate = self;
 }
@@ -44,6 +45,10 @@
     if ([string isEqualToString:@""]) {
         _createPwdView.loginBtn.userInteractionEnabled = false;
         _createPwdView.loginBtn.backgroundColor = kBtnDisable;
+        if (textField.text.length>8) {
+            _createPwdView.loginBtn.userInteractionEnabled = true;
+            _createPwdView.loginBtn.backgroundColor = kBtnEnable;
+        }
         return YES;
     }
     
@@ -67,25 +72,36 @@
 
 - (void)registerUser {
     
-    [userManager login:kUserLoginTypeCaptcha params:[_createPwdModel mj_keyValues] completion:^(BOOL success, NSString *des) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            UIViewController *rootVC = self.navigationController.childViewControllers[0];
-            [rootVC dismissViewControllerAnimated:true completion:nil];
-        });
-    }];
-    
-//    [_createPwdModel registerUser:^{
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//            UIViewController *rootVC = self.navigationController.childViewControllers[0];
-//            [rootVC dismissViewControllerAnimated:true completion:nil];
-//        });
-//    } failure:^(id msg) {
-//    
-//    }];
+    if (_type) {
+        kWeakSelf
+        [DDResponseBaseHttp getWithAction:kTJForgetPwd params:[_createPwdModel mj_keyValues] type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+            [MBProgressHUD showMessage:result.msg_cn];
+            if ([result.status isEqualToString:@"success"]) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    UIViewController *loginvc = self.navigationController.childViewControllers[1];
+                    [weakSelf.navigationController popToViewController:loginvc animated:true];
+                });
+            }
+        } failure:^{
+            
+        }];
+        
+    } else {
+        [userManager login:kUserLoginTypeCaptcha params:[_createPwdModel mj_keyValues] completion:^(BOOL success, NSString *des) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                UIViewController *rootVC = self.navigationController.childViewControllers[0];
+                [rootVC dismissViewControllerAnimated:true completion:nil];
+            });
+        }];
+    }
 }
 
 - (void)loginAction {
-    _createPwdModel.password = _createPwdView.passwordTF.text;
+    if (_type) {
+        _createPwdModel.newpwd = _createPwdView.passwordTF.text;
+    } else {
+        _createPwdModel.password = _createPwdView.passwordTF.text;
+    }
     [self registerUser];
 }
 

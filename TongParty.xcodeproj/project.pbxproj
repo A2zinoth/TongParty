@@ -120,6 +120,10 @@
 		6B2D8D14207CAC2900E84B50 /* TJPublishModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2D8D13207CAC2900E84B50 /* TJPublishModel.m */; };
 		6B2D8D18207CAFE600E84B50 /* TJPublishTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2D8D17207CAFE600E84B50 /* TJPublishTableViewCell.m */; };
 		6B2D8D1C207CBA9100E84B50 /* TJEventView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2D8D1B207CBA9100E84B50 /* TJEventView.m */; };
+		6B68AD862095C17D00D9F5B4 /* AuthorizationStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B68AD852095C17D00D9F5B4 /* AuthorizationStatus.m */; };
+		6B68AD892095C1E000D9F5B4 /* ZLLAuthorizationCheckTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B68AD872095C1E000D9F5B4 /* ZLLAuthorizationCheckTool.m */; };
+		6B68AD8D2095C2D300D9F5B4 /* TJContactController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B68AD8C2095C2D300D9F5B4 /* TJContactController.m */; };
+		6B68AD902095D27E00D9F5B4 /* TJContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B68AD8F2095D27E00D9F5B4 /* TJContactCell.m */; };
 		6B781BF62083899800B18260 /* TJDeskInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B781BF52083899800B18260 /* TJDeskInfoController.m */; };
 		6B781BF920838A6300B18260 /* TJDeskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B781BF820838A6300B18260 /* TJDeskViewController.m */; };
 		6B781BFC2083924900B18260 /* TJDeskNoticeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B781BFB2083924900B18260 /* TJDeskNoticeController.m */; };
@@ -162,6 +166,10 @@
 		6BE5B51A207F890E003CFB05 /* TJSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE5B519207F890E003CFB05 /* TJSlider.m */; };
 		6BEFF32B208AD42B00DE7FF8 /* TJEditProfileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEFF32A208AD42B00DE7FF8 /* TJEditProfileController.m */; };
 		6BEFF32E208AD75A00DE7FF8 /* TJEditProfileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEFF32D208AD75A00DE7FF8 /* TJEditProfileCell.m */; };
+		6BF0D91620945520005BF220 /* TJBindPhoneController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF0D91520945520005BF220 /* TJBindPhoneController.m */; };
+		6BF0D919209456F9005BF220 /* TJBindView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF0D918209456F9005BF220 /* TJBindView.m */; };
+		6BF0D91D20946179005BF220 /* TJSettingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF0D91C20946179005BF220 /* TJSettingController.m */; };
+		6BF0D92120946B07005BF220 /* TJChangeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF0D92020946B07005BF220 /* TJChangeController.m */; };
 		7FE31485F55A2C72A2918B02 /* Pods_TongParty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B59ADC9FAFDF929FDA97EB90 /* Pods_TongParty.framework */; };
 		980093AB1F73ADF500FE0FE9 /* DDDragImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 980093AA1F73ADF500FE0FE9 /* DDDragImageView.m */; };
 		98066DDC200381620077779F /* DDDiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98066DD0200380C00077779F /* DDDiscoverViewController.m */; };
@@ -713,6 +721,14 @@
 		6B2D8D17207CAFE600E84B50 /* TJPublishTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJPublishTableViewCell.m; sourceTree = "<group>"; };
 		6B2D8D1A207CBA9100E84B50 /* TJEventView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJEventView.h; sourceTree = "<group>"; };
 		6B2D8D1B207CBA9100E84B50 /* TJEventView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJEventView.m; sourceTree = "<group>"; };
+		6B68AD842095C17D00D9F5B4 /* AuthorizationStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuthorizationStatus.h; sourceTree = "<group>"; };
+		6B68AD852095C17D00D9F5B4 /* AuthorizationStatus.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AuthorizationStatus.m; sourceTree = "<group>"; };
+		6B68AD872095C1E000D9F5B4 /* ZLLAuthorizationCheckTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLLAuthorizationCheckTool.m; sourceTree = "<group>"; };
+		6B68AD882095C1E000D9F5B4 /* ZLLAuthorizationCheckTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLLAuthorizationCheckTool.h; sourceTree = "<group>"; };
+		6B68AD8B2095C2D300D9F5B4 /* TJContactController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJContactController.h; sourceTree = "<group>"; };
+		6B68AD8C2095C2D300D9F5B4 /* TJContactController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJContactController.m; sourceTree = "<group>"; };
+		6B68AD8E2095D27E00D9F5B4 /* TJContactCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJContactCell.h; sourceTree = "<group>"; };
+		6B68AD8F2095D27E00D9F5B4 /* TJContactCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJContactCell.m; sourceTree = "<group>"; };
 		6B781BF42083899800B18260 /* TJDeskInfoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJDeskInfoController.h; sourceTree = "<group>"; };
 		6B781BF52083899800B18260 /* TJDeskInfoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJDeskInfoController.m; sourceTree = "<group>"; };
 		6B781BF720838A6300B18260 /* TJDeskViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJDeskViewController.h; sourceTree = "<group>"; };
@@ -797,6 +813,14 @@
 		6BEFF32A208AD42B00DE7FF8 /* TJEditProfileController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJEditProfileController.m; sourceTree = "<group>"; };
 		6BEFF32C208AD75A00DE7FF8 /* TJEditProfileCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJEditProfileCell.h; sourceTree = "<group>"; };
 		6BEFF32D208AD75A00DE7FF8 /* TJEditProfileCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJEditProfileCell.m; sourceTree = "<group>"; };
+		6BF0D91420945520005BF220 /* TJBindPhoneController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJBindPhoneController.h; sourceTree = "<group>"; };
+		6BF0D91520945520005BF220 /* TJBindPhoneController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJBindPhoneController.m; sourceTree = "<group>"; };
+		6BF0D917209456F9005BF220 /* TJBindView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJBindView.h; sourceTree = "<group>"; };
+		6BF0D918209456F9005BF220 /* TJBindView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJBindView.m; sourceTree = "<group>"; };
+		6BF0D91B20946179005BF220 /* TJSettingController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJSettingController.h; sourceTree = "<group>"; };
+		6BF0D91C20946179005BF220 /* TJSettingController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJSettingController.m; sourceTree = "<group>"; };
+		6BF0D91F20946B07005BF220 /* TJChangeController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJChangeController.h; sourceTree = "<group>"; };
+		6BF0D92020946B07005BF220 /* TJChangeController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJChangeController.m; sourceTree = "<group>"; };
 		75A4C4B7BBFC3961C6B13BE9 /* Pods-TongParty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TongParty.release.xcconfig"; path = "Pods/Target Support Files/Pods-TongParty/Pods-TongParty.release.xcconfig"; sourceTree = "<group>"; };
 		980093901F73975600FE0FE9 /* DDDeskViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDDeskViewController.h; sourceTree = "<group>"; };
 		980093A91F73ADF500FE0FE9 /* DDDragImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDDragImageView.h; sourceTree = "<group>"; };
@@ -1617,6 +1641,8 @@
 		6B0576DF208EC7B200D3435B /* Friend */ = {
 			isa = PBXGroup;
 			children = (
+				6B68AD8A2095C29800D9F5B4 /* AddContact */,
+				6B0576F9208EFCF700D3435B /* Search */,
 				6B0576F5208ED9D200D3435B /* AddFriend */,
 				6B0576F2208ED75000D3435B /* TJFriendController.h */,
 				6B0576F3208ED75000D3435B /* TJFriendController.m */,
@@ -1629,20 +1655,19 @@
 		6B0576F5208ED9D200D3435B /* AddFriend */ = {
 			isa = PBXGroup;
 			children = (
-				6B0576F9208EFCF700D3435B /* search */,
 				6B0576F6208EDA0200D3435B /* TJAddFriendController.h */,
 				6B0576F7208EDA0200D3435B /* TJAddFriendController.m */,
 			);
 			name = AddFriend;
 			sourceTree = "<group>";
 		};
-		6B0576F9208EFCF700D3435B /* search */ = {
+		6B0576F9208EFCF700D3435B /* Search */ = {
 			isa = PBXGroup;
 			children = (
 				6B0576FA208EFD3900D3435B /* TJSearchFriendController.h */,
 				6B0576FB208EFD3900D3435B /* TJSearchFriendController.m */,
 			);
-			name = search;
+			name = Search;
 			sourceTree = "<group>";
 		};
 		6B08308A207C4A66006C690F /* CreatePwd */ = {
@@ -1695,10 +1720,9 @@
 		6B08309C207C7DDF006C690F /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				6BF0D91320941A55005BF220 /* Setting */,
 				6BD9F8F020918D08002E87B5 /* Table */,
 				6BD9F8E2209170B7002E87B5 /* Message */,
-				98BF20371F7A112A00E94394 /* DDSettingVc.h */,
-				98BF20381F7A112A00E94394 /* DDSettingVc.m */,
 				6B0576DF208EC7B200D3435B /* Friend */,
 				6B0576DE208EC7AB00D3435B /* Follower */,
 				6B0576DD208EC79A00D3435B /* Follow */,
@@ -1871,6 +1895,28 @@
 				6BE5B519207F890E003CFB05 /* TJSlider.m */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		6B68AD832095C14D00D9F5B4 /* Authorization */ = {
+			isa = PBXGroup;
+			children = (
+				6B68AD882095C1E000D9F5B4 /* ZLLAuthorizationCheckTool.h */,
+				6B68AD872095C1E000D9F5B4 /* ZLLAuthorizationCheckTool.m */,
+				6B68AD842095C17D00D9F5B4 /* AuthorizationStatus.h */,
+				6B68AD852095C17D00D9F5B4 /* AuthorizationStatus.m */,
+			);
+			name = Authorization;
+			sourceTree = "<group>";
+		};
+		6B68AD8A2095C29800D9F5B4 /* AddContact */ = {
+			isa = PBXGroup;
+			children = (
+				6B68AD8B2095C2D300D9F5B4 /* TJContactController.h */,
+				6B68AD8C2095C2D300D9F5B4 /* TJContactController.m */,
+				6B68AD8E2095D27E00D9F5B4 /* TJContactCell.h */,
+				6B68AD8F2095D27E00D9F5B4 /* TJContactCell.m */,
+			);
+			name = AddContact;
 			sourceTree = "<group>";
 		};
 		6B8D08922090CB8D001B125C /* GKPhotoBrowser */ = {
@@ -2049,6 +2095,39 @@
 				6BAD3D8C208DB74800078006 /* TJEditProfileModel.m */,
 			);
 			name = Edit;
+			sourceTree = "<group>";
+		};
+		6BF0D91320941A55005BF220 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				6BF0D91E20946ACF005BF220 /* Change */,
+				6BF0D91A20946166005BF220 /* Bind */,
+				6BF0D91B20946179005BF220 /* TJSettingController.h */,
+				6BF0D91C20946179005BF220 /* TJSettingController.m */,
+				98BF20371F7A112A00E94394 /* DDSettingVc.h */,
+				98BF20381F7A112A00E94394 /* DDSettingVc.m */,
+			);
+			name = Setting;
+			sourceTree = "<group>";
+		};
+		6BF0D91A20946166005BF220 /* Bind */ = {
+			isa = PBXGroup;
+			children = (
+				6BF0D91420945520005BF220 /* TJBindPhoneController.h */,
+				6BF0D91520945520005BF220 /* TJBindPhoneController.m */,
+				6BF0D917209456F9005BF220 /* TJBindView.h */,
+				6BF0D918209456F9005BF220 /* TJBindView.m */,
+			);
+			name = Bind;
+			sourceTree = "<group>";
+		};
+		6BF0D91E20946ACF005BF220 /* Change */ = {
+			isa = PBXGroup;
+			children = (
+				6BF0D91F20946B07005BF220 /* TJChangeController.h */,
+				6BF0D92020946B07005BF220 /* TJChangeController.m */,
+			);
+			name = Change;
 			sourceTree = "<group>";
 		};
 		8F0BEDA8DF29B7F3DF1985AE /* Pods */ = {
@@ -3415,6 +3494,7 @@
 		989931921F691A1700E4BCAA /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				6B68AD832095C14D00D9F5B4 /* Authorization */,
 				989932041F6938A400E4BCAA /* Manager */,
 				985746551FA6D4C70017E5D1 /* Networking */,
 				98578E191F8B65AB00FEF64D /* Tools */,
@@ -4560,6 +4640,7 @@
 				98066DDD200381730077779F /* FXDCircleView.m in Sources */,
 				98066DDC200381620077779F /* DDDiscoverViewController.m in Sources */,
 				981A4A0C1FF380F9001419DD /* LSCDTitleItemView.m in Sources */,
+				6B68AD902095D27E00D9F5B4 /* TJContactCell.m in Sources */,
 				98EA42CC200F21D900E2A11D /* DDHisUsercenterTableViewCell.m in Sources */,
 				981A4A0D1FF380F9001419DD /* LSCDPhotoIV.m in Sources */,
 				6B08309F207C7FBE006C690F /* TJHomeController.m in Sources */,
@@ -4686,6 +4767,7 @@
 				98F675A81F70F0D60038E372 /* UIColor+PYSearchExtension.m in Sources */,
 				985308F71F6BD521003B475C /* DDBannerView.m in Sources */,
 				982F01511F7C98F4008061CF /* DDPersonAuthVc.m in Sources */,
+				6BF0D91620945520005BF220 /* TJBindPhoneController.m in Sources */,
 				985FDC0820109AD6002AAD65 /* DDMatchFailedView.m in Sources */,
 				98EA42B3200DD9E700E2A11D /* DDHomeListViewController.m in Sources */,
 				98D557F01F7DFBB8006124C5 /* DDRemindViewController.m in Sources */,
@@ -4753,6 +4835,7 @@
 				989931EB1F69306900E4BCAA /* UIImage+Addition.m in Sources */,
 				4B537A171FD55FF100A7844A /* BJCell.m in Sources */,
 				490694DC1FF3A046007236FF /* LSRegionDumpsVC.m in Sources */,
+				6BF0D91D20946179005BF220 /* TJSettingController.m in Sources */,
 				6BEFF32E208AD75A00DE7FF8 /* TJEditProfileCell.m in Sources */,
 				98B5071220145E3D00214B54 /* DDPrefectDataVC.m in Sources */,
 				98EA42C4200DFEFC00E2A11D /* DDTicketModel.m in Sources */,
@@ -4832,6 +4915,7 @@
 				982F015C1F7CCEFA008061CF /* DDRealNameAuthVc.m in Sources */,
 				98F589E61F6A8658005E674A /* DDBaseTableView.m in Sources */,
 				989931CE1F69265900E4BCAA /* AppDelegate+AppService.m in Sources */,
+				6BF0D919209456F9005BF220 /* TJBindView.m in Sources */,
 				49CAF2BA2011F6AC007D656A /* LSPersonEntity.m in Sources */,
 				98D5580E1F7E3EE5006124C5 /* DDShowBlindViewController.m in Sources */,
 				989931F91F6932EC00E4BCAA /* APPStartMovieController.m in Sources */,
@@ -4860,6 +4944,7 @@
 				985746621FA6D86C0017E5D1 /* DDResponseBaseHttp.m in Sources */,
 				988663E61FBD8B9900B6F24D /* TSActionDemoView.m in Sources */,
 				4B2E910C1FF7668000AB9B3D /* BaseView.m in Sources */,
+				6B68AD8D2095C2D300D9F5B4 /* TJContactController.m in Sources */,
 				9845222D1FD1586B00097143 /* DDShopDetailViewController.m in Sources */,
 				98F589C51F6A7BA7005E674A /* DDCommonConstant.m in Sources */,
 				98D557FC1F7E2462006124C5 /* DDAboutViewController.m in Sources */,
@@ -4892,6 +4977,7 @@
 				985FDC0520108756002AAD65 /* DDSelfModel.m in Sources */,
 				6B0576F4208ED75000D3435B /* TJFriendController.m in Sources */,
 				989931C81F69262700E4BCAA /* AppDelegate+AppRootVC.m in Sources */,
+				6BF0D92120946B07005BF220 /* TJChangeController.m in Sources */,
 				981CA9811FC6AF490007AFBA /* DDEditAddrViewController.m in Sources */,
 				6B8DC5B02089E35E0010E605 /* GKPhotosView.m in Sources */,
 				98F675A91F70F0D60038E372 /* UIView+PYSearchExtension.m in Sources */,
@@ -4928,6 +5014,7 @@
 				98578E5B1F90996700FEF64D /* DDRecomCardViewController.m in Sources */,
 				6BBE6E73208C99FE00DDB4B7 /* TJPickerDate.m in Sources */,
 				988D23BA1FC2CF05002C5D2C /* DDAddressModel.m in Sources */,
+				6B68AD862095C17D00D9F5B4 /* AuthorizationStatus.m in Sources */,
 				4B2E910D1FF7668000AB9B3D /* BRAddressModel.m in Sources */,
 				98C6AE4C1F7B9455001AAA47 /* DDFriendsViewController.m in Sources */,
 				6B0576FF208F36D000D3435B /* UserManager.m in Sources */,
@@ -4968,6 +5055,7 @@
 				49ACD11E2004B24E00A34F72 /* LSPoiSearchSuggestionVc.m in Sources */,
 				98EA42C8200F217B00E2A11D /* DDTongCoinVC.m in Sources */,
 				6BEFF32B208AD42B00DE7FF8 /* TJEditProfileController.m in Sources */,
+				6B68AD892095C1E000D9F5B4 /* ZLLAuthorizationCheckTool.m in Sources */,
 				49957D631FFCA3E700DED4BE /* LSHomwTimeSortVC.m in Sources */,
 				6BE5B514207F7568003CFB05 /* TJPeopleNum.m in Sources */,
 				989931DE1F69305F00E4BCAA /* UINavigationItem+NHAddition.m in Sources */,
