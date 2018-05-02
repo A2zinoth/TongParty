@@ -9,6 +9,7 @@
 
 #import "TJTableCollectionViewCell.h"
 
+
 @implementation TJTableCollectionViewCell
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -23,22 +24,6 @@
 
 - (void)createUI {
     
-//    CAShapeLayer *border = [CAShapeLayer layer];
-//    //虚线的颜色
-//    border.strokeColor = [UIColor hx_colorWithHexString:@"#262626"].CGColor;
-//    //填充的颜色
-//    border.fillColor = [UIColor clearColor].CGColor;
-//    //设置路径
-//    border.path = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, 150, 188)].CGPath;
-//    border.frame = CGRectMake(0, 0, 150, 188);
-//    //虚线的宽度
-//    border.lineWidth = 1.f;
-//    //设置线条的样式
-//    //    border.lineCap = @"square";
-//    //虚线的间隔
-//    border.lineDashPattern = @[@4, @2];
-//    [self.contentView.layer addSublayer:border];
-    
     UIImageView *boardIV = [[UIImageView alloc] init];
     boardIV.image = kImage(@"TJTableBoard");
     [self.contentView addSubview:boardIV];
@@ -48,7 +33,7 @@
     
     
     _headImage = [[UIImageView alloc] init];
-    _headImage.image = kImage(@"Image-0");
+    _headImage.backgroundColor = kWhiteColor;
     _headImage.layerCornerRadius = 32.5;
     [self.contentView addSubview:_headImage];
     [_headImage mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -107,11 +92,12 @@
     
     for (NSInteger i = 0; i < 3; i++) {
         UIImageView *imageView = [[UIImageView alloc] init];
+        imageView.backgroundColor = kWhiteColor;
         imageView.image = kImage(@"TJDeskInfoDefault");
-        imageView.tag = 1610 + i;
-        imageView.layerCornerRadius = 14;
+        imageView.layerBorderWidth = 1;
         imageView.layerBorderColor = kWhiteColor;
-        imageView.layerBorderWidth = 1.f;
+        imageView.layerCornerRadius = 14;
+        imageView.tag = 1610 + i;
         [self.contentView addSubview:imageView];
         [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(140);
@@ -174,10 +160,15 @@
 }
 
 - (void)updateMember:(NSArray *)arr {
+    
     for (NSInteger i = 0; i < 3; i++) {
         UIImageView *iv = [self.contentView viewWithTag:1610+i];
         if (i < arr.count) {
-            [iv sd_setImageWithURL:[NSURL URLWithString:arr[i][@"head_image"]]];
+            [iv yy_setImageWithURL:[NSURL URLWithString:arr[i][@"head_image"]] options:0];
+//            [iv sd_setImageWithURL:[NSURL URLWithString:arr[i][@"head_image"]] placeholderImage:[UIImage new] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+//                
+//            }];
+//            [iv sd_setImageWithURL:[NSURL URLWithString:arr[i][@"head_image"]]];
         } else {
             iv.image = kImage(@"TJDeskInfoDefault");
         }

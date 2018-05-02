@@ -35,14 +35,14 @@
     [_registerView.signupBtn addTarget:self action:@selector(signupAction) forControlEvents:UIControlEventTouchUpInside];
     [_registerView.nextButton addTarget:self action:@selector(nextAction) forControlEvents:UIControlEventTouchUpInside];
     
-#ifdef DEBUG
-    NSString* deviceName = [[UIDevice currentDevice] name];
-    if ([deviceName isEqualToString:@"iPhoen 6"])
-        _registerView.phoneTF.text = @"13693326733";
+
+    if (kiPhoen) {
+        _registerView.phoneTF.text = @"17600368817";
+        _registerView.nextButton.enabled = true;
+    }
 //    else
 //        _registerView.phoneTF.text = @"15210030317";
 //    _registerView.phoneTF.text = @"13693326733";//15210030317  17600368817 15731629742
-#endif
     
     _registerView.phoneTF.delegate = self;
 

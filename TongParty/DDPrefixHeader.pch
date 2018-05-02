@@ -46,6 +46,8 @@
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import <MAMapKit/MAMapKit.h>
 //#import <MJRefresh/MJRefresh.h>
+#import <YYWebImage/YYWebImage.h>
+
 #import "UIImageView+WebCache.h"
 
 #import "DDTJHttpRequest.h"

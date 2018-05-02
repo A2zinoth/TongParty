@@ -11,7 +11,7 @@
 #import "TJEventAddrView.h"
 #import "TJSearchResultController.h"
 #import "TJSuggestTableViewCell.h"
-#import <AMapSearchKit/AMapSearchKit.h>
+
 
 #define StatusHeight [[UIApplication sharedApplication] statusBarFrame].size.height
 
@@ -57,7 +57,7 @@ UISearchControllerDelegate,AMapLocationManagerDelegate,MAMapViewDelegate,AMapSea
     [_okBtn setTitle:@"确定" forState:UIControlStateNormal];
     [_okBtn setTitleColor:kBtnEnable forState:UIControlStateNormal];
     _okBtn.titleLabel.font = [UIFont systemFontOfSize:13];
-    [_okBtn addTarget:self action:@selector(closeAction) forControlEvents:UIControlEventTouchUpInside];
+    [_okBtn addTarget:self action:@selector(okAction) forControlEvents:UIControlEventTouchUpInside];
     _okBtn.frame = CGRectMake(0, 0, 38, 28);
     UIBarButtonItem *rightBBI = [[UIBarButtonItem alloc] initWithCustomView:_okBtn];
     self.navigationItem.rightBarButtonItems = @[rightBBI];
@@ -275,7 +275,6 @@ UISearchControllerDelegate,AMapLocationManagerDelegate,MAMapViewDelegate,AMapSea
     dispatch_once(&onceToken, ^{
         [self searchPOIWith:CLLocationCoordinate2DMake(_currentLocation.coordinate.latitude, _currentLocation.coordinate.longitude)];
     });
-    
 }
 
 
@@ -297,7 +296,7 @@ UISearchControllerDelegate,AMapLocationManagerDelegate,MAMapViewDelegate,AMapSea
     //request.types = @"汽车服务|汽车销售|汽车维修|摩托车服务|餐饮服务|购物服务|生活服务|体育休闲服务|医疗保健服务|住宿服务|风景名胜|商务住宅|政府机构及社会团体|科教文化服务|交通设施服务|金融保险服务|公司企业|道路附属设施|地名地址信息|公共设施";
     /* 按照距离排序. */
     request.sortrule            = 0;
-    request.requireExtension    = false;
+    request.requireExtension    = true;
     [MBProgressHUD showLoading:nil toView:self.tableView];
     [self.search AMapPOIAroundSearch:request];
 }
@@ -365,7 +364,7 @@ UISearchControllerDelegate,AMapLocationManagerDelegate,MAMapViewDelegate,AMapSea
         _iv_mapMark = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, DDFitWidth(15.f), DDFitHeight(30.f))];
 //        //        _iv_mapMark.center = self.mapView.center;
 //        _iv_mapMark.center = CGPointMake(kScreenWidth/2, 126);
-        _iv_mapMark.image = kImage(@"TJLocationHere");
+//        _iv_mapMark.image = kImage(@"TJLocationHere");
     }
     return _iv_mapMark;
 }
@@ -424,7 +423,10 @@ UISearchControllerDelegate,AMapLocationManagerDelegate,MAMapViewDelegate,AMapSea
 }
 
 - (void)okAction {
-    
+    if (_locationAddressSelectBlcok) {
+        _locationAddressSelectBlcok(_dataArray[_index]);
+    }
+    [self pop];
 }
 
 

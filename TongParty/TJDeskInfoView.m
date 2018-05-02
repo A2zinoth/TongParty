@@ -130,8 +130,6 @@
         content.numberOfLines = 0;
         content.tag = 3738 +i;
         content.attributedText = attributedString;
-//        content.font = [UIFont systemFontOfSize:13];
-//        content.textColor = [UIColor hx_colorWithHexString:@"#262626"];
         [self addSubview:content];
         [content mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(153 + i *47);
@@ -204,7 +202,6 @@
 
 - (void)selectHeaderImage:(UIGestureRecognizer *)sender {
     UIImageView *imageView = (UIImageView *)sender.view;
-    NSLog(@"%zd", imageView.tag);
     if (_memberSelected) {
         _memberSelected(imageView.tag-1722);
     }
@@ -217,6 +214,11 @@
         YYLabel *label = [self viewWithTag:i+1925];
         
         if(i < members.count) {
+//            if ([members[i][@"uid"] isEqualToString:model.oid]) {
+//                if (_myIndex) {
+//                    _myIndex(i);
+//                }
+//            }
             if (i == 0) {
                 [DDUserDefault setObject:members[i][@"head_image"] forKey:@"masterHeadImage"];
             }
@@ -272,45 +274,55 @@
     UILabel *distance = [self viewWithTag:5753];
     distance.text = [NSString stringWithFormat:@"距离%.2fKM", model.distance.doubleValue];
     
-    
-    NSDictionary *dic = model.my;
-    if ([dic[@"is_master"] isEqualToString:@"1"]) {
+    TJDeskInfoMy *my = model.my;
+
+    if ([my.is_master isEqualToString:@"1"]) {
         _nextButton.tag = 1215;
         _contactBtn.hidden = true;
         [DDUserDefault setObject:@"1" forKey:@"is_master"];
         NSLog(@"is_master : 1");
     } else {
-        _nextButton.tag = 1216;
         _contactBtn.hidden = false;
         [DDUserDefault setObject:@"0" forKey:@"is_master"];
         NSLog(@"is_master : 0");
     }
     [DDUserDefault synchronize];
     
-    if ([dic[@"is_join"] isEqualToString:@"1"]) {
+    
+    if ([my.is_join isEqualToString:@"1"]) {
+        _nextButton.tag = 1216;
+        
         _contactBtn.enabled = true;
         _contactBtn.tintColor = kBtnEnable;
         [_contactBtn setTitleColor:kBtnEnable forState:UIControlStateNormal];
         [_contactBtn setImage:[UIImage imageNamed:@"TJDeskContact_enable"] forState:UIControlStateNormal];
         _noticeLock(@"1");
-        if ([dic[@"is_sign"] isEqualToString:@"1"]) {
+        if ([my.is_sign isEqualToString:@"1"]) {
             if ([[DDUserDefault objectForKey:@"is_master"] isEqualToString:@"1"]) {
                 [_nextButton setTitle:@"签到二维码" forState:UIControlStateNormal];
                 [_nextButton setBackgroundColor:kBtnEnable];
                 _nextButton.enabled = true;
+                _nextButton.tag = 1215;
             } else {
                 [_nextButton setTitle:@"已签到" forState:UIControlStateNormal];
                 [_nextButton setBackgroundColor:kBtnDisable];
                 _nextButton.enabled = false;
+                _nextButton.tag = 1216;
             }
         } else {
             [_nextButton setTitle:@"签到" forState:UIControlStateNormal];
             [_nextButton setBackgroundColor:kBtnEnable];
             _nextButton.enabled = true;
+            if ([[DDUserDefault objectForKey:@"is_master"] isEqualToString:@"1"]) {
+                _nextButton.tag = 1215;
+            } else {
+                _nextButton.tag = 1216;
+            }
         }
     } else {
         _nextButton.tag = 1214;
         [_nextButton setTitle:@"加入桌子" forState:UIControlStateNormal];
+        
         _contactBtn.enabled = false;
         [_contactBtn setTitleColor:kBtnDisable forState:UIControlStateNormal];
         [_contactBtn setImage:[UIImage imageNamed:@"TJDeskContact_disable"] forState:UIControlStateNormal];

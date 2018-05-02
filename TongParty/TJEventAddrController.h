@@ -7,8 +7,11 @@
 //
 
 #import "BaseViewController.h"
+#import <AMapSearchKit/AMapSearchKit.h>
 
 @interface TJEventAddrController : BaseViewController
+
+@property (nonatomic, copy) void(^locationAddressSelectBlcok)(AMapTip *Tip);
 
 @property (nonatomic, copy) NSString *latitude;
 @property (nonatomic, copy) NSString *longitude;

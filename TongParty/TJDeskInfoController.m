@@ -13,11 +13,13 @@
 #import <AVFoundation/AVFoundation.h>
 #import "TJQRScanViewController.h"
 #import "TJProfileController.h"
+#import "ZLLAuthorizationCheckTool.h"
 
 @interface TJDeskInfoController ()
 
 @property (nonatomic, strong) TJDeskInfoView  *infoView;
 @property (nonatomic, strong) TJDeskInfoModel *infoModel;
+@property (nonatomic, assign) __block NSInteger  myIndex;
 
 @end
 
@@ -40,14 +42,20 @@
     [_infoView.nextButton addTarget:self action:@selector(joinAction:) forControlEvents:UIControlEventTouchUpInside];
     
     _infoView.memberSelected = ^(NSInteger index) {
-        NSLog(@"index:%zd", index);
         [weakSelf requestProfile:index];
     };
+//    _infoView.myIndex = ^(NSInteger index) {
+//        _myIndex = index;
+//    };
 }
 
 - (void)requestProfile:(NSInteger)index {
     TJProfileController *profile = [[TJProfileController alloc] init];
-    profile.act = _infoModel.member[index][@"uid"];;
+//    if (index == _myIndex) {
+//        profile.act = @"DeskInfo";
+//    } else {
+        profile.act = _infoModel.member[index][@"uid"];;
+//    }
     [self.navigationController pushViewController:profile animated:true];
 }
 
@@ -57,6 +65,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+//    _myIndex = -1;
     NSDictionary *dic = @{
                           @"token":curUser.token,
                           @"tid":self.tid,
@@ -78,21 +87,18 @@
 - (void)joinAction:(UIButton *)btn {
     switch (btn.tag) {
         case 1214:{ //加入
-            NSLog(@"加入");
-                [DDResponseBaseHttp getWithAction:kTJTableJoin params:@{@"token":curUser.token, @"oid":_infoModel.oid, @"tid":self.tid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
-                    [MBProgressHUD showMessage:result.msg_cn];
-                } failure:^{
-                    
-                }];
+            [DDResponseBaseHttp getWithAction:kTJTableJoin params:@{@"token":curUser.token, @"oid":_infoModel.oid, @"tid":self.tid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+                [MBProgressHUD showMessage:result.msg_cn];
+            } failure:^{
+            }];
         }
             break;
         case 1215:{ //桌主
-            NSLog(@"桌主");
             [self masterSign];
         }
             break;
         case 1216:{ //玩家
-            NSLog(@"玩家");
+
             TJQRScanViewController *scanVC = [[TJQRScanViewController alloc] init];
             scanVC.tid = self.tid;
             scanVC.oid = _infoModel.oid;
@@ -103,7 +109,6 @@
             break;
     }
 }
-
 
 - (void)masterSign {
     kWeakSelf
@@ -135,55 +140,13 @@
 
 
 - (void)QRCodeScanVC:(UIViewController *)scanVC {
-    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    if (device) {
-        AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-        switch (status) {
-            case AVAuthorizationStatusNotDetermined: {
-                [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
-                    if (granted) {
-                        dispatch_sync(dispatch_get_main_queue(), ^{
-                            [self.navigationController pushViewController:scanVC animated:YES];
-                        });
-                        NSLog(@"用户第一次同意了访问相机权限 - - %@", [NSThread currentThread]);
-                    } else {
-                        NSLog(@"用户第一次拒绝了访问相机权限 - - %@", [NSThread currentThread]);
-                    }
-                }];
-                break;
-            }
-            case AVAuthorizationStatusAuthorized: {
+    [ZLLAuthorizationCheckTool availablecheckAccessForCamera:true presentingVC:self jumpSettering:true alertNotAvailable:true resultBlock:^(BOOL isAvailable, ZLLAuthorizationStatus status) {
+        if (isAvailable) {
+            dispatch_async(dispatch_get_main_queue(), ^{
                 [self.navigationController pushViewController:scanVC animated:YES];
-                break;
-            }
-            case AVAuthorizationStatusDenied: {
-                UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"请去-> [设置 - 隐私 - 相机 - 桐聚] 打开访问开关" preferredStyle:(UIAlertControllerStyleAlert)];
-                UIAlertAction *alertA = [UIAlertAction actionWithTitle:@"确定" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
-                    
-                }];
-                
-                [alertC addAction:alertA];
-                [self presentViewController:alertC animated:YES completion:nil];
-                break;
-            }
-            case AVAuthorizationStatusRestricted: {
-                NSLog(@"因为系统原因, 无法访问相册");
-                break;
-            }
-                
-            default:
-                break;
+            });
         }
-        return;
-    }
-    
-    UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"未检测到您的摄像头" preferredStyle:(UIAlertControllerStyleAlert)];
-    UIAlertAction *alertA = [UIAlertAction actionWithTitle:@"确定" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
-        
     }];
-    
-    [alertC addAction:alertA];
-    [self presentViewController:alertC animated:YES completion:nil];
 }
 
 - (TJDeskInfoView *)infoView {

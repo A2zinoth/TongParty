@@ -42,4 +42,10 @@
     return _tableView;
 }
 
+- (void)pop {
+    if (self.navigationController == nil) return ;
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 @end

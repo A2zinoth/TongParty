@@ -50,6 +50,7 @@
         @throw [NSException exceptionWithName:@"SGQRCode" reason:@"readQRCodeFromAlbumWithCurrentController: 方法中的 currentController 参数不能为空" userInfo:nil];
     }
     
+    
     // 1、 获取摄像设备
     AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     if (device) {
@@ -80,7 +81,7 @@
             }
             [self enterImagePickerController];
         } else if (status == PHAuthorizationStatusDenied) { // 用户拒绝当前应用访问相册
-            [self enterImagePickerController];
+//            [self enterImagePickerController];
         } else if (status == PHAuthorizationStatusRestricted) {
             UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"由于系统原因, 无法访问相册" preferredStyle:(UIAlertControllerStyleAlert)];
             UIAlertAction *alertA = [UIAlertAction actionWithTitle:@"确定" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {

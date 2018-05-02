@@ -6,8 +6,8 @@
 //  Copyright © 2017年 zll. All rights reserved.
 //   检测当前权限状态 iOS8.0之后
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+//#import <Foundation/Foundation.h>
+//#import <UIKit/UIKit.h>
 typedef NS_ENUM(NSUInteger, ZLLAuthorizationStatus) {
 
     ZLLAuthorizationStatus_NotDetermined  = 0, // 用户从未进行过授权等处理，首次访问相应内容会提示用户进行授权
@@ -22,12 +22,13 @@ typedef NS_ENUM(NSUInteger, ZLLAuthorizationStatus) {
 };
 typedef void (^ZLLAuthorizationBlock)(BOOL isAvailable, ZLLAuthorizationStatus status);
 
-//联网权限
-//相册权限
-//相机、麦克风权限
 //定位权限
-//推送权限
 //通讯录权限
+//相册权限
+//麦克风权限
+//相机权限
+//联网权限
+//推送权限
 //日历、备忘录权限
 
 NS_ASSUME_NONNULL_BEGIN
@@ -44,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (ZLLAuthorizationStatus)checkAccessForMicrophone;
 /** 相机权限检测 */
 + (ZLLAuthorizationStatus)checkAccessForCamera:(BOOL)isRear;
-//+ (ZLLAuthorizationStatus)checkAccessForMicrophone;
+
 #pragma mark - 检查权限
 /*
  * 定位权限是否可用

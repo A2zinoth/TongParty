@@ -10,86 +10,11 @@
 #import <CoreLocation/CoreLocation.h>
 #import <Contacts/Contacts.h>
 #import <AddressBook/AddressBook.h>
-
 #import <Photos/Photos.h>
 #import <AVFoundation/AVFoundation.h>
+
 @implementation ZLLAuthorizationCheckTool
 
-#pragma mark - 检查权限
-+ (ZLLAuthorizationStatus)checkAccessForLocationServices {
-   NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-   NSString *alwaysUsage = [info objectForKey:@"NSLocationAlwaysUsageDescription"];
-   NSString *whenInUseUsage = [info objectForKey:@"NSLocationWhenInUseUsageDescription"];
-    if (alwaysUsage == nil && whenInUseUsage == nil) {
-        return ZLLAuthorizationStatus_NotInfoDesc;
-    }
-    if ([CLLocationManager locationServicesEnabled] == NO) {
-        return ZLLAuthorizationStatus_NotSupport;
-    }
-    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
-    switch (status) {
-        case kCLAuthorizationStatusNotDetermined:
-            return ZLLAuthorizationStatus_NotDetermined;
-        case kCLAuthorizationStatusRestricted:
-            return ZLLAuthorizationStatus_Restricted;
-        case kCLAuthorizationStatusDenied:
-            return ZLLAuthorizationStatus_Denied;
-        case kCLAuthorizationStatusAuthorizedAlways:
-            return ZLLAuthorizationLocaStatus_AlwaysUsage;
-        case kCLAuthorizationStatusAuthorizedWhenInUse:
-            return ZLLAuthorizationLocaStatus_WhenInUseUsage;
-    }
-}
-+ (ZLLAuthorizationStatus)checkAccessForContacts {
-    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-    NSString *desc = [info objectForKey:@"NSContactsUsageDescription"];
-    if (desc == nil) {
-         return ZLLAuthorizationStatus_NotInfoDesc;
-    }
-    
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 9.0) {
-        CNAuthorizationStatus status = [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
-        return (ZLLAuthorizationStatus)status;
-    }else {
-         ABAuthorizationStatus status = ABAddressBookGetAuthorizationStatus();
-         return (ZLLAuthorizationStatus)status;
-    }
-}
-+ (ZLLAuthorizationStatus)checkAccessForPhotos {
-     NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-     NSString *desc = [info objectForKey:@"NSPhotoLibraryUsageDescription"];
-  //  NSString *desc = [info objectForKey:@"NSPhotoLibraryUsageDescription"];
-    if (desc == nil) {
-        return ZLLAuthorizationStatus_NotInfoDesc;
-    }
-     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
-         return ZLLAuthorizationStatus_NotSupport;
-     }
-    PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
-    return (ZLLAuthorizationStatus)status;
-}
-+ (ZLLAuthorizationStatus)checkAccessForCamera:(BOOL)isRear {
-    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-    NSString *desc = [info objectForKey:@"NSCameraUsageDescription"];
-    if (desc == nil) {
-         return ZLLAuthorizationStatus_NotInfoDesc;
-    }
-    
-    if (![UIImagePickerController isCameraDeviceAvailable:isRear ? UIImagePickerControllerCameraDeviceRear : UIImagePickerControllerCameraDeviceFront]) {
-        return ZLLAuthorizationStatus_NotSupport;
-    }
-     AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-     return (ZLLAuthorizationStatus)status;
-}
-+ (ZLLAuthorizationStatus)checkAccessForMicrophone {
-    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-    NSString *desc = [info objectForKey:@"NSMicrophoneUsageDescription"];
-    if (desc == nil) {
-        return ZLLAuthorizationStatus_NotInfoDesc;
-    }
-    AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio];
-    return (ZLLAuthorizationStatus)status;
-}
 #pragma mark - 检查并请求权限
 + (void)availableAccessForLocationServices:(UIViewController *)currentVC
                              jumpSettering:(BOOL)jumpSettering
@@ -97,19 +22,27 @@
                                resultBlock:(ZLLAuthorizationBlock)resultBlock {
     ZLLAuthorizationStatus status = [self checkAccessForLocationServices];
     BOOL isAvail = NO;
-    if (status == ZLLAuthorizationStatus_NotSupport) {
+    if (status == ZLLAuthorizationStatus_NotDetermined) {
+        if(isAlert) {
+            CLLocationManager *manager = [[CLLocationManager alloc] init];
+            [manager requestWhenInUseAuthorization];
+    //                   requestAlwaysAuthorization
+        }
+    } else if (status == ZLLAuthorizationStatus_NotSupport) {
         if (isAlert) {
-            NSString *title = @"打开定位开关";
-            NSString *message = [NSString stringWithFormat:@"定位服务未开启，请进入系统【设置】>【隐私】>【定位服务】中打开开关，并允许%@使用定位服务", [self appName]];
+            NSString *title = @"打开[定位服务]来允许桐聚确定您的位置";
+            NSString *message = [NSString stringWithFormat:@"请在系统设置中开启定位服务(设置>%@>位置>开启)", [self appName]];
+//            NSString *title = @"打开定位开关";
+//            NSString *message = [NSString stringWithFormat:@"定位服务未开启，请进入系统【设置】>【隐私】>【定位服务】中打开开关，并允许%@使用定位服务", [self appName]];
 
             [self showAlertVCWithTitle:title message:message currentVC:currentVC jumpSettering:jumpSettering settingURLString:@"root=LOCATION_SERVICES"];
-
         }
-       
     }else if (status == ZLLAuthorizationStatus_Denied || status == ZLLAuthorizationStatus_Restricted) {
         if (isAlert) {
-            NSString *title = @"开启定位服务";
-            NSString *message = [NSString stringWithFormat:@"定位服务受限，请进入系统【设置】>【隐私】>【定位服务】中允许%@使用定位服务", [self appName]];
+            NSString *title = @"打开[定位服务]来允许桐聚确定您的位置";
+            NSString *message = [NSString stringWithFormat:@"请在系统设置中开启定位服务(设置>%@>位置>开启)", [self appName]];
+//            NSString *title = @"开启定位服务";
+//            NSString *message = [NSString stringWithFormat:@"定位服务受限，请进入系统【设置】>【隐私】>【定位服务】中允许%@使用定位服务", [self appName]];
 
             [self showAlertVCWithTitle:title message:message currentVC:currentVC jumpSettering:jumpSettering settingURLString:@"root=LOCATION_SERVICES"];
 
@@ -120,7 +53,6 @@
             NSString *message = @"请在配置文件中设置描述";
 
             [self showAlertVCWithTitle:title message:message currentVC:currentVC jumpSettering:jumpSettering settingURLString:nil];
-
         }
     } else {
         isAvail = YES;
@@ -150,25 +82,37 @@
         [self showAlertVCWithTitle:title message:message currentVC:currentVC jumpSettering:jumpSettering settingURLString:nil];
      
         
-    } else if (status == ZLLAuthorizationStatus_Authorized){
+    } else if (status == ZLLAuthorizationStatus_Authorized) {
         
         isAvail = YES;
-    }else{
-        ABAddressBookRef bookRef = ABAddressBookCreate();
-        ABAddressBookRequestAccessWithCompletion(bookRef, ^(bool granted, CFErrorRef error) {
-            if (granted)
-            {
-                if (resultBlock) {
-                    resultBlock(YES, (ZLLAuthorizationStatus)status);
-                }
-            }else{
-                if (resultBlock) {
+    } else if (status == ZLLAuthorizationStatus_NotDetermined) {
+        CNContactStore *store = [[CNContactStore alloc] init];
+        [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
+            if (resultBlock) {
+                if (granted) {
+                    resultBlock(true, (ZLLAuthorizationStatus)status);
+                }else {
                     resultBlock(NO, (ZLLAuthorizationStatus)status);
                 }
             }
-        });
+        }];
         return;
     }
+//        ABAddressBookRef bookRef = ABAddressBookCreate();
+//        ABAddressBookRequestAccessWithCompletion(bookRef, ^(bool granted, CFErrorRef error) {
+//            if (granted)
+//            {
+//                if (resultBlock) {
+//                    resultBlock(YES, (ZLLAuthorizationStatus)status);
+//                }
+//            }else{
+//                if (resultBlock) {
+//                    resultBlock(NO, (ZLLAuthorizationStatus)status);
+//                }
+//            }
+//        });
+//        return;
+//    }
     if (resultBlock) {
         resultBlock(isAvail, status);
     }
@@ -183,20 +127,15 @@
         if (isAlert) {
             NSString *title = @"照片不可用";
             NSString *message = @"设备不支持照片，请更换设备后再试";
-
             [self showAlertVCWithTitle:title message:message currentVC:currentVC jumpSettering:jumpSettering settingURLString:nil];
-
         }
-        
-    }else if (status == ZLLAuthorizationStatus_Denied || status == ZLLAuthorizationStatus_Restricted) {
+    } else if (status == ZLLAuthorizationStatus_Denied || status == ZLLAuthorizationStatus_Restricted) {
         if (isAlert) {
             NSString *title = @"访问照片受限";
             NSString *message = [NSString stringWithFormat:@"照片访问受限，请进入系统【设置】>【隐私】>【照片】中允许%@访问照片", [self appName]];
-
             [self showAlertVCWithTitle:title message:message currentVC:currentVC jumpSettering:jumpSettering settingURLString:@"root=Photos"];
-
         }
-    }else if (status == ZLLAuthorizationStatus_NotInfoDesc){
+    } else if (status == ZLLAuthorizationStatus_NotInfoDesc){
         if (isAlert) {
             NSString *title = @"访问受限";
             NSString *message = @"请在配置文件中设置描述";
@@ -207,7 +146,7 @@
     } else if (status == ZLLAuthorizationStatus_Authorized){
       
         isAvail = YES;
-    }else{
+    } else {
         [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
             if (status == PHAuthorizationStatusAuthorized) {
                 if (resultBlock) {
@@ -240,10 +179,8 @@
             NSString *message = [deviceName stringByAppendingString:@"不支持，请更换设备后再试"];
 
             [self showAlertVCWithTitle:title message:message currentVC:currentVC jumpSettering:jumpSettering settingURLString:nil];
-
         }
-        
-    }else if (status == ZLLAuthorizationStatus_Denied || status == ZLLAuthorizationStatus_Restricted) {
+    } else if (status == ZLLAuthorizationStatus_Denied || status == ZLLAuthorizationStatus_Restricted) {
         if (isAlert) {
             NSString *title = @"访问相机受限";
             NSString *message = [NSString stringWithFormat:@"相机访问受限，请进入系统【设置】>【隐私】>【相机】中允许%@访问相机", [self appName]];
@@ -251,7 +188,7 @@
             [self showAlertVCWithTitle:title message:message currentVC:currentVC jumpSettering:jumpSettering settingURLString:@"root=Camera"];
 
         }
-    }else if (status == ZLLAuthorizationStatus_NotInfoDesc){
+    } else if (status == ZLLAuthorizationStatus_NotInfoDesc) {
         if (isAlert) {
             NSString *title = @"访问受限";
             NSString *message = @"请在配置文件中设置描述";
@@ -259,16 +196,14 @@
             [self showAlertVCWithTitle:title message:message currentVC:currentVC jumpSettering:jumpSettering settingURLString:nil];
 
         }
-    } else if (status == ZLLAuthorizationStatus_Authorized){
+    } else if (status == ZLLAuthorizationStatus_Authorized) {
         isAvail = YES;
-    }else{
+    } else {
         [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
-            if (granted) {
-                if (resultBlock) {
-                    resultBlock(YES, (ZLLAuthorizationStatus)status);
-                }
-            }else{
-                if (resultBlock) {
+            if (resultBlock) {
+                if (granted) {
+                     resultBlock(YES, (ZLLAuthorizationStatus)status);
+                } else {
                     resultBlock(NO, (ZLLAuthorizationStatus)status);
                 }
             }
@@ -348,7 +283,11 @@
 //    if (jumpSettering && settingURLString && [self whetherCanJumpToSetting]) {
 
     UIAlertAction *jump = [UIAlertAction actionWithTitle:@"去开启" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-         [[UIApplication sharedApplication]openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+        if (@available(ios 10.0, *)) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{} completionHandler:nil];
+        } else {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+        }
         //[self openURLString:settingURLString];
     }];
     [alertVC addAction:jump];
@@ -393,6 +332,83 @@
       dispalyName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
     }
     return dispalyName;
+}
+
+#pragma mark - 检查权限
++ (ZLLAuthorizationStatus)checkAccessForLocationServices {
+    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+    NSString *alwaysUsage = [info objectForKey:@"NSLocationAlwaysUsageDescription"];
+    NSString *whenInUseUsage = [info objectForKey:@"NSLocationWhenInUseUsageDescription"];
+    if (alwaysUsage == nil && whenInUseUsage == nil) {
+        return ZLLAuthorizationStatus_NotInfoDesc;
+    }
+    if ([CLLocationManager locationServicesEnabled] == NO) {
+        return ZLLAuthorizationStatus_NotSupport;
+    }
+    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+    switch (status) {
+        case kCLAuthorizationStatusNotDetermined:
+            return ZLLAuthorizationStatus_NotDetermined;
+        case kCLAuthorizationStatusRestricted:
+            return ZLLAuthorizationStatus_Restricted;
+        case kCLAuthorizationStatusDenied:
+            return ZLLAuthorizationStatus_Denied;
+        case kCLAuthorizationStatusAuthorizedAlways:
+            return ZLLAuthorizationLocaStatus_AlwaysUsage;
+        case kCLAuthorizationStatusAuthorizedWhenInUse:
+            return ZLLAuthorizationLocaStatus_WhenInUseUsage;
+    }
+}
++ (ZLLAuthorizationStatus)checkAccessForContacts {
+    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+    NSString *desc = [info objectForKey:@"NSContactsUsageDescription"];
+    if (desc == nil) {
+        return ZLLAuthorizationStatus_NotInfoDesc;
+    }
+    
+    //    if ([UIDevice currentDevice].systemVersion.floatValue >= 9.0) {
+    CNAuthorizationStatus status = [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
+    return (ZLLAuthorizationStatus)status;
+    //    }
+    //    else {
+    //         ABAuthorizationStatus status = ABAddressBookGetAuthorizationStatus();
+    //         return (ZLLAuthorizationStatus)status;
+    //    }
+}
++ (ZLLAuthorizationStatus)checkAccessForPhotos {
+    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+    NSString *desc = [info objectForKey:@"NSPhotoLibraryUsageDescription"];
+    //  NSString *desc = [info objectForKey:@"NSPhotoLibraryUsageDescription"];
+    if (desc == nil) {
+        return ZLLAuthorizationStatus_NotInfoDesc;
+    }
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+        return ZLLAuthorizationStatus_NotSupport;
+    }
+    PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
+    return (ZLLAuthorizationStatus)status;
+}
++ (ZLLAuthorizationStatus)checkAccessForCamera:(BOOL)isRear {
+    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+    NSString *desc = [info objectForKey:@"NSCameraUsageDescription"];
+    if (desc == nil) {
+        return ZLLAuthorizationStatus_NotInfoDesc;
+    }
+    
+    if (![UIImagePickerController isCameraDeviceAvailable:isRear ? UIImagePickerControllerCameraDeviceRear : UIImagePickerControllerCameraDeviceFront]) {
+        return ZLLAuthorizationStatus_NotSupport;
+    }
+    AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    return (ZLLAuthorizationStatus)status;
+}
++ (ZLLAuthorizationStatus)checkAccessForMicrophone {
+    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+    NSString *desc = [info objectForKey:@"NSMicrophoneUsageDescription"];
+    if (desc == nil) {
+        return ZLLAuthorizationStatus_NotInfoDesc;
+    }
+    AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio];
+    return (ZLLAuthorizationStatus)status;
 }
 
 @end

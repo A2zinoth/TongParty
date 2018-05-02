@@ -29,4 +29,7 @@
 - (void)updateRemainL:(NSString *)time;
 - (void)updateTime:(NSString *)time;
 
+// 消息申请
+- (void)updateApplyNotice;
+
 @end

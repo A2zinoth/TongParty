@@ -10,6 +10,8 @@
 #import "TJPublishModel.h"
 #import "NSDate+Extension.h"
 
+#define editedTextColor @"#7C848C"
+
 @interface TJPublishTableViewCell ()
 
 @property (nonatomic, strong) YYLabel *eventLabel;
@@ -52,7 +54,7 @@
     _eventLabel = [[YYLabel alloc] init];
     _eventLabel.font = [UIFont systemFontOfSize:13];
     _eventLabel.textAlignment = NSTextAlignmentRight;
-    _eventLabel.textColor = [UIColor hx_colorWithHexString:@"#BAC6D2"];
+    _eventLabel.textColor = [UIColor hx_colorWithHexString:@"#BAC6D2"]; 
     [self.contentView addSubview:_eventLabel];
     [_eventLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.titleLabel);
@@ -90,6 +92,9 @@
         case 0:{
             content = model.title;
             _moreBtn.hidden = true;
+            if (model.titleEdit) {
+                _eventLabel.textColor = [UIColor hx_colorWithHexString:editedTextColor];
+            }
         }
             break;
         case 1:{
@@ -106,16 +111,28 @@
             break;
         case 2:
                 content = [self transformTimestamp:model.begin_time];
+            if (model.timeEdit) {
+                _eventLabel.textColor = [UIColor hx_colorWithHexString:editedTextColor];
+            }
             break;
         case 3:
             content = model.place;
+            if (model.placeEdit) {
+                _eventLabel.textColor = [UIColor hx_colorWithHexString:editedTextColor];
+            }
             break;
         case 4:
             content = [NSString stringWithFormat:@"%@人", model.person_num];
+            if (model.numEdit) {
+                _eventLabel.textColor = [UIColor hx_colorWithHexString:editedTextColor];
+            }
             break;
         case 5: {
             content = [NSString stringWithFormat:@"¥%@/人", model.average_price];
             _moreBtn.hidden = true;
+            if (model.averageEdit) {
+                _eventLabel.textColor = [UIColor hx_colorWithHexString:editedTextColor];
+            }
         }
             break;
         case 6:{
@@ -161,11 +178,5 @@
     return _switchBtn;
 }
 
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
 
 @end

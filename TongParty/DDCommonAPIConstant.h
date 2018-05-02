@@ -39,6 +39,7 @@
 #define kTJMessageList                   @"/tojoin/api/message_list.php"
 #define kTJTableMy                       @"/tojoin/api/obtain_my_table.php"
 #define kTJTableHistory                  @"/tojoin/api/obtain_table_history.php"
+#define kTJMessageDetail                 @"/tojoin/api/message_details.php"
 
 // 加入
 #define kTJTableJoin                     @"/tojoin/api/apply_join_table.php"

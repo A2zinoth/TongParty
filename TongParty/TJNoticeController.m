@@ -9,13 +9,18 @@
 #import "TJNoticeController.h"
 #import "TJNoticeCell.h"
 #import "TJMasterController.h"
+#import "TJSystemController.h"
+#import "TJAttentionController.h"
+#import "TJApplyNoticeController.h"
+#import "TJFriendReqController.h"
 
 #define ValidDict(f) (f!=nil && [f isKindOfClass:[NSDictionary class]])
 
 @interface TJNoticeController ()
 
-@property (nonatomic, strong) UIButton *cancelBtn;
-@property (nonatomic, strong) NSArray  *data;
+@property (nonatomic, strong) UIButton       *cancelBtn;
+@property (nonatomic, strong) NSArray        *data;// 桌子申请
+@property (nonatomic, strong) NSMutableDictionary *mutableDataSource; // 系统通知
 
 @end
 
@@ -80,6 +85,8 @@
         make.bottom.mas_equalTo(0);
     }];
     
+    
+    _mutableDataSource = [NSMutableDictionary dictionaryWithCapacity:5];
 }
 
 - (void)viewDidLoad {
@@ -115,10 +122,39 @@
     if (indexPath.section == 0) {
         cell.headImage.image = [UIImage imageNamed:[NSString stringWithFormat:@"TJNotice-%zd",indexPath.row]];
         cell.titleL.text = self.dataSource[indexPath.row];
-        cell.contentL.text = @"桐聚新版本上线啦～";
-        cell.timeL.text = @"10分钟";
         [cell updateSystemControl];
-//        [cell updateWidget];
+        
+        if (indexPath.row == 0) {
+            if (_mutableDataSource[@"system"]) {
+                NSArray *arr =  _mutableDataSource[@"system"];
+                cell.contentL.text = arr[0][@"content"];
+                [cell updateTime:arr[0][@"uptime"]];
+            }
+        } else if (indexPath.row > 1) {
+            if (_mutableDataSource[@"follow"]) {
+                NSArray *arr =  _mutableDataSource[@"follow"];
+                cell.contentL.text = [NSString stringWithFormat:@"%@%@",arr[0][@"nickename"], arr[0][@"msg_text"]];
+                [cell updateTime:arr[0][@"uptime"]];
+            }
+        } else if (indexPath.row == 2) {
+            if (_mutableDataSource[@"replay"]) {
+                NSArray *arr =  _mutableDataSource[@"replay"];
+                cell.contentL.text = cell.contentL.text = [NSString stringWithFormat:@"%@%@",arr[0][@"nickename"], arr[0][@"msg_text"]];
+                [cell updateTime:arr[0][@"uptime"]];
+            }
+        } else if (indexPath.row == 3) {
+            if (_mutableDataSource[@"invite"]) {
+                NSArray *arr =  _mutableDataSource[@"invite"];
+                cell.contentL.text = cell.contentL.text = [NSString stringWithFormat:@"%@%@",arr[0][@"nickename"], arr[0][@"msg_text"]];
+                [cell updateTime:arr[0][@"uptime"]];
+            }
+        } else if (indexPath.row == 4) {
+            if (_mutableDataSource[@"friend"]) {
+                NSArray *arr =  _mutableDataSource[@"friend"];
+                cell.contentL.text = cell.contentL.text = [NSString stringWithFormat:@"%@%@",arr[0][@"nickename"], arr[0][@"msg_text"]];
+                [cell updateTime:arr[0][@"uptime"]];
+            }
+        }
     } else {
         if ([self.data[indexPath.row][@"is_master"] isEqualToString:@"1"]) {
             cell.headImage.image = kImage(@"TJMaster");
@@ -144,7 +180,21 @@
 }
 //18612404155
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 1) {
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {// 系统消息
+            [self.navigationController pushViewController:[TJSystemController new] animated:true];
+        } else if (indexPath.row == 1) {
+            [self.navigationController pushViewController:[TJAttentionController new] animated:true];
+        } else if (indexPath.row == 2) {
+            [self.navigationController pushViewController:[TJApplyNoticeController new] animated:true];
+        } else if (indexPath.row == 3) {
+            TJApplyNoticeController *invite = [[TJApplyNoticeController alloc] init];
+            invite.type = @"邀请";
+            [self.navigationController pushViewController:invite animated:true];
+        } else if (indexPath.row == 4) {
+            [self.navigationController pushViewController:[TJFriendReqController new] animated:true];
+        }
+    } else if (indexPath.section == 1) {
         [self.navigationController pushViewController:[TJMasterController new] animated:true];
     }
 }
@@ -153,12 +203,27 @@
     kWeakSelf
     [DDResponseBaseHttp getWithAction:kTJMessageList params:@{@"token":curUser.token} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
         if ([result.status isEqualToString:@"success"]) {
-            NSArray *arr = result.data;
-            if (arr.count) {
-                if ((result.data[@"table"])) {
-                    weakSelf.data = result.data[@"table"];
-                    [weakSelf.tableView reloadData];
+            NSDictionary *dic = result.data;
+            if (dic.count) {
+                if ((dic[@"table"])) {
+                    weakSelf.data = dic[@"table"];
                 }
+                if (dic[@"system"]) {
+                    [weakSelf.mutableDataSource setObject:dic[@"system"] forKey:@"system"];
+                }
+                if (dic[@"follow"]) {
+                    [weakSelf.mutableDataSource setObject:dic[@"follow"] forKey:@"follow"];
+                }
+                if (dic[@"friend"]) {
+                    [weakSelf.mutableDataSource setObject:dic[@"friend"] forKey:@"friend"];
+                }
+                if (dic[@"replay"]) {
+                    [weakSelf.mutableDataSource setObject:dic[@"replay"] forKey:@"replay"];
+                }
+                if (dic[@"invite"]) {
+                    [weakSelf.mutableDataSource setObject:dic[@"invite"] forKey:@"invite"];
+                }
+                [weakSelf.tableView reloadData];
             }
         }
     } failure:^{

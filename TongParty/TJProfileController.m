@@ -23,6 +23,7 @@
 
 
 @property (nonatomic, strong) TJProfileView *profileView;
+@property (nonatomic, assign) __block BOOL  isMy;
 
 @end
 
@@ -49,6 +50,9 @@
     
     
     [self.view addSubview:self.tableView];
+//    if ([_act isEqualToString:@"DeskInfo"]) {
+//        self.dataSource = @[@"我的桌子", @"桌子历史", @"我的相册"];
+//    } else
     if(_act)
         self.dataSource = @[@"他的桌子", @"桌子历史", @"他的相册"];
     else
@@ -84,6 +88,9 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
      self.navigationController.navigationBar.hidden = true;
+//    if ([_act isEqualToString:@"DeskInfo"]) {
+//        [self requestData];
+//    } else
     if (_act) {
         [self requestDataWithUid:_act];
     } else
@@ -127,7 +134,8 @@
     if (indexPath.row == 0) {
         TJTableController *table = [[TJTableController alloc] init];
         if (_act)
-            table.act = _act;
+            if (!_isMy)
+                table.act = _act;
         [self.navigationController pushViewController:table animated:true];
     }
 }
@@ -154,7 +162,6 @@
 }
 
 
-
 - (void)addFollowAction:(UIButton *)btn {
     if (!btn.selected) {// 关注
         [DDResponseBaseHttp getWithAction:kTJFollowUser params:@{@"token":curUser.token, @"oid":_act} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
@@ -178,7 +185,7 @@
 }
 
 - (void)friendAction {
-    [self.navigationController pushViewController:[TJFriendController new] animated:true];
+//    [self.navigationController pushViewController:[TJFriendController new] animated:true];
 }
 
 - (void)followerAction {
@@ -191,7 +198,7 @@
 
 - (void)editAction {
     TJEditProfileController *editProfile = [[TJEditProfileController alloc] init];
-    if (_act) {
+    if (!_isMy) {
         editProfile.act = _act;
     }
     [self.navigationController pushViewController:editProfile animated:true];
@@ -217,6 +224,11 @@
         if ([result.status isEqualToString:@"success"]) {
             [weakSelf.profileView updateWithDic:result.data];
             [weakSelf setupFootView:result.data[@"album"]];
+            if ([result.data[@"is_my"] isEqualToNumber:[NSNumber numberWithInteger:1]]) {
+                _isMy = true;
+                weakSelf.dataSource = @[@"我的桌子", @"桌子历史", @"我的相册"];
+                [weakSelf.tableView reloadData];
+            }
         }
     } failure:^{
         

@@ -1,22 +1,21 @@
 //
-//  TJMasterController.m
+//  TJAttentionController.m
 //  TongParty
 //
-//  Created by tojoin on 2018/4/26.
+//  Created by tojoin on 2018/5/2.
 //  Copyright © 2018年 桐聚. All rights reserved.
 //
 
-#import "TJMasterController.h"
+#import "TJAttentionController.h"
 #import "TJFollowCell.h"
 
-@interface TJMasterController ()
+@interface TJAttentionController ()
 
 @property (nonatomic, strong) UIButton *cancelBtn;
 
 @end
 
-@implementation TJMasterController
-
+@implementation TJAttentionController
 - (void)createUI {
     _cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [_cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
@@ -79,6 +78,10 @@
     }];
 }
 
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+}
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self requestData];
@@ -96,41 +99,43 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell.actionBtn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
     }
-    [cell updateMasterNotice];
-    [cell updateMasterNoticeWith:self.dataSource[indexPath.row]];
+    [cell updateAttentionNotice];
     [cell updateBtnTag:indexPath.row];
+//    [cell updateMasterNoticeWith:self.dataSource[indexPath.row]];
     
     return cell;
 }
 
 - (void)btnAction:(UIButton *)btn {
-    NSInteger index = btn.tag;
-    NSString *act;
-    // 0申请 3回复  4加入
-    if ([self.dataSource[index][@"type"] isEqualToString:@"0"]) {
-        if (btn.selected) {
-
-        } else {
-            act = @"agree";
-            [DDResponseBaseHttp getWithAction:@"/tojoin/api/process_table_apply.php" params:@{@"token":curUser.token, @"oid":self.dataSource[index][@"from_id"], @"tid":self.dataSource[index][@"tid"], @"act":act} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
-                [MBProgressHUD showMessage:result.msg_cn];
-                if ([result.status isEqualToString:@"success"]) {
-                    btn.selected = !btn.selected;
-                }
-            } failure:^{
-            }];
-        }
-       
-        
-    }
     
+    NSInteger index = btn.tag;
+    NSString *_act = self.dataSource[index][@"from_id"];
+    if (!btn.selected) {// 关注
+        [DDResponseBaseHttp getWithAction:kTJFollowUser params:@{@"token":curUser.token, @"oid":_act} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+            [MBProgressHUD showMessage:result.msg_cn];
+            if ([result.status isEqualToString:@"success"]) {
+                btn.backgroundColor = [UIColor hx_colorWithHexString:@"#E6E5EB"];
+                btn.selected = true;
+            }
+        } failure:^{
+        }];
+    } else { // 未关注
+        [DDResponseBaseHttp getWithAction:kTJCancelFollow params:@{@"token":curUser.token, @"oid":_act} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+            [MBProgressHUD showMessage:result.msg_cn];
+            if ([result.status isEqualToString:@"success"]) {
+                btn.backgroundColor = kBtnEnable;
+                btn.selected = false;
+            }
+        } failure:^{
+        }];
+    }
 }
 
 #pragma mark - UITableViewDelegate
 
 - (void)requestData {
     kWeakSelf
-    [DDResponseBaseHttp getWithAction:kTJMessageDetail params:@{@"token":curUser.token, @"act":@"table"} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+    [DDResponseBaseHttp getWithAction:kTJMessageDetail params:@{@"token":curUser.token, @"act":@"follow"} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
         if ([result.status isEqualToString:@"success"]) {
             
             weakSelf.dataSource = result.data;
@@ -148,5 +153,7 @@
 - (void)closeAction {
     [self.navigationController popViewControllerAnimated:true];
 }
+
+
 
 @end

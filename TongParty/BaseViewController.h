@@ -13,6 +13,8 @@
 @property (nonatomic, strong) UITableView        *tableView;
 @property (nonatomic, strong) NSArray            *dataSource;
 
+- (void)pop;
+
 - (void)createData;
 - (void)createUI;
 @end

@@ -16,6 +16,7 @@
 #import "TJHomeModel.h"
 #import "TJDeskViewController.h"
 #import "AppDelegate+AppLocation.h"
+#import "ZLLAuthorizationCheckTool.h"
 
 @interface TJHomeController ()<AMapLocationManagerDelegate>
 
@@ -64,20 +65,20 @@
         make.height.mas_equalTo(18);
     }];
     
-    // 首页
-    UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = @"首页";
-    titleLabel.font = [UIFont systemFontOfSize:24];
-    [self.view addSubview:titleLabel];
-    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        if (@available(ios 11.0,*)) {
-            make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(67);
-        } else {
-            make.top.mas_equalTo(self.view).offset(87);
-        }
-        make.left.mas_equalTo(self.view).offset(24);
-        make.size.mas_equalTo(CGSizeMake(50, 34));
-    }];
+//    // 首页
+//    UILabel *titleLabel = [[UILabel alloc] init];
+//    titleLabel.text = @"首页";
+//    titleLabel.font = [UIFont systemFontOfSize:24];
+//    [self.view addSubview:titleLabel];
+//    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        if (@available(ios 11.0,*)) {
+//            make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(67);
+//        } else {
+//            make.top.mas_equalTo(self.view).offset(87);
+//        }
+//        make.left.mas_equalTo(self.view).offset(24);
+//        make.size.mas_equalTo(CGSizeMake(50, 34));
+//    }];
     
     [self.view addSubview:self.tableView];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -91,15 +92,25 @@
 
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0,*)) {
-            make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(122);
+            make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(44);
             make.bottom.mas_equalTo(self.view.mas_safeAreaLayoutGuideBottom).offset(-kTabBarHeigthOrigin);
         } else {
-            make.top.mas_equalTo(self.view).offset(142);
+            make.top.mas_equalTo(self.view).offset(64);
             make.bottom.mas_equalTo(self.view).offset(-kTabBarHeigthOrigin);
         }
         make.left.mas_equalTo(self.view);
         make.right.mas_equalTo(self.view);
     }];
+    
+    // 首页
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(23, 23, 50, 34)];
+    titleLabel.text = @"首页";
+    titleLabel.font = [UIFont systemFontOfSize:24];
+
+    UIView *tableHeadView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 78)];
+    [tableHeadView addSubview:titleLabel];
+    self.tableView.tableHeaderView = tableHeadView;
+
     
     
     // 发布按钮
@@ -142,7 +153,6 @@
 }
 
 
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
@@ -170,28 +180,36 @@
 
 #pragma mark - UITableViewDelegate
 
-- (BOOL)checkLocationAuthorizationStatus {
-    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
-        UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"打开[定位服务]来允许桐聚确定您的位置" message:@"请在系统设置中开启定位服务(设置>隐私>定位服务>开启)" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
-        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-            if( [[UIApplication sharedApplication]canOpenURL:url] ) {
-                [[UIApplication sharedApplication] openURL:url];
-            }
-        }];
-        
-        [ac addAction:cancel];
-        [ac addAction:ok];
-        
-        [self presentViewController:ac animated:true completion:nil];
-        return false;
-    }
-    return YES;
+- (void)checkLocationAuthorizationStatus:(void(^)())success failure:(void(^)())failure {
+    
+    [ZLLAuthorizationCheckTool availableAccessForLocationServices:self jumpSettering:true alertNotAvailable:true resultBlock:^(BOOL isAvailable, ZLLAuthorizationStatus status) {
+        if (isAvailable) {
+            success();
+        } else {
+            failure();
+        }
+    }];
+//    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
+//        UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"打开[定位服务]来允许桐聚确定您的位置" message:@"请在系统设置中开启定位服务(设置>隐私>定位服务>开启)" preferredStyle:UIAlertControllerStyleAlert];
+//        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+//        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+//            if( [[UIApplication sharedApplication]canOpenURL:url] ) {
+//                [[UIApplication sharedApplication] openURL:url];
+//            }
+//        }];
+//
+//        [ac addAction:cancel];
+//        [ac addAction:ok];
+//
+//        [self presentViewController:ac animated:true completion:nil];
+//        return false;
+//    }
+//    return YES;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self checkLocationAuthorizationStatus]) {
+    [self checkLocationAuthorizationStatus:^{
         if (curUser.latitude) {
             TJDeskViewController *deskVC = [[TJDeskViewController alloc] init];
             TJHomeModel *model = (TJHomeModel *)self.dataSource[indexPath.row];
@@ -200,7 +218,8 @@
         } else {
             [self startLocation];
         }
-    }
+    } failure:^{
+    }];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 119.0;
@@ -292,7 +311,8 @@
     WeakSelf(weakSelf);
     
     if (curUser.token) {
-        if ([self checkLocationAuthorizationStatus]) {
+//        if ([self checkLocationAuthorizationStatus]) {
+        [self checkLocationAuthorizationStatus:^{
             if(curUser.latitude) {
                 [_homeModel requestTableList:^(id obj) {
                     if (obj) {
@@ -308,7 +328,11 @@
                 [self.tableView.mj_header endRefreshing];
                 [self startLocation];
             }
-        }
+        } failure:^{
+            
+        }];
+        
+//        }
     } else {
         [self gotoLogin];
     }
@@ -320,9 +344,12 @@
 
 - (void)publishAction {
     if ([self isLogin]) {
-        if ([self checkLocationAuthorizationStatus]) {
-            [self.navigationController pushViewController:[TJPublishController new] animated:YES];
-        }
+        [self checkLocationAuthorizationStatus:^ {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.navigationController pushViewController:[TJPublishController new] animated:YES];
+            });
+        } failure:^ {
+        }];
     } else {
         [self gotoLogin];
     }

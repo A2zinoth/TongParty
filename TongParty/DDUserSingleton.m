@@ -37,5 +37,13 @@ static DDUserSingleton *_instance;
              };
 }
 
+- (NSString *)token {
+    if (_token) {
+        return _token;
+    } else {
+        return @"";
+    }
+    return @"";
+}
 
 @end

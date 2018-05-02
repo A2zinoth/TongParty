@@ -9,7 +9,11 @@
 #import "TJDeskInfoModel.h"
 
 @implementation TJDeskInfoModel
-
++ (NSDictionary *)mj_objectClassInArray{
+    return @{
+             @"my" : @"TJDeskInfoMy",
+             };
+}
 
 - (void)getTableInfoWithPara:(NSDictionary *)dic success:(void(^)(id ))success {
     [DDResponseBaseHttp getWithAction:kTJTableInfo params:dic type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
@@ -21,4 +25,8 @@
     }];
 }
 
+@end
+
+
+@implementation TJDeskInfoMy
 @end

@@ -41,6 +41,10 @@
     } else {
         _loginView.phoneTF.text = _phone;
         [_loginView.passwordTF becomeFirstResponder];
+        if (kiPhoen) {
+            _loginView.passwordTF.text = @"12345678";
+
+        }
     }
     
     [self addUserAction];

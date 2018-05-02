@@ -10,7 +10,7 @@
 #import "TJRegisterView.h"
 #import "TJRegisterModel.h"
 
-@interface TJRegisterController : BaseViewController
+@interface TJRegisterController : BaseViewController<UITextFieldDelegate>
 
 @property (nonatomic, strong) TJRegisterView  *registerView;
 @property (nonatomic, strong) TJRegisterModel *registerModel;

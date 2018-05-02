@@ -238,7 +238,7 @@
     
 //    [[IMManager sharedIMManager] IMLogout];
     
-    self.curUserInfo = nil;
+    self.curUserInfo.token = @"";
     self.isLogined = NO;
 
 //    //移除缓存

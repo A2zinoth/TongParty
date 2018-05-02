@@ -16,6 +16,7 @@
 #import "TJEditProfileModel.h"
 #import "TJProfessionModel.h"
 #import <TZImagePickerController/TZImagePickerController.h>
+#import "ZLLAuthorizationCheckTool.h"
 
 
 @interface TJEditProfileController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate,TZImagePickerControllerDelegate>
@@ -395,23 +396,26 @@
 
 - (void)editHeadImageAction {
     NSLog(@"更换头像");
-    
-    UIAlertController *sheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    
-    UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-         [self takePhoto];
+    [ZLLAuthorizationCheckTool availablecheckAccessForPhotos:self jumpSettering:true alertNotAvailable:true resultBlock:^(BOOL isAvailable, ZLLAuthorizationStatus status) {
+        if (isAvailable) {
+            UIAlertController *sheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+            
+            UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self takePhoto];
+            }];
+            UIAlertAction *photoAction = [UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self pushTZImagePickerController];
+            }];
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                
+            }];
+            [sheet addAction:deleteAction];
+            [sheet addAction:photoAction];
+            [sheet addAction:cancelAction];
+            
+            [self presentViewController:sheet animated:YES completion:nil];
+        }
     }];
-    UIAlertAction *photoAction = [UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self pushTZImagePickerController];
-    }];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        
-    }];
-    [sheet addAction:deleteAction];
-    [sheet addAction:photoAction];
-    [sheet addAction:cancelAction];
-    
-    [self presentViewController:sheet animated:YES completion:nil];
 }
 
 - (void)closeAction {
@@ -503,53 +507,60 @@
 #pragma mark - UIImagePickerController
 
 - (void)takePhoto {
-    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-    if ((authStatus == AVAuthorizationStatusRestricted || authStatus == AVAuthorizationStatusDenied) && iOS7Later) {
-        // 无相机权限 做一个友好的提示
-        [self alertWithTitle:@"无法使用相机" message:@"请在iPhone的""设置-隐私-相机""中允许访问相机" style:UIAlertControllerStyleAlert cancel:^{
-            
-        } ok:^{
-            if (@available(ios 8.0, *)) {
-                
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-            } else {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{} completionHandler:nil];
-            }
-        }];
-    } else if (authStatus == AVAuthorizationStatusNotDetermined) {
-        // fix issue 466, 防止用户首次拍照拒绝授权时相机页黑屏
-        if (@available(ios 7.0, *)) {
-            [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
-                if (granted) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self takePhoto];
-                    });
-                }
-            }];
-        } else {
-            [self takePhoto];
+    [ZLLAuthorizationCheckTool availablecheckAccessForCamera:true presentingVC:self jumpSettering:true alertNotAvailable:true resultBlock:^(BOOL isAvailable, ZLLAuthorizationStatus status) {
+        if (isAvailable) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self pushImagePickerController];
+            });
         }
-        // 拍照之前还需要检查相册权限
-    } else if ([TZImageManager authorizationStatus] == 2) { // 已被拒绝，没有相册权限，将无法保存拍的照片
-        
-        [self alertWithTitle:@"无法访问相册" message:@"请在iPhone的""设置-隐私-相册""中允许访问相册" style:UIAlertControllerStyleAlert cancel:^{
-            
-        } ok:^{
-            if (@available(ios 8.0, *)) {
-
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-            } else {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{} completionHandler:nil];
-            }
-        }];
-        
-    } else if ([TZImageManager authorizationStatus] == 0) { // 未请求过相册权限
-        [[TZImageManager manager] requestAuthorizationWithCompletion:^{
-            [self takePhoto];
-        }];
-    } else {
-        [self pushImagePickerController];
-    }
+    }];
+    
+//    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+//    if ((authStatus == AVAuthorizationStatusRestricted || authStatus == AVAuthorizationStatusDenied) && iOS7Later) {
+//        // 无相机权限 做一个友好的提示
+//        [self alertWithTitle:@"无法使用相机" message:@"请在iPhone的""设置-隐私-相机""中允许访问相机" style:UIAlertControllerStyleAlert cancel:^{
+//
+//        } ok:^{
+//            if (@available(ios 10.0, *)) {
+//                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{} completionHandler:nil];
+//            } else {
+//                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+//            }
+//        }];
+//    } else if (authStatus == AVAuthorizationStatusNotDetermined) {
+//        // fix issue 466, 防止用户首次拍照拒绝授权时相机页黑屏
+//        if (@available(ios 7.0, *)) {
+//            [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+//                if (granted) {
+//                    dispatch_async(dispatch_get_main_queue(), ^{
+//                        [self takePhoto];
+//                    });
+//                }
+//            }];
+//        } else {
+//            [self takePhoto];
+//        }
+//        // 拍照之前还需要检查相册权限
+//    } else if ([TZImageManager authorizationStatus] == 2) { // 已被拒绝，没有相册权限，将无法保存拍的照片
+//
+//        [self alertWithTitle:@"无法访问相册" message:@"请在iPhone的""设置-隐私-相册""中允许访问相册" style:UIAlertControllerStyleAlert cancel:^{
+//
+//        } ok:^{
+//            if (@available(ios 8.0, *)) {
+//
+//                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+//            } else {
+//                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{} completionHandler:nil];
+//            }
+//        }];
+//
+//    } else if ([TZImageManager authorizationStatus] == 0) { // 未请求过相册权限
+//        [[TZImageManager manager] requestAuthorizationWithCompletion:^{
+//            [self takePhoto];
+//        }];
+//    } else {
+//        [self pushImagePickerController];
+//    }
 }
 
 - (void)alertWithTitle:(NSString *)title message:(NSString *)message style:(UIAlertControllerStyle)style cancel:(void (^)())cancel ok:(void (^)())ok {

@@ -93,8 +93,11 @@
     _event.text = model.title;
     _addr.text = model.place;
     _distance.text = [NSString stringWithFormat:@"距离：%.0fKM   参与人数：%@／%@",model.distance.doubleValue,model.current_num, model.person_num];
+    
     if ([model.sex isEqualToString:@"2"]) {
         _nickname.textColor = kGirlNameColor;
+    } else {
+        _nickname.textColor = kBoyNameColor;
     }
 }
 

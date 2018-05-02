@@ -12,13 +12,15 @@
 
 typedef void (^NoticeLock)(NSString*);
 typedef void (^MemberSelected)(NSInteger);
+//typedef void (^MyIndex)(NSInteger);
 
 @interface TJDeskInfoView : TJBaseView
 
 @property (nonatomic, strong) UIButton       *contactBtn;
 @property (nonatomic, strong) UIButton       *nextButton;
-@property (nonatomic, strong) NoticeLock     noticeLock;
-@property (nonatomic, strong) MemberSelected memberSelected;
+@property (nonatomic, copy)   NoticeLock     noticeLock;
+@property (nonatomic, copy)   MemberSelected memberSelected;
+//@property (nonatomic, copy)   MyIndex        myIndex;
 
 - (void)updateWithModel:(TJDeskInfoModel *)model;
 

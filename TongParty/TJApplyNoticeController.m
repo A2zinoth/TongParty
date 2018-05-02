@@ -1,21 +1,21 @@
 //
-//  TJMasterController.m
+//  TJApplyNoticeController.m
 //  TongParty
 //
-//  Created by tojoin on 2018/4/26.
+//  Created by tojoin on 2018/5/2.
 //  Copyright © 2018年 桐聚. All rights reserved.
 //
 
-#import "TJMasterController.h"
-#import "TJFollowCell.h"
+#import "TJApplyNoticeController.h"
+#import "TJNoticeCell.h"
 
-@interface TJMasterController ()
+@interface TJApplyNoticeController ()
 
 @property (nonatomic, strong) UIButton *cancelBtn;
 
 @end
 
-@implementation TJMasterController
+@implementation TJApplyNoticeController
 
 - (void)createUI {
     _cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -38,7 +38,11 @@
     
     UILabel *titleLabel = [[UILabel alloc] init];
     [self.view addSubview:titleLabel];
-    titleLabel.text = @"狼人杀";
+    if (_type) {
+        titleLabel.text = @"邀请";
+    } else {
+        titleLabel.text = @"申请";
+    }
     titleLabel.textColor = [UIColor hx_colorWithHexString:@"#262626"];
     titleLabel.font = [UIFont systemFontOfSize:14];
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -63,8 +67,7 @@
     }];
     
     [self.view addSubview:self.tableView];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.rowHeight = 78;
+    self.tableView.rowHeight = 109;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -84,55 +87,35 @@
     [self requestData];
 }
 
-#pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.dataSource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    TJFollowCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TJFollowCellID"];
+    TJNoticeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TJNoticeCellID"];
     if (!cell) {
-        cell = [[TJFollowCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TJFollowCellID"];
+        cell = [[TJNoticeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TJNoticeCellID"];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [cell.actionBtn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
     }
-    [cell updateMasterNotice];
-    [cell updateMasterNoticeWith:self.dataSource[indexPath.row]];
-    [cell updateBtnTag:indexPath.row];
+
+    [cell.headImage sd_setImageWithURL:[NSURL URLWithString:self.dataSource[indexPath.row][@"head_image"]]];
+    cell.titleL.text = self.dataSource[indexPath.row][@"nickname"];
+    [cell updateApplyNotice];
+    cell.contentL.text = self.dataSource[indexPath.row][@"uptime"];
+    [cell updateTime:self.dataSource[indexPath.row][@"uptime"]];
     
     return cell;
 }
 
-- (void)btnAction:(UIButton *)btn {
-    NSInteger index = btn.tag;
-    NSString *act;
-    // 0申请 3回复  4加入
-    if ([self.dataSource[index][@"type"] isEqualToString:@"0"]) {
-        if (btn.selected) {
-
-        } else {
-            act = @"agree";
-            [DDResponseBaseHttp getWithAction:@"/tojoin/api/process_table_apply.php" params:@{@"token":curUser.token, @"oid":self.dataSource[index][@"from_id"], @"tid":self.dataSource[index][@"tid"], @"act":act} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
-                [MBProgressHUD showMessage:result.msg_cn];
-                if ([result.status isEqualToString:@"success"]) {
-                    btn.selected = !btn.selected;
-                }
-            } failure:^{
-            }];
-        }
-       
-        
+- (void)requestData {
+    NSString *act = @"replay";
+    if ([_type isEqualToString:@"邀请"]) {
+        act = @"invite";
     }
     
-}
-
-#pragma mark - UITableViewDelegate
-
-- (void)requestData {
     kWeakSelf
-    [DDResponseBaseHttp getWithAction:kTJMessageDetail params:@{@"token":curUser.token, @"act":@"table"} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+    [DDResponseBaseHttp getWithAction:kTJMessageDetail params:@{@"token":curUser.token, @"act":act} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
         if ([result.status isEqualToString:@"success"]) {
-            
             weakSelf.dataSource = result.data;
             [weakSelf.tableView reloadData];
         }
@@ -141,9 +124,6 @@
     }];
 }
 
-- (void)masterApply:(NSInteger)index act:(NSString *)act {
-    
-}
 
 - (void)closeAction {
     [self.navigationController popViewControllerAnimated:true];

@@ -48,7 +48,7 @@
                         @{@"title":@"是否加入心跳桌", @"pic":@"TJCreteDesk_6"}];
     
     _publishModel = [[TJPublishModel alloc] init];
-    NSString *str = [NSString stringWithFormat:@"%.0f",[[NSDate date] timeIntervalSince1970]/1800];
+    NSString *str = [NSString stringWithFormat:@"%.0f",([[NSDate date] timeIntervalSince1970])/1800];
 
     _publishModel = [_publishModel mj_setKeyValues:@{@"token":curUser.token,
                                                      @"title":@"狼人杀到黎明",
@@ -102,7 +102,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     // 带逆地理（返回坐标和地址信息）。将下面代码中的 YES 改成 NO ，则不会返回地址信息。
     [self.locationManager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
         
@@ -125,7 +124,7 @@
         {
             NSLog(@"reGeocode:%@", regeocode);
             self.publishModel.place = [NSString stringWithFormat:@"%@%@%@", regeocode.city, regeocode.district,regeocode.AOIName];
-            //            self.publishModel.place = regeocode.formattedAddress;
+            // self.publishModel.place = regeocode.formattedAddress;
             [self.tableView reloadData];
         }
     }];
@@ -145,7 +144,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - UITableViewDataSource
@@ -165,6 +163,7 @@
     if (indexPath.row == 6) {
         [cell.switchBtn addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventTouchUpInside];
     }
+    
     
     return cell;
 }
@@ -187,6 +186,7 @@
         _eventView.complete = ^(NSString *input) {
             if (input.length) {
                 weakSelf.publishModel.title = input;
+                weakSelf.publishModel.titleEdit = true;
                 [weakSelf.tableView reloadData];
             }
         };
@@ -240,17 +240,13 @@
         }];
         _datePicker.complete = ^(NSString *time) {
             weakSelf.publishModel.begin_time = time;
+            weakSelf.publishModel.timeEdit = true;
             [weakSelf.tableView reloadData];
         };
     } else if (indexPath.row == 3) {
         TJEventAddrController *eventAddr = [[TJEventAddrController alloc] init];
         [self.navigationController pushViewController:eventAddr animated:YES];
-        
-        return;
-        // 地图选择地点
-        DDLocationAddressVC *locationVC   = [[DDLocationAddressVC alloc] init];
-        locationVC.locationAddressSelectBlcok = ^(AMapTip *tip) {
-
+        eventAddr.locationAddressSelectBlcok = ^(AMapTip *tip) {
             if ([tip isKindOfClass:[AMapTip class]]) {
                 weakSelf.publishModel.place = [NSString stringWithFormat:@"%@%@",tip.district,tip.name];
                 weakSelf.publishModel.latitude = [NSString stringWithFormat:@"%lf",tip.location.latitude];
@@ -261,9 +257,27 @@
                 weakSelf.publishModel.latitude = [NSString stringWithFormat:@"%lf",POI.location.latitude];
                 weakSelf.publishModel.longitude =[NSString stringWithFormat:@"%lf",POI.location.longitude];
             }
+            weakSelf.publishModel.placeEdit = true;
             [weakSelf.tableView reloadData];
         };
-        [self.navigationController pushViewController:locationVC animated:YES];
+//        return;
+//        // 地图选择地点
+//        DDLocationAddressVC *locationVC   = [[DDLocationAddressVC alloc] init];
+//        locationVC.locationAddressSelectBlcok = ^(AMapTip *tip) {
+//
+//            if ([tip isKindOfClass:[AMapTip class]]) {
+//                weakSelf.publishModel.place = [NSString stringWithFormat:@"%@%@",tip.district,tip.name];
+//                weakSelf.publishModel.latitude = [NSString stringWithFormat:@"%lf",tip.location.latitude];
+//                weakSelf.publishModel.longitude =[NSString stringWithFormat:@"%lf",tip.location.longitude];
+//            } else {
+//                AMapPOI *POI = (AMapPOI *)tip;
+//                weakSelf.publishModel.place = [NSString stringWithFormat:@"%@%@%@", POI.city, POI.district,POI.name];
+//                weakSelf.publishModel.latitude = [NSString stringWithFormat:@"%lf",POI.location.latitude];
+//                weakSelf.publishModel.longitude =[NSString stringWithFormat:@"%lf",POI.location.longitude];
+//            }
+//            [weakSelf.tableView reloadData];
+//        };
+//        [self.navigationController pushViewController:locationVC animated:YES];
     } else if (indexPath.row == 4) {
         // 禁用返回手势
         [self setPopGestureEnable:NO];
@@ -281,8 +295,8 @@
         _peopleNum.complete = ^(NSString *peopleNum) {
             [weakSelf setPopGestureEnable:true];
             weakSelf.publishModel.person_num = peopleNum ;
+            weakSelf.publishModel.numEdit = true;
             [weakSelf.tableView reloadData];
-            NSLog(@"%@", peopleNum);
         };
         
         _peopleNum.cancel = ^{
@@ -305,10 +319,10 @@
         }];
         _average.complete = ^(NSString *average) {
             [weakSelf setPopGestureEnable:true];
-            
+
             weakSelf.publishModel.average_price = average;
+            weakSelf.publishModel.averageEdit = true;
             [weakSelf.tableView reloadData];
-            NSLog(@"%@", average);
         };
         
         _average.cancel = ^{
@@ -387,6 +401,17 @@
 }
 
 - (void)okAction {
+    //时间判断 ： 不能比当前实现小
+    CGFloat currentStamp = [[NSDate date] timeIntervalSince1970]+2*60*60;
+    if ([_publishModel.begin_time floatValue] < currentStamp) {
+        UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"活动时间至少在2小时后" preferredStyle:(UIAlertControllerStyleAlert)];
+        UIAlertAction *alertA = [UIAlertAction actionWithTitle:@"确定" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+        }];
+        [alertC addAction:alertA];
+        [self presentViewController:alertC animated:YES completion:nil];
+        return;
+    }
+    
     // 发布
     kWeakSelf
     [_publishModel publishWithModel:^{

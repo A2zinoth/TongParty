@@ -128,7 +128,7 @@
 }
 
 - (void)updateTime:(NSString *)time {
-    _timeL.text = [self getTheCountOfTwoDaysWithBeginDate:time endDate:@""];
+    _timeL.text = [NSString stringWithFormat:@"%@前", [self getTheCountOfTwoDaysWithBeginDate:time endDate:@""]];
 }
 
 
@@ -174,5 +174,13 @@
     return @"--";
 }
 
+- (void)updateApplyNotice {
+    _badge.hidden = true;
+    _status.hidden = true;
+    _remaindL.hidden = true;
+    _accessoryImage.hidden = false;
+    
+    _titleL.text = @"丽萨";
+}
 
 @end

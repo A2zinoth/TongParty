@@ -120,7 +120,6 @@
 		6B2D8D14207CAC2900E84B50 /* TJPublishModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2D8D13207CAC2900E84B50 /* TJPublishModel.m */; };
 		6B2D8D18207CAFE600E84B50 /* TJPublishTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2D8D17207CAFE600E84B50 /* TJPublishTableViewCell.m */; };
 		6B2D8D1C207CBA9100E84B50 /* TJEventView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2D8D1B207CBA9100E84B50 /* TJEventView.m */; };
-		6B68AD862095C17D00D9F5B4 /* AuthorizationStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B68AD852095C17D00D9F5B4 /* AuthorizationStatus.m */; };
 		6B68AD892095C1E000D9F5B4 /* ZLLAuthorizationCheckTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B68AD872095C1E000D9F5B4 /* ZLLAuthorizationCheckTool.m */; };
 		6B68AD8D2095C2D300D9F5B4 /* TJContactController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B68AD8C2095C2D300D9F5B4 /* TJContactController.m */; };
 		6B68AD902095D27E00D9F5B4 /* TJContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B68AD8F2095D27E00D9F5B4 /* TJContactCell.m */; };
@@ -151,6 +150,11 @@
 		6BBE6E6D208C8B7F00DDB4B7 /* TJEditNicknameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBE6E6C208C8B7F00DDB4B7 /* TJEditNicknameView.m */; };
 		6BBE6E70208C92CC00DDB4B7 /* TJSexView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBE6E6F208C92CC00DDB4B7 /* TJSexView.m */; };
 		6BBE6E73208C99FE00DDB4B7 /* TJPickerDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBE6E72208C99FE00DDB4B7 /* TJPickerDate.m */; };
+		6BCE24B020995FD60060F180 /* TJSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCE24AF20995FD60060F180 /* TJSystemController.m */; };
+		6BCE24B3209960FA0060F180 /* TJSystemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCE24B2209960FA0060F180 /* TJSystemCell.m */; };
+		6BCE24BA209966D50060F180 /* TJAttentionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCE24B9209966D50060F180 /* TJAttentionController.m */; };
+		6BCE24BE2099702D0060F180 /* TJApplyNoticeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCE24BD2099702D0060F180 /* TJApplyNoticeController.m */; };
+		6BCE24C82099B13C0060F180 /* TJFriendReqController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCE24C72099B13C0060F180 /* TJFriendReqController.m */; };
 		6BD9F8E1209170AB002E87B5 /* TJNoticeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD9F8E0209170AB002E87B5 /* TJNoticeController.m */; };
 		6BD9F8E8209172E3002E87B5 /* TJNoticeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD9F8E7209172E3002E87B5 /* TJNoticeCell.m */; };
 		6BD9F8EF20918255002E87B5 /* TJMasterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD9F8EE20918255002E87B5 /* TJMasterController.m */; };
@@ -721,8 +725,6 @@
 		6B2D8D17207CAFE600E84B50 /* TJPublishTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJPublishTableViewCell.m; sourceTree = "<group>"; };
 		6B2D8D1A207CBA9100E84B50 /* TJEventView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJEventView.h; sourceTree = "<group>"; };
 		6B2D8D1B207CBA9100E84B50 /* TJEventView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJEventView.m; sourceTree = "<group>"; };
-		6B68AD842095C17D00D9F5B4 /* AuthorizationStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuthorizationStatus.h; sourceTree = "<group>"; };
-		6B68AD852095C17D00D9F5B4 /* AuthorizationStatus.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AuthorizationStatus.m; sourceTree = "<group>"; };
 		6B68AD872095C1E000D9F5B4 /* ZLLAuthorizationCheckTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLLAuthorizationCheckTool.m; sourceTree = "<group>"; };
 		6B68AD882095C1E000D9F5B4 /* ZLLAuthorizationCheckTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLLAuthorizationCheckTool.h; sourceTree = "<group>"; };
 		6B68AD8B2095C2D300D9F5B4 /* TJContactController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJContactController.h; sourceTree = "<group>"; };
@@ -783,6 +785,16 @@
 		6BBE6E6F208C92CC00DDB4B7 /* TJSexView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJSexView.m; sourceTree = "<group>"; };
 		6BBE6E71208C99FE00DDB4B7 /* TJPickerDate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJPickerDate.h; sourceTree = "<group>"; };
 		6BBE6E72208C99FE00DDB4B7 /* TJPickerDate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJPickerDate.m; sourceTree = "<group>"; };
+		6BCE24AE20995FD60060F180 /* TJSystemController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJSystemController.h; sourceTree = "<group>"; };
+		6BCE24AF20995FD60060F180 /* TJSystemController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJSystemController.m; sourceTree = "<group>"; };
+		6BCE24B1209960FA0060F180 /* TJSystemCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJSystemCell.h; sourceTree = "<group>"; };
+		6BCE24B2209960FA0060F180 /* TJSystemCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJSystemCell.m; sourceTree = "<group>"; };
+		6BCE24B8209966D50060F180 /* TJAttentionController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJAttentionController.h; sourceTree = "<group>"; };
+		6BCE24B9209966D50060F180 /* TJAttentionController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJAttentionController.m; sourceTree = "<group>"; };
+		6BCE24BC2099702D0060F180 /* TJApplyNoticeController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJApplyNoticeController.h; sourceTree = "<group>"; };
+		6BCE24BD2099702D0060F180 /* TJApplyNoticeController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJApplyNoticeController.m; sourceTree = "<group>"; };
+		6BCE24C62099B13C0060F180 /* TJFriendReqController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJFriendReqController.h; sourceTree = "<group>"; };
+		6BCE24C72099B13C0060F180 /* TJFriendReqController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJFriendReqController.m; sourceTree = "<group>"; };
 		6BD9F8DF209170AB002E87B5 /* TJNoticeController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJNoticeController.h; sourceTree = "<group>"; };
 		6BD9F8E0209170AB002E87B5 /* TJNoticeController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TJNoticeController.m; sourceTree = "<group>"; };
 		6BD9F8E6209172E3002E87B5 /* TJNoticeCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TJNoticeCell.h; sourceTree = "<group>"; };
@@ -1801,14 +1813,14 @@
 				6B0AEAD120805AD00052FBD5 /* SearchResult */,
 				6B0AEAC8208053B10052FBD5 /* TJEventAddrController.h */,
 				6B0AEAC9208053B10052FBD5 /* TJEventAddrController.m */,
-				988663D91FBC79E800B6F24D /* DDLocationAddressVC.h */,
-				988663DA1FBC79E900B6F24D /* DDLocationAddressVC.m */,
-				49ACD11C2004B24E00A34F72 /* LSPoiSearchSuggestionVc.h */,
-				49ACD11D2004B24E00A34F72 /* LSPoiSearchSuggestionVc.m */,
 				6B0AEACB208055450052FBD5 /* TJEventAddrView.h */,
 				6B0AEACC208055450052FBD5 /* TJEventAddrView.m */,
 				6BB7C5282081DF46006F3E73 /* TJSuggestTableViewCell.h */,
 				6BB7C5292081DF46006F3E73 /* TJSuggestTableViewCell.m */,
+				988663D91FBC79E800B6F24D /* DDLocationAddressVC.h */,
+				988663DA1FBC79E900B6F24D /* DDLocationAddressVC.m */,
+				49ACD11C2004B24E00A34F72 /* LSPoiSearchSuggestionVc.h */,
+				49ACD11D2004B24E00A34F72 /* LSPoiSearchSuggestionVc.m */,
 			);
 			name = Addr;
 			sourceTree = "<group>";
@@ -1845,9 +1857,10 @@
 			children = (
 				6B0AEAC72080538D0052FBD5 /* Addr */,
 				6B2D8D19207CB9E800E84B50 /* Views */,
-				6B2D8D15207CAFB900E84B50 /* TableViewCell */,
 				6B2D8D02207C9F3E00E84B50 /* TJPublishController.h */,
 				6B2D8D03207C9F3E00E84B50 /* TJPublishController.m */,
+				6B2D8D16207CAFE600E84B50 /* TJPublishTableViewCell.h */,
+				6B2D8D17207CAFE600E84B50 /* TJPublishTableViewCell.m */,
 				6B2D8D0F207CAC0E00E84B50 /* TJPublishView.h */,
 				6B2D8D10207CAC0E00E84B50 /* TJPublishView.m */,
 				6B2D8D12207CAC2900E84B50 /* TJPublishModel.h */,
@@ -1865,15 +1878,6 @@
 				6B2D8D07207CA15500E84B50 /* LRTranstionAnimationPop.m */,
 			);
 			name = LRTranstionAnimation;
-			sourceTree = "<group>";
-		};
-		6B2D8D15207CAFB900E84B50 /* TableViewCell */ = {
-			isa = PBXGroup;
-			children = (
-				6B2D8D16207CAFE600E84B50 /* TJPublishTableViewCell.h */,
-				6B2D8D17207CAFE600E84B50 /* TJPublishTableViewCell.m */,
-			);
-			name = TableViewCell;
 			sourceTree = "<group>";
 		};
 		6B2D8D19207CB9E800E84B50 /* Views */ = {
@@ -1902,8 +1906,6 @@
 			children = (
 				6B68AD882095C1E000D9F5B4 /* ZLLAuthorizationCheckTool.h */,
 				6B68AD872095C1E000D9F5B4 /* ZLLAuthorizationCheckTool.m */,
-				6B68AD842095C17D00D9F5B4 /* AuthorizationStatus.h */,
-				6B68AD852095C17D00D9F5B4 /* AuthorizationStatus.m */,
 			);
 			name = Authorization;
 			sourceTree = "<group>";
@@ -2042,10 +2044,52 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
+		6BCE24AD20995EC10060F180 /* SystemNotice */ = {
+			isa = PBXGroup;
+			children = (
+				6BCE24AE20995FD60060F180 /* TJSystemController.h */,
+				6BCE24AF20995FD60060F180 /* TJSystemController.m */,
+				6BCE24B1209960FA0060F180 /* TJSystemCell.h */,
+				6BCE24B2209960FA0060F180 /* TJSystemCell.m */,
+			);
+			name = SystemNotice;
+			sourceTree = "<group>";
+		};
+		6BCE24B42099665E0060F180 /* Attention */ = {
+			isa = PBXGroup;
+			children = (
+				6BCE24B8209966D50060F180 /* TJAttentionController.h */,
+				6BCE24B9209966D50060F180 /* TJAttentionController.m */,
+			);
+			name = Attention;
+			sourceTree = "<group>";
+		};
+		6BCE24BB20996FE40060F180 /* Apply or Invite */ = {
+			isa = PBXGroup;
+			children = (
+				6BCE24BC2099702D0060F180 /* TJApplyNoticeController.h */,
+				6BCE24BD2099702D0060F180 /* TJApplyNoticeController.m */,
+			);
+			name = "Apply or Invite";
+			sourceTree = "<group>";
+		};
+		6BCE24C22099AD050060F180 /* FriendRequest */ = {
+			isa = PBXGroup;
+			children = (
+				6BCE24C62099B13C0060F180 /* TJFriendReqController.h */,
+				6BCE24C72099B13C0060F180 /* TJFriendReqController.m */,
+			);
+			name = FriendRequest;
+			sourceTree = "<group>";
+		};
 		6BD9F8E2209170B7002E87B5 /* Message */ = {
 			isa = PBXGroup;
 			children = (
+				6BCE24C22099AD050060F180 /* FriendRequest */,
+				6BCE24BB20996FE40060F180 /* Apply or Invite */,
+				6BCE24B42099665E0060F180 /* Attention */,
 				6BD9F8EC20918219002E87B5 /* TJMaster */,
+				6BCE24AD20995EC10060F180 /* SystemNotice */,
 				6BD9F8DF209170AB002E87B5 /* TJNoticeController.h */,
 				6BD9F8E0209170AB002E87B5 /* TJNoticeController.m */,
 				6BD9F8E6209172E3002E87B5 /* TJNoticeCell.h */,
@@ -4690,6 +4734,7 @@
 				98EA42C6200F213900E2A11D /* DDHisHerViewController.m in Sources */,
 				4B2E91161FF8A33A00AB9B3D /* LSPlayRewardGiftVC.m in Sources */,
 				986E5A101FAAEC6900FD391C /* LXAlertView.m in Sources */,
+				6BCE24B020995FD60060F180 /* TJSystemController.m in Sources */,
 				6B0A051820870F6E0048BDB0 /* TJQRViewController.m in Sources */,
 				986E5A111FAAEC6900FD391C /* UILabel+LXAdd.m in Sources */,
 				9853D7381FA02CA6004AD6BF /* CYBadgeView.m in Sources */,
@@ -4749,6 +4794,7 @@
 				981A49A71FEBA901001419DD /* DDShopDescTableViewCell.m in Sources */,
 				98BF20461F7A28CA00E94394 /* DDPersonInfoTableViewCell.m in Sources */,
 				985308FD1F6BD6FD003B475C /* DDHomeListRequest.m in Sources */,
+				6BCE24BA209966D50060F180 /* TJAttentionController.m in Sources */,
 				989931F01F69307700E4BCAA /* UILabel+CountDown.m in Sources */,
 				989931B51F69246600E4BCAA /* UIViewController+Loading.m in Sources */,
 				989931FE1F69377000E4BCAA /* DDMainHelper.m in Sources */,
@@ -4848,6 +4894,7 @@
 				6B0830A2207C7FD2006C690F /* TJHeartbeatController.m in Sources */,
 				6BDE1F9A2085F7D30062AB6A /* TJDeskNoticeCell.m in Sources */,
 				98F589BC1F6A7A35005E674A /* DDFileCacheManager.m in Sources */,
+				6BCE24BE2099702D0060F180 /* TJApplyNoticeController.m in Sources */,
 				98F675A61F70F0D60038E372 /* PYSearchSuggestionViewController.m in Sources */,
 				6B05074A207B7EE6003765EC /* TJRegisterController.m in Sources */,
 				984522331FD15B3000097143 /* DDShopTableView.m in Sources */,
@@ -4937,6 +4984,7 @@
 				9899315A1F69160800E4BCAA /* main.m in Sources */,
 				985308F11F6BCFE8003B475C /* DDBannerViewCell.m in Sources */,
 				989931B41F69246600E4BCAA /* UIViewController+Addition.m in Sources */,
+				6BCE24C82099B13C0060F180 /* TJFriendReqController.m in Sources */,
 				981A499E1FE8F44C001419DD /* DDNoticeMessageVC.m in Sources */,
 				9840E65E1FCBBF7900F0E570 /* LSMapAnnotationModel.m in Sources */,
 				989441321F9DC423000BA3E9 /* DDRadioButton.m in Sources */,
@@ -4987,6 +5035,7 @@
 				98F589B41F6A7912005E674A /* DDUtils.m in Sources */,
 				989931D11F692E8000E4BCAA /* FXBlurView.m in Sources */,
 				98F675B21F70FB980038E372 /* DDLoopProgressView.m in Sources */,
+				6BCE24B3209960FA0060F180 /* TJSystemCell.m in Sources */,
 				98B5071520145E7C00214B54 /* DDPrefectDataView.m in Sources */,
 				98F589DD1F6A8327005E674A /* DDCommonAPIConstant.m in Sources */,
 				989932581F693A8100E4BCAA /* NSDate+Extension.m in Sources */,
@@ -5014,7 +5063,6 @@
 				98578E5B1F90996700FEF64D /* DDRecomCardViewController.m in Sources */,
 				6BBE6E73208C99FE00DDB4B7 /* TJPickerDate.m in Sources */,
 				988D23BA1FC2CF05002C5D2C /* DDAddressModel.m in Sources */,
-				6B68AD862095C17D00D9F5B4 /* AuthorizationStatus.m in Sources */,
 				4B2E910D1FF7668000AB9B3D /* BRAddressModel.m in Sources */,
 				98C6AE4C1F7B9455001AAA47 /* DDFriendsViewController.m in Sources */,
 				6B0576FF208F36D000D3435B /* UserManager.m in Sources */,

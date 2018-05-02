@@ -153,8 +153,8 @@
             }];
             _datePicker.complete = ^(NSString *time) {
                 weakSelf.heartbeatModel.begin_time = time;
-                
             };
+            [_datePicker setCurrentTime:_heartbeatModel.begin_time];
             _datePicker.formatDate = ^(NSString *formatDate) {
                 UIButton *button = [weakSelf.heartbeatView viewWithTag:1158];
                 [button setTitle:formatDate forState:UIControlStateNormal];
@@ -186,11 +186,22 @@
 }
 
 - (void)startAction:(UIButton *)btn {
-    
     if (curUser.token) {
         if (btn.selected) {
             [self stopAnimation];
         } else {
+            //时间判断 ： 不能比当前实现小
+            CGFloat currentStamp = [[NSDate date] timeIntervalSince1970]+2*60*60;
+            NSLog(@"%@", _heartbeatModel.begin_time);
+            if ([_heartbeatModel.begin_time floatValue] < currentStamp) {
+                UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"活动时间至少在2小时后" preferredStyle:(UIAlertControllerStyleAlert)];
+                UIAlertAction *alertA = [UIAlertAction actionWithTitle:@"确定" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+                }];
+                [alertC addAction:alertA];
+                [self presentViewController:alertC animated:YES completion:nil];
+                return;
+            }
+            
             [self startAnimation];
             [DDResponseBaseHttp getWithAction:kTJHeartBeat params:[self.heartbeatModel mj_keyValues] type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
                 [self stopAnimation];

@@ -8,8 +8,10 @@
 
 #import "TJBaseModel.h"
 
-@interface TJDeskInfoModel : TJBaseModel
 
+@class TJDeskInfoMy;
+
+@interface TJDeskInfoModel : TJBaseModel
 
 @property (nonatomic, copy)   NSString        *table_id;
 @property (nonatomic, copy)   NSString        *oid;
@@ -27,8 +29,18 @@
 @property (nonatomic, copy)   NSString        *mobile;
 @property (nonatomic, copy)   NSString        *serviceTime;
 @property (nonatomic, strong) NSArray         *member;
-@property (nonatomic, strong) NSDictionary    *my;
+@property (nonatomic, strong) TJDeskInfoMy    *my;
 
 - (void)getTableInfoWithPara:(NSDictionary *)dic success:(void(^)(id ))success;
+
+@end
+
+@interface TJDeskInfoMy: TJBaseModel
+
+@property (nonatomic, copy)   NSString        *is_join;
+@property (nonatomic, copy)   NSString        *is_late;
+@property (nonatomic, copy)   NSString        *is_master;
+@property (nonatomic, copy)   NSString        *is_sign;
+
 
 @end

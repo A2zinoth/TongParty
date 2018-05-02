@@ -48,6 +48,7 @@
 #import "DDNavViewController.h" //导航栏页面
 #import "AppDelegate+AppLocation.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
+#import "ZLLAuthorizationCheckTool.h"
 
 @interface AppDelegate ()
 @property (nonatomic, strong) DDLoginManager *loginManager;
@@ -58,29 +59,35 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    
+    kWeakSelf
     self.window = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
     self.window.backgroundColor = kWhiteColor;
     
     [self registerAmap];
-    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
-        UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"打开[定位服务]来允许桐聚确定您的位置" message:@"请在系统设置中开启定位服务(设置>隐私>定位服务>开启)" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
-        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-            if( [[UIApplication sharedApplication]canOpenURL:url] ) {
-                [[UIApplication sharedApplication] openURL:url];
-            }
-        }];
-        
-        [ac addAction:cancel];
-        [ac addAction:ok];
-        
-        [self.window.rootViewController presentViewController:ac animated:true completion:nil];
-        
-    } else {
-        [self startLocation];
-    }
+
+    [ZLLAuthorizationCheckTool availableAccessForLocationServices:self.window.rootViewController jumpSettering:true alertNotAvailable:false resultBlock:^(BOOL isAvailable, ZLLAuthorizationStatus status) {
+        if (isAvailable) {
+            [weakSelf startLocation];
+        }
+    }];
+//    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
+//        UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"打开[定位服务]来允许桐聚确定您的位置" message:@"请在系统设置中开启定位服务(设置>隐私>定位服务>开启)" preferredStyle:UIAlertControllerStyleAlert];
+//        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+//        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+//            if( [[UIApplication sharedApplication]canOpenURL:url] ) {
+//                [[UIApplication sharedApplication] openURL:url];
+//            }
+//        }];
+//
+//        [ac addAction:cancel];
+//        [ac addAction:ok];
+//
+//        [self.window.rootViewController presentViewController:ac animated:true completion:nil];
+//
+//    } else {
+//        [self startLocation];
+//    }
     [[DDTJShareManager sharedManager] registerAllPlatForms];
     
     if (@available(ios 9.0, *)) {

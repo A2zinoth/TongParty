@@ -82,4 +82,22 @@
 - (void)updateBtnTag:(NSInteger)index {
     _actionBtn.tag = index;
 }
+
+
+// 消息-我的关注
+- (void)updateAttentionNotice {
+    _titleL.text = @"丽萨 关注了你";
+    _contentL.text = @"03-04";
+    [_actionBtn setTitle:@"+ 关注" forState:UIControlStateNormal];
+    [_actionBtn setTitle:@"已关注" forState:UIControlStateSelected];
+}
+
+// 消息-新的好友
+- (void)updateFriendReq {
+    _contentL.text = @"申请添加您为好友";
+    [_actionBtn setTitle:@"+ 添加" forState:UIControlStateNormal];
+    [_actionBtn setTitle:@"已添加" forState:UIControlStateSelected];
+    
+}
+
 @end

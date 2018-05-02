@@ -22,24 +22,24 @@
 - (void)updateUI {
     [_cancelBtn setImage:kImage(@"TJBackBtn") forState:UIControlStateNormal];
     _okBtn.hidden = true;
-    
-    [self addSubview:self.addFollowBtn];
-    [_addFollowBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(_nickName);
-        make.left.mas_equalTo(_nickName.mas_right).offset(22);
-        make.size.mas_equalTo(CGSizeMake(76, 30));
-    }];
-    
-    
-    [_editBtn setTitle:@"查看更多资料" forState:UIControlStateNormal];
+//    if ([_act isEqualToString:@"DeskInfo"]) {
+//
+//    } else {
+        [self addSubview:self.addFollowBtn];
+        [_addFollowBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(_nickName);
+            make.left.mas_equalTo(_nickName.mas_right).offset(22);
+            make.size.mas_equalTo(CGSizeMake(76, 30));
+        }];
+        [_editBtn setTitle:@"查看更多资料" forState:UIControlStateNormal];
+//    }
 }
 
 - (void)createUI {
     _cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    
     [_cancelBtn setImage:kImage(@"TJMessage") forState:UIControlStateNormal];
-    
     _cancelBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
+    _cancelBtn.adjustsImageWhenHighlighted = false;
     [self addSubview:_cancelBtn];
     [_cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0,*)) {
@@ -226,6 +226,16 @@
     [_headImage sd_setImageWithURL:[NSURL URLWithString:dic[@"head_image"]]];
     _nickName.text = dic[@"nickname"];
     
+    if ([dic[@"is_follow"] isEqualToString:@"1"]) {
+        _addFollowBtn.selected = true;
+        _addFollowBtn.backgroundColor = kBtnDisable;
+    }
+    
+    if ([dic[@"is_my"] isEqualToNumber:[NSNumber numberWithInteger:1]]) {
+        [_editBtn setTitle:@"查看更多资料" forState:UIControlStateNormal];
+        _addFollowBtn.hidden = true;
+    }
+    
     [_followerBtn setTitle:dic[@"follow_num"] forState:UIControlStateNormal];
     [_followerBtn setTitle:dic[@"fans_num"] forState:UIControlStateNormal];
     [_friendBtn setTitle:dic[@"friend_num"] forState:UIControlStateNormal];
@@ -241,11 +251,10 @@
         [_addFollowBtn setTitle:@"+ 关注" forState:UIControlStateNormal];
         [_addFollowBtn setTitle:@"已关注" forState:UIControlStateSelected];
         _addFollowBtn.titleLabel.font = [UIFont systemFontOfSize:13];
-//        [_addFollowBtn setBackgroundImage:kImage(@"TJButtonSelect") forState:UIControlStateNormal];
-//        [_addFollowBtn setBackgroundImage:kImage(@"TJButtonNormal1") forState:UIControlStateSelected];
         _addFollowBtn.backgroundColor = kBtnEnable;
         [_addFollowBtn setAdjustsImageWhenHighlighted:false];
         _addFollowBtn.layerCornerRadius = 15;
+        _addFollowBtn.tag = 1820;
     }
     return _addFollowBtn;
 }

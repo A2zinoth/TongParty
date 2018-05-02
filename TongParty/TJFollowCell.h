@@ -16,9 +16,13 @@
 @property (nonatomic, strong) UIButton *actionBtn;
 
 - (void)updateMasterNotice;
-
 - (void)updateMasterNoticeWith:(NSDictionary *)dic;
-
 - (void)updateBtnTag:(NSInteger)index;
+
+
+// 消息-我的关注
+- (void)updateAttentionNotice;
+// 消息-新的好友
+- (void)updateFriendReq;
 
 @end
