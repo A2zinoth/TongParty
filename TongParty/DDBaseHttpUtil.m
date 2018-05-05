@@ -18,7 +18,7 @@
 +(NSString *)unixTime{
     //    //简写之
     NSString *timeSp = [NSString stringWithFormat:@"%ld", (long)[[NSDate  date] timeIntervalSince1970]];
-    NSLog(@"timeSp:%@",timeSp); //时间戳的值
+//    NSLog(@"timeSp:%@",timeSp); //时间戳的值
     return timeSp;
 }
 
@@ -64,7 +64,7 @@
     NSString *data = [self keyValueWithNSDictionary:params];
     
     NSString *encryStr = [NSString stringWithFormat:@"GET%@%@%@",path, expires,data];
-    NSString *encodeStr = [encryStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *encodeStr = [encryStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSString *encryData = [self hmac:encodeStr withKey:Api_secret];
     
     //ULR host+path+?+data
@@ -72,7 +72,7 @@
     
     URLString = [NSString stringWithFormat:@"%@%@?%@",rootURL,path,data];
     
-    URLString = [URLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    URLString = [URLString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     //设置请求内容的类型

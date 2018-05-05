@@ -7,8 +7,10 @@
 //
 
 #import "BaseViewController.h"
-#import "TJButton.h"
+
 
 @interface TJHomeController : BaseViewController
-@property (nonatomic, strong) TJButton *publishBtn;
+
+@property (nonatomic, strong) UIButton *publishBtn;
+
 @end

@@ -40,8 +40,8 @@
     _heartbeatModel.longitude = curUser.longitude;
     _heartbeatModel.aid = @"29";
     _heartbeatModel.range = @"15000";
-    NSString *str = [NSString stringWithFormat:@"%.0f",[[NSDate date] timeIntervalSince1970]/3600];
-    _heartbeatModel.begin_time = [NSString stringWithFormat:@"%zd",[str integerValue]*3600];
+    NSString *str = [NSString stringWithFormat:@"%.0f",([[NSDate date] timeIntervalSince1970]+7200)/1800];
+    _heartbeatModel.begin_time = [NSString stringWithFormat:@"%zd",[str integerValue]*1800];
     _heartbeatModel.average_price = @"200";
     
 }
@@ -190,17 +190,17 @@
         if (btn.selected) {
             [self stopAnimation];
         } else {
-            //时间判断 ： 不能比当前实现小
-            CGFloat currentStamp = [[NSDate date] timeIntervalSince1970]+2*60*60;
-            NSLog(@"%@", _heartbeatModel.begin_time);
-            if ([_heartbeatModel.begin_time floatValue] < currentStamp) {
-                UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"活动时间至少在2小时后" preferredStyle:(UIAlertControllerStyleAlert)];
-                UIAlertAction *alertA = [UIAlertAction actionWithTitle:@"确定" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
-                }];
-                [alertC addAction:alertA];
-                [self presentViewController:alertC animated:YES completion:nil];
-                return;
-            }
+//            //时间判断 ： 不能比当前实现小
+//            CGFloat currentStamp = [[NSDate date] timeIntervalSince1970]+2*60*60;
+//            NSLog(@"%@", _heartbeatModel.begin_time);
+//            if ([_heartbeatModel.begin_time floatValue] < currentStamp) {
+//                UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"活动时间至少在2小时后" preferredStyle:(UIAlertControllerStyleAlert)];
+//                UIAlertAction *alertA = [UIAlertAction actionWithTitle:@"确定" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+//                }];
+//                [alertC addAction:alertA];
+//                [self presentViewController:alertC animated:YES completion:nil];
+//                return;
+//            }
             
             [self startAnimation];
             [DDResponseBaseHttp getWithAction:kTJHeartBeat params:[self.heartbeatModel mj_keyValues] type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {

@@ -96,11 +96,20 @@
     if (_bindView.phoneTF.text.length < 11) {
         return;
     }
-    [DDResponseBaseHttp getWithAction:@"/tojoin/api/binding_phone.php" params:@{@"token":curUser.token, @"mobile":_bindView.phoneTF.text} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
-        
+    [DDResponseBaseHttp getWithAction:kTJUniqueness params:@{@"mobile":_bindView.phoneTF.text} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+        if ([result.code isEqualToString:@"4031"]) {// 已存在
+    
+        }
     } failure:^{
         
     }];
+    
+    
+//    [DDResponseBaseHttp getWithAction:@"/tojoin/api/binding_phone.php" params:@{@"token":curUser.token, @"mobile":_bindView.phoneTF.text} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+//
+//    } failure:^{
+//
+//    }];
     // 换绑
 //    TJBindPhoneController *changeVC = [[TJBindPhoneController alloc] init];
 //    changeVC.phone = @"1852643243";

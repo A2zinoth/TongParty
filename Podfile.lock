@@ -1,37 +1,43 @@
 PODS:
-  - AFNetworking (3.2.0):
-    - AFNetworking/NSURLSession (= 3.2.0)
-    - AFNetworking/Reachability (= 3.2.0)
-    - AFNetworking/Security (= 3.2.0)
-    - AFNetworking/Serialization (= 3.2.0)
-    - AFNetworking/UIKit (= 3.2.0)
-  - AFNetworking/NSURLSession (3.2.0):
+  - AFNetworking (3.2.1):
+    - AFNetworking/NSURLSession (= 3.2.1)
+    - AFNetworking/Reachability (= 3.2.1)
+    - AFNetworking/Security (= 3.2.1)
+    - AFNetworking/Serialization (= 3.2.1)
+    - AFNetworking/UIKit (= 3.2.1)
+  - AFNetworking/NSURLSession (3.2.1):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (3.2.0)
-  - AFNetworking/Security (3.2.0)
-  - AFNetworking/Serialization (3.2.0)
-  - AFNetworking/UIKit (3.2.0):
+  - AFNetworking/Reachability (3.2.1)
+  - AFNetworking/Security (3.2.1)
+  - AFNetworking/Serialization (3.2.1)
+  - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
-  - AMap3DMap-NO-IDFA (6.1.0):
-    - AMapFoundation-NO-IDFA (~> 1.4)
-  - AMapFoundation-NO-IDFA (1.4.3)
+  - AMap3DMap-NO-IDFA (6.2.0):
+    - AMapFoundation-NO-IDFA (~> 1.5)
+  - AMapFoundation-NO-IDFA (1.5.0)
   - AMapLocation-NO-IDFA (2.6.0):
     - AMapFoundation-NO-IDFA (~> 1.4)
   - AMapSearch-NO-IDFA (6.1.0):
     - AMapFoundation-NO-IDFA (~> 1.4)
   - DZNEmptyDataSet (1.8.1)
   - IQKeyboardManager (6.0.2)
+  - JCore (1.1.9)
+  - JPush (3.0.9):
+    - JCore (~> 1.1.7)
   - Masonry (1.1.0)
   - MBProgressHUD (1.1.0)
   - MJExtension (3.0.13)
   - MJRefresh (3.1.15.3)
-  - pop (1.0.10)
   - SDWebImage (4.3.3):
     - SDWebImage/Core (= 4.3.3)
   - SDWebImage/Core (4.3.3)
-  - TZImagePickerController (2.1.0.1)
+  - TZImagePickerController (2.1.0.3)
+  - UMCAnalytics (5.5.0):
+    - UMCCommon
+  - UMCCommon (1.5.0)
+  - UMCSecurityPlugins (1.0.6)
   - UMengUShare/Core (6.4.8.2):
     - UMengUShare/Network
   - UMengUShare/Network (6.4.8.2)
@@ -47,9 +53,6 @@ PODS:
   - UMengUShare/Social/Sina (6.4.8.2):
     - UMengUShare/Core
     - UMengUShare/Social/ReducedSina
-  - UMengUShare/Social/WeChat (6.4.8.2):
-    - UMengUShare/Core
-    - UMengUShare/Social/ReducedWeChat
   - UMengUShare/UI (6.4.8.2):
     - UMengUShare/Core
   - YYCache (1.0.4)
@@ -68,41 +71,48 @@ DEPENDENCIES:
   - AMapSearch-NO-IDFA
   - DZNEmptyDataSet
   - IQKeyboardManager
+  - JPush
   - Masonry
   - MBProgressHUD
   - MJExtension
   - MJRefresh
-  - pop
   - SDWebImage
   - TZImagePickerController
+  - UMCAnalytics
+  - UMCCommon
+  - UMCSecurityPlugins
   - UMengUShare/Social/QQ
+  - UMengUShare/Social/ReducedWeChat
   - UMengUShare/Social/Sina
-  - UMengUShare/Social/WeChat
   - UMengUShare/UI
   - YYText
   - YYWebImage
 
 SPEC CHECKSUMS:
-  AFNetworking: 8ac6017b94ea105479f7776e5288e48ae9c59bb4
-  AMap3DMap-NO-IDFA: bd90d37497d86ec4e6001327e9913af3d86af6c4
-  AMapFoundation-NO-IDFA: b6cbefab250ae8ab2e31aa9bb3dbbb98137cd76f
+  AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
+  AMap3DMap-NO-IDFA: d4b81b4f682546a745997ca4faa8177797fae4b9
+  AMapFoundation-NO-IDFA: c7a74e4f2e1633ffc310b5da1367d06198ab09d6
   AMapLocation-NO-IDFA: a75b762ae9a90840ce683de12504ac843a9f3b6c
   AMapSearch-NO-IDFA: a4511739719aa32ae9990b3189833a0bf82a986a
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   IQKeyboardManager: c49d59e358aeeffaa0280aa305093c2b194d2607
+  JCore: 27598485098d0db99d2812cba048003457d08cfb
+  JPush: 003d9eaef8ba2df76de32573d0c8aa62b92b3c82
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
   MJExtension: 5932755f451458eefa24239358817f8d291240c7
   MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
-  pop: 82ca6b068ce9278fd350fd9dd09482a0ce9492e6
   SDWebImage: de4d90b5bff3571eae7bd16202b1f43135409fa5
-  TZImagePickerController: 640f838cfd3e612cbf73d2f551bf0112973708ac
+  TZImagePickerController: 0fbbb79c74cfad5afda2df606605ab05bede78f2
+  UMCAnalytics: 4667788559a72f2fa5077117d1b8802a3b6eb6bb
+  UMCCommon: 82d21f4bb9532a5472cc533bbd8ed48aff376a14
+  UMCSecurityPlugins: 0831a08f3988f3cea9f1d3a7626cd9bee4fef150
   UMengUShare: 370d180101e13ee0227ae657ab119ba97243d2b3
   YYCache: 8105b6638f5e849296c71f331ff83891a4942952
   YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
   YYWebImage: 5f7f36aee2ae293f016d418c7d6ba05c4863e928
 
-PODFILE CHECKSUM: 28ce96216d002cd3dbabec3b7cf57ea339f51210
+PODFILE CHECKSUM: f82d691c8cae3b3a603925dce10ad33cb305aa94
 
 COCOAPODS: 1.4.0

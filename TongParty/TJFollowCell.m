@@ -10,14 +10,6 @@
 
 @implementation TJFollowCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier    {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        [self createUI];
-    }
-    return self;
-}
-
 - (void)createUI {
     _headImage = [[UIImageView alloc] init];
     _headImage.layerCornerRadius = 24;
@@ -54,7 +46,7 @@
     
     _actionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [_actionBtn setTitle:@"已关注" forState:UIControlStateNormal];
-    [_actionBtn setTitle:@"+ 关注" forState:UIControlStateSelected];
+    [_actionBtn setTitle:@"" forState:UIControlStateSelected];
     _actionBtn.titleLabel.font = [UIFont systemFontOfSize:10];
     [_actionBtn setBackgroundImage:kImage(@"TJButtonSelect") forState:UIControlStateNormal];
     [_actionBtn setBackgroundImage:kImage(@"TJButtonNormal1") forState:UIControlStateSelected];
@@ -76,13 +68,43 @@
 - (void)updateMasterNoticeWith:(NSDictionary *)dic {
     [_headImage sd_setImageWithURL:[NSURL URLWithString:dic[@"head_image"]]];
     _titleL.text = dic[@"nickname"];
-    _contentL.text = dic[@"msg_text"];;
+    _contentL.text = dic[@"msg_text"];
+    if ([dic[@"is_read"] isEqualToString:@"1"]) {
+        _actionBtn.selected = true;
+    } else {
+        _actionBtn.selected = false;
+    }
+    if ([dic[@"type"] isEqualToString:@"1"]) {
+        _actionBtn.hidden = true;
+    } else {
+        _actionBtn.hidden = false;
+    }
 }
 
 - (void)updateBtnTag:(NSInteger)index {
     _actionBtn.tag = index;
 }
 
+// 我的粉丝
+- (void)updateFollowerStatus:(NSString *)isFollow {
+    [_actionBtn setTitle:@"" forState:UIControlStateNormal];
+    [_actionBtn setTitle:@"已关注" forState:UIControlStateSelected];
+    [_actionBtn setBackgroundImage:kImage(@"TJButtonFollow") forState:UIControlStateNormal];
+    [_actionBtn setBackgroundImage:kImage(@"TJButtonNormal1") forState:UIControlStateSelected];
+    if ([isFollow isEqualToString:@"1"]) {
+        _actionBtn.selected = true;
+    } else {
+        _actionBtn.selected = false;
+    }
+}
+
+// 我的关注
+- (void)updateStatus:(NSString *)isFollow {
+    [_actionBtn setTitle:@"已关注" forState:UIControlStateNormal];
+    [_actionBtn setTitle:@"" forState:UIControlStateSelected];
+    [_actionBtn setBackgroundImage:kImage(@"TJButtonNormal1") forState:UIControlStateNormal];
+    [_actionBtn setBackgroundImage:kImage(@"TJButtonFollow") forState:UIControlStateSelected];
+}
 
 // 消息-我的关注
 - (void)updateAttentionNotice {
@@ -97,7 +119,18 @@
     _contentL.text = @"申请添加您为好友";
     [_actionBtn setTitle:@"+ 添加" forState:UIControlStateNormal];
     [_actionBtn setTitle:@"已添加" forState:UIControlStateSelected];
-    
+}
+// 添加好友
+- (void)updateAddFriend:(NSString *)isAdd {
+    [_actionBtn setTitle:@"" forState:UIControlStateNormal];
+    [_actionBtn setTitle:@"已添加" forState:UIControlStateSelected];
+    [_actionBtn setBackgroundImage:kImage(@"TJButtonFollow") forState:UIControlStateNormal];
+    [_actionBtn setBackgroundImage:kImage(@"TJButtonNormal1") forState:UIControlStateSelected];
+    if ([isAdd isEqualToString:@"1"]) {
+        _actionBtn.selected = true;
+    } else {
+        _actionBtn.selected = false;
+    }
 }
 
 @end

@@ -10,4 +10,6 @@
 
 @interface TJFollowerController : BaseViewController
 
+@property (nonatomic, copy  ) NSString *act;
+
 @end

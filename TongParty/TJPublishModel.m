@@ -7,7 +7,7 @@
 //
 
 #import "TJPublishModel.h"
-
+#import "MJExtension.h"
 
 @implementation TJPublishModel
 

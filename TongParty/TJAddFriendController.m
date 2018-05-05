@@ -173,7 +173,9 @@
     kWeakSelf
     [ZLLAuthorizationCheckTool availablecheckAccessForContacts:self jumpSettering:true alertNotAvailable:true resultBlock:^(BOOL isAvailable, ZLLAuthorizationStatus status) {
         if (isAvailable) {
-            [weakSelf.navigationController pushViewController:[TJContactController new] animated:true];
+            dispatch_async(dispatch_get_main_queue(), ^{
+              [weakSelf.navigationController pushViewController:[TJContactController new] animated:true];
+            });
         }
     }];
 

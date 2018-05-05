@@ -8,7 +8,6 @@
 
 #import "TJHomeController.h"
 #import "TJHomeTableViewCell.h"
-#import "LRTranstionAnimationPush.h"
 #import "TJPublishController.h"
 #import "TJRegisterController.h"
 #import "TJLoginController.h"
@@ -128,7 +127,7 @@
         make.size.mas_equalTo(CGSizeMake(100, 100));
     }];
     
-    _publishBtn = [[TJButton alloc] init];
+    _publishBtn = [[UIButton alloc] init];
     [_publishBtn addTarget:self action:@selector(publishAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_publishBtn];
     [_publishBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -155,7 +154,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+
     [self requestData];
 }
 
@@ -225,31 +224,19 @@
     return 119.0;
 }
 
-#pragma mark -- UINavigationControllerDelegate --
-
-- (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC{
-    
-    if (operation == UINavigationControllerOperationPush) {
-        return [LRTranstionAnimationPush new];
-    }else{
-        return nil;
-    }
-}
 - (void)gotoLogin {
-//    TJLoginController *vc = [TJLoginController new];
-//    vc.phone = @"直接";
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[TJRegisterController new]];
-
+    TJLoginController *vc = [TJLoginController new];
+    vc.phone = @"直接";
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nav animated:true completion:nil];
 }
 
 - (BOOL)isLogin {
-        if (!bLogined) {
-            return false;
-        } else
-            return true;
+    if (!bLogined) {
+        return false;
+    } else
+        return true;
 }
-
 
 
 - (void)configLocationManager {
@@ -343,11 +330,17 @@
 }
 
 - (void)publishAction {
+    kWeakSelf
     if ([self isLogin]) {
         [self checkLocationAuthorizationStatus:^ {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.navigationController pushViewController:[TJPublishController new] animated:YES];
-            });
+            if(curUser.latitude) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.navigationController pushViewController:[TJPublishController new] animated:YES];
+                });
+            } else {
+                [MBProgressHUD showMessage:@"正在获取位置..."];
+                [weakSelf startLocation];
+            }
         } failure:^ {
         }];
     } else {

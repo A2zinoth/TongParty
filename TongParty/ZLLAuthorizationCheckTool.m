@@ -7,6 +7,7 @@
 //
 
 #import "ZLLAuthorizationCheckTool.h"
+#import <CoreTelephony/CTCellularData.h>
 #import <CoreLocation/CoreLocation.h>
 #import <Contacts/Contacts.h>
 #import <AddressBook/AddressBook.h>
@@ -16,6 +17,30 @@
 @implementation ZLLAuthorizationCheckTool
 
 #pragma mark - 检查并请求权限
++ (void)availableAccessForCellular:(UIViewController *)currentVC
+                     jumpSettering:(BOOL)jumpSettering
+                 alertNotAvailable:(BOOL)isAlert
+                       resultBlock:(ZLLAuthorizationBlock)resultBlock {
+    ZLLAuthorizationStatus status = [self checkAccessForCellular];
+    BOOL isAvail = NO;
+    if (status == ZLLAuthorizationStatus_NotDetermined) {
+        if(isAlert) {
+            
+        }
+    } else if (status == ZLLAuthorizationStatus_Denied) {
+        if(isAlert) {
+            NSString *title = @"打开[无线数据]来允许桐聚访问网络";
+            NSString *message = [NSString stringWithFormat:@"请在系统设置中开启无线数据(设置>%@>无线数据>开启)", [self appName]];
+            [self showAlertVCWithTitle:title message:message currentVC:currentVC jumpSettering:jumpSettering settingURLString:@"root=LOCATION_SERVICES"];
+        }
+    } else {
+        isAvail = YES;
+    }
+    if (resultBlock) {
+        resultBlock(isAvail, status);
+    }
+}
+
 + (void)availableAccessForLocationServices:(UIViewController *)currentVC
                              jumpSettering:(BOOL)jumpSettering
                          alertNotAvailable:(BOOL)isAlert
@@ -335,6 +360,19 @@
 }
 
 #pragma mark - 检查权限
++ (ZLLAuthorizationStatus)checkAccessForCellular {
+    CTCellularData *cellularData = [[CTCellularData alloc] init];
+    CTCellularDataRestrictedState status = [cellularData restrictedState];
+    switch (status) {
+        case kCTCellularDataRestrictedStateUnknown:
+            return ZLLAuthorizationStatus_NotDetermined;
+        case kCTCellularDataRestricted:
+            return ZLLAuthorizationStatus_Denied;
+        case kCTCellularDataNotRestricted:
+            return ZLLAuthorizationStatus_Authorized;
+    }
+}
+
 + (ZLLAuthorizationStatus)checkAccessForLocationServices {
     NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
     NSString *alwaysUsage = [info objectForKey:@"NSLocationAlwaysUsageDescription"];

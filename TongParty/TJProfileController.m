@@ -18,6 +18,7 @@
 #import "GKPhotoBrowser.h"
 #import "TJNoticeController.h"
 #import "TJTableController.h"
+#import "TJDeskHistoryController.h"
 
 @interface TJProfileController ()<GKPhotosViewDelegate,GKPhotoBrowserDelegate>
 
@@ -88,14 +89,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
      self.navigationController.navigationBar.hidden = true;
-//    if ([_act isEqualToString:@"DeskInfo"]) {
-//        [self requestData];
-//    } else
-    if (_act) {
-        [self requestDataWithUid:_act];
-    } else
-        [self requestData];
+    
     [_profileView.headImage sd_setImageWithURL:[NSURL URLWithString:curUser.image]];
+    
+    [self requestData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -137,6 +134,13 @@
             if (!_isMy)
                 table.act = _act;
         [self.navigationController pushViewController:table animated:true];
+    } else if (indexPath.row == 1) {
+        TJDeskHistoryController *deskHistory = [[TJDeskHistoryController alloc] init];
+        if (_act)
+            if (!_isMy)
+                deskHistory.act = _act;
+        deskHistory.attributedString = _profileView.partake.attributedText;
+        [self.navigationController pushViewController:deskHistory animated:true];
     }
 }
 
@@ -185,15 +189,27 @@
 }
 
 - (void)friendAction {
-//    [self.navigationController pushViewController:[TJFriendController new] animated:true];
+    TJFriendController *friend = [[TJFriendController alloc] init];
+    if (!_isMy) {
+        friend.act = _act;
+    }
+    [self.navigationController pushViewController:friend animated:true];
 }
 
 - (void)followerAction {
-//    [self.navigationController pushViewController:[TJFollowerController new] animated:true];
+    TJFollowerController *follower = [[TJFollowerController alloc] init];
+    if (!_isMy) {
+        follower.act = _act;
+    }
+    [self.navigationController pushViewController:follower animated:true];
 }
 
 - (void)followAction {
-//    [self.navigationController pushViewController:[TJFollowController new] animated:true];
+    TJFollowController *follow = [[TJFollowController alloc] init];
+    if (!_isMy) {
+        follow.act = _act;
+    }
+    [self.navigationController pushViewController:follow animated:true];
 }
 
 - (void)editAction {
@@ -218,9 +234,34 @@
     [self.navigationController pushViewController:setVC animated:true];
 }
 
-- (void)requestDataWithUid:(NSString *)uid {
+//- (void)requestDataWithUid:(NSString *)uid {
+//    kWeakSelf
+//    [DDResponseBaseHttp getWithAction:kTJProfile params:@{@"token":curUser.token, @"act":@"others", @"uid":uid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+//        if ([result.status isEqualToString:@"success"]) {
+//            [weakSelf.profileView updateWithDic:result.data];
+//            [weakSelf setupFootView:result.data[@"album"]];
+//            if ([result.data[@"is_my"] isEqualToNumber:[NSNumber numberWithInteger:1]]) {
+//                _isMy = true;
+//                weakSelf.dataSource = @[@"我的桌子", @"桌子历史", @"我的相册"];
+//                [weakSelf.tableView reloadData];
+//            }
+//        }
+//    } failure:^{
+//        
+//    }];
+//}
+
+- (void)requestData {
+    
+    NSDictionary *dic;
+    if (_act) {
+        dic = @{@"token":curUser.token, @"act":@"others",@"uid":_act};
+    } else {
+        dic = @{@"token":curUser.token, @"act":@"my"};
+    }
+    
     kWeakSelf
-    [DDResponseBaseHttp getWithAction:kTJProfile params:@{@"token":curUser.token, @"act":@"others", @"uid":uid} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+    [DDResponseBaseHttp getWithAction:kTJProfile params:dic type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
         if ([result.status isEqualToString:@"success"]) {
             [weakSelf.profileView updateWithDic:result.data];
             [weakSelf setupFootView:result.data[@"album"]];
@@ -229,18 +270,7 @@
                 weakSelf.dataSource = @[@"我的桌子", @"桌子历史", @"我的相册"];
                 [weakSelf.tableView reloadData];
             }
-        }
-    } failure:^{
-        
-    }];
-}
 
-- (void)requestData {
-    kWeakSelf
-    [DDResponseBaseHttp getWithAction:kTJProfile params:@{@"token":curUser.token, @"act":@"my"} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
-        if ([result.status isEqualToString:@"success"]) {
-            [weakSelf.profileView updateWithDic:result.data];
-            [weakSelf setupFootView:result.data[@"album"]];
         }
     } failure:^{
         

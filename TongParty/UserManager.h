@@ -11,10 +11,10 @@
 #import <YYCache/YYCache.h>
 
 typedef NS_ENUM(NSInteger, UserLoginType){
-    kUserLoginTypeAccount = 0,  //账号
-    kUserLoginTypeWeChat,       //微信登录
-    kUserLoginTypeQQ,           //QQ登录
-    kUserLoginTypeWeibo,        //微博登录
+    kUserLoginTypeAccount = 0,  // 账号
+    kUserLoginTypeWeChat,       // 微信登录
+    kUserLoginTypeQQ,           // QQ登录
+    kUserLoginTypeWeibo,        // 微博登录
     kUserLoginTypeCaptcha,      // 验证码
 };
 
@@ -71,7 +71,7 @@ typedef void (^loginBlock)(BOOL success, NSString * des);
  @param completion 回调
  */
 - (void)autoLoginToServer:(loginBlock)completion;
-//- (void)autoLoginToServerWithDic:(NSDictionary *)dic completion:(loginBlock)completion;
+
 /**
  退出登录
 

@@ -45,13 +45,15 @@
 #import "AppDelegate+AppService.h"
 #import "DDTJShareManager.h"
 #import <UMSocialCore/UMSocialCore.h>
-#import "DDNavViewController.h" //导航栏页面
-#import "AppDelegate+AppLocation.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
+#import "AppDelegate+AppLocation.h"
 #import "ZLLAuthorizationCheckTool.h"
+#import <UMCommon/UMCommon.h>
+#import <UMAnalytics/MobClick.h>
+
 
 @interface AppDelegate ()
-@property (nonatomic, strong) DDLoginManager *loginManager;
+
 @end
 
 @implementation AppDelegate
@@ -63,32 +65,27 @@
     self.window = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
     self.window.backgroundColor = kWhiteColor;
     
+    // UMeng
+    [UMConfigure setLogEnabled:true];
+    [MobClick setCrashReportEnabled:YES];
+    [UMConfigure initWithAppkey:UmengAppKey channel:@"App Store"];
+    [[DDTJShareManager sharedManager] registerAllPlatForms];
+    
+    // JPush
+    [JPUSHService setupWithOption:launchOptions appKey:JPushKey
+                          channel:@"App Store"
+                 apsForProduction:false
+            advertisingIdentifier:@""];
+    [self registerJPush];
+    
+    // Amap
     [self registerAmap];
-
     [ZLLAuthorizationCheckTool availableAccessForLocationServices:self.window.rootViewController jumpSettering:true alertNotAvailable:false resultBlock:^(BOOL isAvailable, ZLLAuthorizationStatus status) {
         if (isAvailable) {
             [weakSelf startLocation];
         }
     }];
-//    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
-//        UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"打开[定位服务]来允许桐聚确定您的位置" message:@"请在系统设置中开启定位服务(设置>隐私>定位服务>开启)" preferredStyle:UIAlertControllerStyleAlert];
-//        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
-//        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//            NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-//            if( [[UIApplication sharedApplication]canOpenURL:url] ) {
-//                [[UIApplication sharedApplication] openURL:url];
-//            }
-//        }];
-//
-//        [ac addAction:cancel];
-//        [ac addAction:ok];
-//
-//        [self.window.rootViewController presentViewController:ac animated:true completion:nil];
-//
-//    } else {
-//        [self startLocation];
-//    }
-    [[DDTJShareManager sharedManager] registerAllPlatForms];
+    
     
     if (@available(ios 9.0, *)) {
         [self initShortcutItems];
@@ -118,13 +115,27 @@
     return YES;
 }
 
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSLog(@"deviceToken:%@", [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]]);
+    [JPUSHService registerDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    NSLog(@"iOS 7 available Receive Remote Notification");
+    [JPUSHService handleRemoteNotification:userInfo];
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    NSLog(@"iOS10 Deprecated Receive Remote Notification");
+    [JPUSHService handleRemoteNotification:userInfo];
+}
+
 -(void)setTabbar{
-    
     _tabbar = [[DDTabbarViewController alloc]init];
     self.window.rootViewController = _tabbar;
     [self.window makeKeyAndVisible];
-
-    self.loginManager = [[DDLoginManager alloc]initWithController:_tabbar];
+   
 }
 
 

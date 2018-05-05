@@ -6,9 +6,9 @@
 //  Copyright © 2017年 桐聚. All rights reserved.
 //
 
-#import "DDModel.h"
+#import <Foundation/Foundation.h>
 
-@interface DDUserSingleton : DDModel
+@interface DDUserSingleton : NSObject
 
 /**唯一标示*/
 @property (nonatomic, copy) NSString *token;  // local save

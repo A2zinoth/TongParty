@@ -156,31 +156,22 @@ typedef NS_ENUM(NSUInteger, DDHomeAttentionListType) {
 
 
 //第三方服务的key
-#define GaoDeMapApiKey  @"ed78efbeface6d3dc1a04a6cd0f82f75"
-//#define UmengAppKey @"596c7ee4677baa2f4c00018f"//友盟分享appKey
-//#define UmengAppKey @"5971a3ed99f0c738f1000ff3"//友盟分享appKey
-#define UmengAppKey @"5ac9c778b27b0a5c760001bb"//友盟分享appKey
-#define ShareQQAppID @"1106759373" //腾讯appID
-#define ShareQQAppKey @"DIaUl6LALzCxH5gA" //腾讯appKey
-#define WetChatAppId @"wx6c456aa37d56cec1" //微信appID
+#define AMapKey         @"ceb5cd0e123e1b54347117883f0365a0" //高德地图key
+#define UmengAppKey     @"5ac9c778b27b0a5c760001bb"         //友盟分享appKey
+#define ShareQQAppID    @"1106759373"                       //腾讯appID
+#define ShareQQAppKey   @"DIaUl6LALzCxH5gA"                 //腾讯appKey
+#define WetChatAppId    @"wx6c456aa37d56cec1"               //微信appID
 #define WetChatAppSecret @"e504fbccc592263b650f48f0ffbf74d5" //微信appSecret
-
-//#define SinaWeiboAppKey  @"3954920930"
-//#define SinaWeiboAppSecret @"64b1c0ff4f9ba28b837c15da9f5ce315"
-//#define SinaWeiboAppKey  @"2005121617"
-//#define SinaWeiboAppSecret @"52ed6dd3b9becfd4abc8d76773a0583d"
 #define SinaWeiboAppKey  @"3954920930"
 #define SinaWeiboAppSecret @"64b1c0ff4f9ba28b837c15da9f5ce315"
 #define kSinaRedirectURI   @"http://www.weibo.com"
+#define JPushKey        @"5a411ce5c5926900afa39433"
 
 #define SMSMobAppKey @"" //MobAppKey
 #define SMSMobAppSecret @""
 #define SMSMobAppKeyTest @"" //MobAppKey--测试使用
 #define SMSMobAppSecretTest @""
 #define BuglyKey @""
-
-//#define AMapKey @"cf1471fbdbf487d386d66fd698247a74" //高德地图key test
-#define AMapKey @"ceb5cd0e123e1b54347117883f0365a0" //高德地图key
 
 
 #define kiPhoen [[[UIDevice currentDevice] name] isEqualToString:@"iPhoen 6"]  || \

@@ -10,7 +10,7 @@
 
 
 
-@interface TJEventView : TJBaseView
+@interface TJEventView : TJBaseView<UITextFieldDelegate>
 
 @property (nonatomic, strong) UITextField *inputTF;
 

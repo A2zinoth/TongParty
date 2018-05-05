@@ -130,28 +130,28 @@
                 cell.contentL.text = arr[0][@"content"];
                 [cell updateTime:arr[0][@"uptime"]];
             }
-        } else if (indexPath.row > 1) {
+        } else if (indexPath.row == 1) {
             if (_mutableDataSource[@"follow"]) {
                 NSArray *arr =  _mutableDataSource[@"follow"];
-                cell.contentL.text = [NSString stringWithFormat:@"%@%@",arr[0][@"nickename"], arr[0][@"msg_text"]];
+                cell.contentL.text = [NSString stringWithFormat:@"%@%@",arr[0][@"nickname"], arr[0][@"msg_text"]];
                 [cell updateTime:arr[0][@"uptime"]];
             }
         } else if (indexPath.row == 2) {
             if (_mutableDataSource[@"replay"]) {
                 NSArray *arr =  _mutableDataSource[@"replay"];
-                cell.contentL.text = cell.contentL.text = [NSString stringWithFormat:@"%@%@",arr[0][@"nickename"], arr[0][@"msg_text"]];
+                cell.contentL.text = cell.contentL.text = [NSString stringWithFormat:@"%@%@",arr[0][@"nickname"], arr[0][@"msg_text"]];
                 [cell updateTime:arr[0][@"uptime"]];
             }
         } else if (indexPath.row == 3) {
             if (_mutableDataSource[@"invite"]) {
                 NSArray *arr =  _mutableDataSource[@"invite"];
-                cell.contentL.text = cell.contentL.text = [NSString stringWithFormat:@"%@%@",arr[0][@"nickename"], arr[0][@"msg_text"]];
+                cell.contentL.text = cell.contentL.text = [NSString stringWithFormat:@"%@%@",arr[0][@"nickname"], arr[0][@"msg_text"]];
                 [cell updateTime:arr[0][@"uptime"]];
             }
         } else if (indexPath.row == 4) {
             if (_mutableDataSource[@"friend"]) {
                 NSArray *arr =  _mutableDataSource[@"friend"];
-                cell.contentL.text = cell.contentL.text = [NSString stringWithFormat:@"%@%@",arr[0][@"nickename"], arr[0][@"msg_text"]];
+                cell.contentL.text = cell.contentL.text = [NSString stringWithFormat:@"%@%@",arr[0][@"nickname"], arr[0][@"msg_text"]];
                 [cell updateTime:arr[0][@"uptime"]];
             }
         }
@@ -178,7 +178,8 @@
     
     return cell;
 }
-//18612404155
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {// 系统消息
@@ -195,7 +196,15 @@
             [self.navigationController pushViewController:[TJFriendReqController new] animated:true];
         }
     } else if (indexPath.section == 1) {
-        [self.navigationController pushViewController:[TJMasterController new] animated:true];
+        TJMasterController *master = [[TJMasterController alloc] init];
+        if ([self.data[indexPath.row][@"is_master"] isEqualToString:@"1"]) {
+            master.act = @"master_table";
+        } else {
+            master.act = @"member_table";
+        }
+        master.tid = self.data[indexPath.row][@"table_id"];
+        master.titleLabel.text = self.data[indexPath.row][@"title"];
+        [self.navigationController pushViewController:master animated:true];
     }
 }
 

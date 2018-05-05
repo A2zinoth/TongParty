@@ -34,7 +34,10 @@ typedef void (^ZLLAuthorizationBlock)(BOOL isAvailable, ZLLAuthorizationStatus s
 NS_ASSUME_NONNULL_BEGIN
 @interface ZLLAuthorizationCheckTool : NSObject
 
+
 #pragma mark - 检查权限
+/** 联网权限 */
++ (ZLLAuthorizationStatus)checkAccessForCellular;
 /** 定位权限检测 */
 + (ZLLAuthorizationStatus)checkAccessForLocationServices;
 /** 通讯录权限检测 */
@@ -47,6 +50,12 @@ NS_ASSUME_NONNULL_BEGIN
 + (ZLLAuthorizationStatus)checkAccessForCamera:(BOOL)isRear;
 
 #pragma mark - 检查权限
+
+//联网
++ (void)availableAccessForCellular:(UIViewController *)currentVC
+                     jumpSettering:(BOOL)jumpSettering
+                 alertNotAvailable:(BOOL)isAlert
+                       resultBlock:(ZLLAuthorizationBlock)resultBlock;
 /*
  * 定位权限是否可用
  * @param currentVC 用来present一个alert VC

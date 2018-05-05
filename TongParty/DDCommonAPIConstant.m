@@ -15,6 +15,49 @@
 NSString *const kTJHostAPI = @"http://103.37.160.99";
 //NSString *const kTJHostAPI = @"http://192.168.1.111";
 
+// 登录
+NSString *const kTJUniqueness               =     @"/tojoin/api/uniqueness.php";
+NSString *const kTJOtherLogin               =     @"/tojoin/api/other_login.php";
+NSString *const kTJCheckVerifyCode          =     @"/tojoin/api/check_verify_code.php";
+NSString *const kTJForgetPwd                =     @"/tongju/api/forget_pwd.php";
+// 创建
+NSString *const kTJCreateTable              =     @"/tojoin/api/create_table.php";
+NSString *const KTJActivityList             =     @"/tojoin/api/activity_list.php";
+NSString *const kTJSendTableNotice          =     @"/tojoin/api/send_table_notice.php";
+NSString *const kTJTableQRCode              =     @"/tojoin/api/see_qr_code.php";
+NSString *const kTJTableMasterSign          =     @"/tojoin/api/sign_master_table.php";
+NSString *const kTJTableMemberSign          =     @"/tojoin/api/sign_member_table.php";
+// 获取
+NSString *const KTJTableList                =     @"/tojoin/api/table_list.php";
+NSString *const kTJTableInfo                =     @"/tojoin/api/obtain_table_info.php";
+NSString *const kTJTableNotice              =     @"/tojoin/api/obtain_table_notice.php";
+NSString *const KTJNoticeList               =     @"/tojoin/api/notice_list.php";  // 快捷回复短语
+NSString *const kTJUserInfo                 =     @"/tojoin/api/obtain_user_info.php";
+NSString *const kTJProfile                  =     @"/tojoin/api/obtain_my.php";
+NSString *const kTJMessageList              =     @"/tojoin/api/message_list.php";
+NSString *const kTJTableMy                  =     @"/tojoin/api/obtain_my_table.php";
+NSString *const kTJTableHistory             =     @"/tojoin/api/obtain_table_history.php";
+NSString *const kTJMessageDetail            =     @"/tojoin/api/message_details.php";
+NSString *const kTJFollowList               =     @"/tojoin/api/follow_list.php";
+NSString *const kTJFollowerList             =     @"/tojoin/api/fans_list.php";
+NSString *const kTJFriendList               =     @"/tojoin/api/friend_list.php";
+NSString *const kTJSearchUser               =     @"/tojoin/api/search_user.php";
+NSString *const kTJPhoneList                =     @"/api/phone_list.php";
+// 加入
+NSString *const kTJTableJoin                =     @"/tojoin/api/apply_join_table.php";
+NSString *const kTJHeartBeat                =     @"/tojoin/api/heart_beat.php";
+//个人
+NSString *const kTJReplenishInfo            =     @"/tojoin/api/replenish_user_info.php";
+NSString *const kTJCareerList               =     @"/tojoin/api/career_list.php";
+NSString *const kTJChangeHeadPicture        =     @"/tojoin/api/change_head_picture.php";
+// 好友
+NSString *const kTJFollowUser               =    @"/tojoin/api/follow_user.php";
+NSString *const kTJCancelFollow             =     @"/tojoin/api/cancel_follow.php";
+NSString *const kTJApplyFriend              =     @"/tojoin/api/apply_friend.php";
+NSString *const kTJAcceptApplyFriend        =     @"/tojoin/api/process_friend_apply.php";
+
+
+
 #pragma mark - 登录注册部分
 /** 获取验证码*/
 NSString *const kTJLoginSendCodeAPI = @"/tojoin/api/get_verify_code.php";
@@ -23,7 +66,7 @@ NSString *const kTJUserRegisterAPI = @"/tojoin/api/register.php";
 /** 登录*/
 NSString *const kTJUserLoginAPI = @"/tojoin/api/login.php";
 /** 第三方登录*/
-//#define kTJOtherLoginAPI @"/tojoin/api/other_login.php"
+//NSString *const kTJOtherLoginAPI @"/tojoin/api/other_login.php"
 /** 信息完善*/
 NSString *const kTJUserInfoEditAPI = @"/tojoin/api/set_user_info.php";
 /** 用户详情*/

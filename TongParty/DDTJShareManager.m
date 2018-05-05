@@ -21,8 +21,13 @@ static DDTJShareManager *_singleton = nil;
     return _singleton;
 }
 
-- (void)registerAllPlatForms {
+- (void)shareWithSharedType:(DDTJShareType)shareType image:(UIImage *)image url:(NSString *)url content:(NSString *)content controller:(UIViewController *)controller {
     
+}
+
+
+- (void)registerAllPlatForms {
+
     //打开日志
     [[UMSocialManager defaultManager] openLog:YES];
     //打开图片水印
@@ -38,15 +43,15 @@ static DDTJShareManager *_singleton = nil;
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:ShareQQAppID appSecret:ShareQQAppKey redirectURL:@"https://www.baidu.com/home/news/data/newspage?nid=16194802801658600217&n_type=0&p_from=1&dtype=-1"];
     //新浪微博
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:SinaWeiboAppKey appSecret:SinaWeiboAppSecret redirectURL:kSinaRedirectURI];
-
 }
 
--(void)manageShareWithSharedType:(UMSocialPlatformType)platformType
+- (void)manageShareWithSharedType:(UMSocialPlatformType)platformType
                            title:(NSString *)title
                             desc:(NSString *)desc
                            image:(NSString *)image
                         shareUrl:(NSString *)shareUrl
-                        controller:(UIViewController *)controller{
+                      controller:(UIViewController *)controller{
+    
     
     NSString *message;
     switch (platformType) {
@@ -106,7 +111,7 @@ static DDTJShareManager *_singleton = nil;
 }
 
 //只分享图片
--(void)shareImageWithSharedType:(UMSocialPlatformType)platformType image:(UIImage *)image controller:(UIViewController *)controller{
+-(void)shareImageWithSharedType:(UMSocialPlatformType)platformType image:(UIImage *)image controller:(UIViewController *)controller {
     NSString *message;
     switch (platformType) {
         case UMSocialPlatformType_WechatSession:

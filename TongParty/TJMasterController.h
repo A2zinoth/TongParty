@@ -10,4 +10,8 @@
 
 @interface TJMasterController : BaseViewController
 
+@property (nonatomic, copy) NSString *act;
+@property (nonatomic, copy) NSString *tid;
+@property (nonatomic, strong) UILabel *titleLabel;
+
 @end

@@ -20,27 +20,27 @@
 }
 
 - (void)createView {
-//    _closeBtn = [[UIButton alloc] init];
-//    [self addSubview:_closeBtn];
-//    [_closeBtn setImage:[UIImage imageNamed:@"TJCloseBlack"] forState:UIControlStateNormal];
-//    _closeBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
-//    [_closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.mas_equalTo(26);
-//        make.left.mas_equalTo(14);
-//        make.size.mas_equalTo(CGSizeMake(28, 28));
-//    }];
-    
-    
-    _signupBtn = [[UIButton alloc] init];
-    [self addSubview:_signupBtn];
-    [_signupBtn setTitle:@"登录" forState:UIControlStateNormal];
-    [_signupBtn setTitleColor:[UIColor hx_colorWithHexString:@"#333333"] forState:UIControlStateNormal];
-    [_signupBtn.titleLabel setFont:[UIFont systemFontOfSize:16]];
-    [_signupBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(31);
-        make.trailing.mas_equalTo(-22);
-        make.size.mas_equalTo(CGSizeMake(33, 22));
+    _closeBtn = [[UIButton alloc] init];
+    [self addSubview:_closeBtn];
+    [_closeBtn setImage:[UIImage imageNamed:@"TJBackBtn"] forState:UIControlStateNormal];
+    _closeBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
+    [_closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(26);
+        make.left.mas_equalTo(14);
+        make.size.mas_equalTo(CGSizeMake(28, 28));
     }];
+    
+    
+//    _signupBtn = [[UIButton alloc] init];
+//    [self addSubview:_signupBtn];
+//    [_signupBtn setTitle:@"登录" forState:UIControlStateNormal];
+//    [_signupBtn setTitleColor:[UIColor hx_colorWithHexString:@"#333333"] forState:UIControlStateNormal];
+//    [_signupBtn.titleLabel setFont:[UIFont systemFontOfSize:16]];
+//    [_signupBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.mas_equalTo(31);
+//        make.trailing.mas_equalTo(-22);
+//        make.size.mas_equalTo(CGSizeMake(33, 22));
+//    }];
     
     UILabel *titleLabel = [[UILabel alloc] init];
     [self addSubview:titleLabel];

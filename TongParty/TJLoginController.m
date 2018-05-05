@@ -11,6 +11,8 @@
 #import "TJLoginModel.h"
 #import "UserManager.h"
 #import "TJVerifyController.h"
+#import "TJRegisterController.h"
+#import <CoreTelephony/CTCellularData.h>
 
 @interface TJLoginController ()
 
@@ -35,15 +37,19 @@
     }];
     
     if([_phone isEqualToString:@"中途"]) {
-//        [_loginView.phoneTF becomeFirstResponder];
+        _loginView.closeBtn.hidden = false;
     } else if ([_phone isEqualToString:@"直接"]) {
-//        [_loginView.phoneTF becomeFirstResponder];
+        _loginView.closeBtn.hidden = true;
+        if (kiPhoen) {
+            _loginView.phoneTF.text = @"17600368817";
+            _loginView.passwordTF.text = @"12345678";
+        }
     } else {
+        _loginView.closeBtn.hidden = false;
         _loginView.phoneTF.text = _phone;
         [_loginView.passwordTF becomeFirstResponder];
         if (kiPhoen) {
             _loginView.passwordTF.text = @"12345678";
-
         }
     }
     
@@ -85,10 +91,56 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.navigationController.navigationBar.hidden = true;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    CTCellularData *cellularData = [[CTCellularData alloc] init];
+    
+    /*
+     此函数会在网络权限改变时再次调用
+     */
+    cellularData.cellularDataRestrictionDidUpdateNotifier = ^(CTCellularDataRestrictedState state) {
+        switch (state) {
+            case kCTCellularDataRestricted:
+                
+                NSLog(@"Restricted");
+                //2.1权限关闭的情况下 再次请求网络数据会弹出设置网络提示
+                
+                break;
+            case kCTCellularDataNotRestricted:
+                
+                NSLog(@"NotRestricted");
+                //2.2已经开启网络权限 监听网络状态
+                
+                
+                break;
+            case kCTCellularDataRestrictedStateUnknown:
+                
+                NSLog(@"Unknown");
+                //2.3未知情况 （还没有遇到推测是有网络但是连接不正常的情况下）
+                
+                break;
+                
+            default:
+                break;
+        }
+    };
+//    if([AFNetworkReachabilityManager sharedManager].networkReachabilityStatus != AFNetworkReachabilityStatusReachableViaWWAN || [AFNetworkReachabilityManager sharedManager].networkReachabilityStatus != AFNetworkReachabilityStatusReachableViaWiFi) {
+//        NSString *title = @"打开[无线数据]来允许桐聚访问网络";
+//        NSString *message = [NSString stringWithFormat:@"请在系统设置中开启无线数据(设置>桐聚>无线数据>开启)"];
+//        [self alertWithTitle:title message:message cancel:@"取消" ok:@"设置" cancel:^{
+//        } ok:^{
+//            if (@available(ios 10.0, *)) {
+//                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{} completionHandler:nil];
+//            } else {
+//                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+//            }
+//        }];
+//    }
+}
 
 #pragma mark - UserAction
 - (void)forgetAction {
@@ -131,7 +183,7 @@
 }
 
 - (void)signupAction {
-    [self.navigationController popViewControllerAnimated:true];
+    [self.navigationController pushViewController:[TJRegisterController new] animated:true];
 }
 
 - (void)addUserAction {

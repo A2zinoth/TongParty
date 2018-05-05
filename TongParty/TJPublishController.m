@@ -18,7 +18,6 @@
 #import "TJEventAddrController.h"
 #import "TJThemeModel.h"
 
-#import "DDLocationAddressVC.h"
 
 @interface TJPublishController ()<AMapLocationManagerDelegate>
 
@@ -48,7 +47,7 @@
                         @{@"title":@"是否加入心跳桌", @"pic":@"TJCreteDesk_6"}];
     
     _publishModel = [[TJPublishModel alloc] init];
-    NSString *str = [NSString stringWithFormat:@"%.0f",([[NSDate date] timeIntervalSince1970])/1800];
+    NSString *str = [NSString stringWithFormat:@"%.0f",([[NSDate date] timeIntervalSince1970]+7200)/1800];
 
     _publishModel = [_publishModel mj_setKeyValues:@{@"token":curUser.token,
                                                      @"title":@"狼人杀到黎明",
@@ -137,14 +136,6 @@
   
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-//    [self.locationManager stopUpdatingLocation];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -223,7 +214,6 @@
         [self.publishModel getActivityList:^(NSArray *dataArr) {
             NSArray *array = [TJThemeModel mj_objectArrayWithKeyValuesArray:dataArr];
             [weakSelf.themeView updateData:array];
-//            [weakSelf.tableView reloadData];
         }];
     } else if (indexPath.row == 2) {
         [self.view addSubview:self.datePicker];
@@ -260,24 +250,6 @@
             weakSelf.publishModel.placeEdit = true;
             [weakSelf.tableView reloadData];
         };
-//        return;
-//        // 地图选择地点
-//        DDLocationAddressVC *locationVC   = [[DDLocationAddressVC alloc] init];
-//        locationVC.locationAddressSelectBlcok = ^(AMapTip *tip) {
-//
-//            if ([tip isKindOfClass:[AMapTip class]]) {
-//                weakSelf.publishModel.place = [NSString stringWithFormat:@"%@%@",tip.district,tip.name];
-//                weakSelf.publishModel.latitude = [NSString stringWithFormat:@"%lf",tip.location.latitude];
-//                weakSelf.publishModel.longitude =[NSString stringWithFormat:@"%lf",tip.location.longitude];
-//            } else {
-//                AMapPOI *POI = (AMapPOI *)tip;
-//                weakSelf.publishModel.place = [NSString stringWithFormat:@"%@%@%@", POI.city, POI.district,POI.name];
-//                weakSelf.publishModel.latitude = [NSString stringWithFormat:@"%lf",POI.location.latitude];
-//                weakSelf.publishModel.longitude =[NSString stringWithFormat:@"%lf",POI.location.longitude];
-//            }
-//            [weakSelf.tableView reloadData];
-//        };
-//        [self.navigationController pushViewController:locationVC animated:YES];
     } else if (indexPath.row == 4) {
         // 禁用返回手势
         [self setPopGestureEnable:NO];
@@ -357,7 +329,7 @@
     UISwitch *switchButton = (UISwitch*)sender;
     BOOL isButtonOn = [switchButton isOn];
     if (isButtonOn) {
-        NSAttributedString *attrStr = [DDUtils attStringWithString:@"心跳桌会直接帮您匹配空闲桌位\n是否确定创建心跳桌" keyWord:@"" font:[UIFont systemFontOfSize:13] highlightedColor:nil textColor:[UIColor hx_colorWithHexString:@"#262626"]];
+        NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:@"心跳桌会直接帮您匹配空闲桌位\n是否确定创建心跳桌" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13], NSForegroundColorAttributeName:[UIColor hx_colorWithHexString:@"#262626"]}];
         
         UIAlertController *alertControl = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
         [alertControl setValue:attrStr forKey:@"attributedMessage"];

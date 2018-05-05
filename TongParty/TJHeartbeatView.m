@@ -22,20 +22,20 @@
         make.height.mas_equalTo(k5(502+kStatusBarHeight));
     }];
     
-    UILabel *title = [[UILabel alloc] init];
-    title.text = @"心跳桌";
-    title.font = [UIFont systemFontOfSize:13];
-    title.textColor = kWhiteColor;
-    [self addSubview:title];
-    [title mas_makeConstraints:^(MASConstraintMaker *make) {
-        if (@available(ios 11.0, *)) {
-            make.top.mas_equalTo(self.mas_safeAreaLayoutGuideTop).offset(13);
-        } else {
-            make.top.mas_equalTo(self).offset(33);
-        }
-        make.left.mas_equalTo(24);
-        make.size.mas_equalTo(CGSizeMake(41, 19));
-    }];
+//    UILabel *title = [[UILabel alloc] init];
+//    title.text = @"心跳桌";
+//    title.font = [UIFont systemFontOfSize:13];
+//    title.textColor = kWhiteColor;
+//    [self addSubview:title];
+//    [title mas_makeConstraints:^(MASConstraintMaker *make) {
+//        if (@available(ios 11.0, *)) {
+//            make.top.mas_equalTo(self.mas_safeAreaLayoutGuideTop).offset(13);
+//        } else {
+//            make.top.mas_equalTo(self).offset(33);
+//        }
+//        make.left.mas_equalTo(24);
+//        make.size.mas_equalTo(CGSizeMake(41, 19));
+//    }];
     
     UILabel *availableNum = [[UILabel alloc] init];
     availableNum.text = @"当前空缺桌位5686";

@@ -22,29 +22,222 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
-       
         CNContactStore *contactStore = [[CNContactStore alloc] init];
         
         CNContactFetchRequest *request = [[CNContactFetchRequest alloc] initWithKeysToFetch:@[CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey, CNContactImageDataKey]];
         NSMutableArray *contactArr = [NSMutableArray array];
+        NSMutableArray *phoneArr = [NSMutableArray array];
         NSError *error;
         [contactStore enumerateContactsWithFetchRequest:request error:&error usingBlock:^(CNContact * _Nonnull contact, BOOL * _Nonnull stop) {
             [contactArr addObject:contact];
+            if (contact.phoneNumbers.count) {
+                [phoneArr addObject:[self clean:contact.phoneNumbers[0].value.stringValue]];
+            }
         }];
-
-//        NSLog(@"error%@", error);
-//
-//        for (NSInteger i = 0; i < contactArr.count; i++) {
-//            CNContact *contact = contactArr[i];
-//            NSLog(@"%@%@=%@", contact.givenName, contact.familyName, contact.phoneNumbers);
-//        }
         
         self.dataSource = [self sortObjectsAccordingToInitialWith:contactArr];
         [self.tableView reloadData];
+        
+        if(kiPhoen)
+            [self requestData:@[@"15210030317", @"18519269520"]];
+        else {
+            [self requestData:phoneArr];
+        }
+        
     });
 }
 
 - (void)createUI {
+    UIButton *_cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_cancelBtn setTitle:@"返回" forState:UIControlStateNormal];
+    [_cancelBtn setTitleColor:kBtnEnable forState:UIControlStateNormal];
+    _cancelBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+    _cancelBtn.titleEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
+    [_cancelBtn addTarget:self action:@selector(closeAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_cancelBtn];
+    [_cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        if (@available(ios 11.0,*)) {
+            make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(3);
+        } else {
+            make.top.mas_equalTo(23);
+        }
+        make.left.mas_equalTo(14);
+        make.size.mas_equalTo(CGSizeMake(48, 38));
+    }];
+    
+    
+    UILabel *titleLabel = [[UILabel alloc] init];
+    [self.view addSubview:titleLabel];
+    titleLabel.text = @"添加好友";
+    titleLabel.textColor = [UIColor hx_colorWithHexString:@"#262626"];
+    titleLabel.font = [UIFont systemFontOfSize:14];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        if (@available(ios 11.0,*)) {
+            make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(12);
+        } else {
+            make.top.mas_equalTo(32);
+        }
+        make.centerX.mas_equalTo(0);
+        make.size.mas_equalTo(CGSizeMake(58, 20));
+    }];
+    
+    
+    UIView *line = [[UIView alloc] init];
+    [self.view addSubview:line];
+    line.backgroundColor = kSeparateLine;
+    [line mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(titleLabel.mas_bottom).offset(12);
+        make.left.mas_equalTo(0);
+        make.right.mas_equalTo(0);
+        make.height.mas_equalTo(0.5);
+    }];
+    
+    
+    UIImageView *_headImage1 = [[UIImageView alloc] init];
+    _headImage1.image = kImage(@"Image-0");
+    _headImage1.layerCornerRadius = 24;
+    [self.view addSubview:_headImage1];
+    [_headImage1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        if (@available(ios 11.0,*)) {
+            make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(44+15);
+        } else {
+            make.top.mas_equalTo(64+15);
+        }
+        make.left.mas_equalTo(25);
+        make.size.mas_equalTo(CGSizeMake(48, 48));
+    }];
+    
+    UILabel *_titleL1 = [[UILabel alloc] init];
+    _titleL1.text = @"丽萨";
+    _titleL1.textColor = [UIColor hx_colorWithHexString:@"#262626"];
+    _titleL1.font = [UIFont systemFontOfSize:15];
+    [self.view addSubview:_titleL1];
+    [_titleL1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        if (@available(ios 11.0,*)) {
+            make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(44+14);
+        } else {
+            make.top.mas_equalTo(64+14);
+        }
+        make.left.mas_equalTo(88);
+        make.right.mas_equalTo(-108);
+        make.height.mas_equalTo(22);
+    }];
+    
+    UILabel *_contentL1 = [[UILabel alloc] init];
+    _contentL1.text = @"通讯录好友张家家";
+    _contentL1.textColor = [UIColor hx_colorWithHexString:@"#738CA5"];
+    _contentL1.font = [UIFont systemFontOfSize:13];
+    [self.view addSubview:_contentL1];
+    [_contentL1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        if (@available(ios 11.0,*)) {
+            make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(44+47);
+        } else {
+            make.top.mas_equalTo(64+47);
+        }
+        make.left.mas_equalTo(88);
+        make.right.mas_equalTo(-108);
+        make.height.mas_equalTo(19);
+    }];
+    
+    UIButton *_actionBtn1 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_actionBtn1 setTitle:@"已关注" forState:UIControlStateNormal];
+    [_actionBtn1 setTitle:@"+ 关注" forState:UIControlStateSelected];
+    _actionBtn1.titleLabel.font = [UIFont systemFontOfSize:10];
+    [_actionBtn1 setBackgroundImage:kImage(@"TJButtonSelect") forState:UIControlStateNormal];
+    [_actionBtn1 setBackgroundImage:kImage(@"TJButtonNormal1") forState:UIControlStateSelected];
+    _actionBtn1.layerCornerRadius = 15;
+    [self.view addSubview:_actionBtn1];
+    [_actionBtn1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        if (@available(ios 11.0,*)) {
+            make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(44+24);
+        } else {
+            make.top.mas_equalTo(64+24);
+        }
+        make.right.mas_equalTo(-24);
+        make.size.mas_equalTo(CGSizeMake(62, 30));
+    }];
+    
+    
+    UIView *line2 = [[UIView alloc] init];
+    [self.view addSubview:line2];
+    line2.backgroundColor = kSeparateLine;
+    [line2 mas_makeConstraints:^(MASConstraintMaker *make) {
+        if (@available(ios 11.0,*)) {
+            make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(44+78);
+        } else {
+            make.top.mas_equalTo(64+78);
+        }
+        make.left.mas_equalTo(24);
+        make.right.mas_equalTo(0);
+        make.height.mas_equalTo(0.5);
+    }];
+    
+    UIImageView *_headImage2 = [[UIImageView alloc] init];
+    _headImage2.image = kImage(@"Image-1");
+    _headImage2.layerCornerRadius = 24;
+    [self.view addSubview:_headImage2];
+    [_headImage2 mas_makeConstraints:^(MASConstraintMaker *make) {
+        if (@available(ios 11.0,*)) {
+            make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(44+15+78);
+        } else {
+            make.top.mas_equalTo(64+15+78);
+        }
+        make.left.mas_equalTo(25);
+        make.size.mas_equalTo(CGSizeMake(48, 48));
+    }];
+    
+    UILabel *_titleL2 = [[UILabel alloc] init];
+    _titleL2.text = @"丽萨";
+    _titleL2.textColor = [UIColor hx_colorWithHexString:@"#262626"];
+    _titleL2.font = [UIFont systemFontOfSize:15];
+    [self.view addSubview:_titleL2];
+    [_titleL2 mas_makeConstraints:^(MASConstraintMaker *make) {
+        if (@available(ios 11.0,*)) {
+            make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(44+14+78);
+        } else {
+            make.top.mas_equalTo(64+14+78);
+        }
+        make.left.mas_equalTo(88);
+        make.right.mas_equalTo(-108);
+        make.height.mas_equalTo(22);
+    }];
+    
+    UILabel *_contentL2 = [[UILabel alloc] init];
+    _contentL2.text = @"通讯录好友张家家";
+    _contentL2.textColor = [UIColor hx_colorWithHexString:@"#738CA5"];
+    _contentL2.font = [UIFont systemFontOfSize:13];
+    [self.view addSubview:_contentL2];
+    [_contentL2 mas_makeConstraints:^(MASConstraintMaker *make) {
+        if (@available(ios 11.0,*)) {
+            make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(44+47+78);
+        } else {
+            make.top.mas_equalTo(64+47+78);
+        }
+        make.left.mas_equalTo(88);
+        make.right.mas_equalTo(-108);
+        make.height.mas_equalTo(19);
+    }];
+    
+    UIButton *_actionBtn2 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_actionBtn2 setTitle:@"已关注" forState:UIControlStateNormal];
+    [_actionBtn2 setTitle:@"+ 关注" forState:UIControlStateSelected];
+    _actionBtn2.titleLabel.font = [UIFont systemFontOfSize:10];
+    [_actionBtn2 setBackgroundImage:kImage(@"TJButtonSelect") forState:UIControlStateNormal];
+    [_actionBtn2 setBackgroundImage:kImage(@"TJButtonNormal1") forState:UIControlStateSelected];
+    _actionBtn2.layerCornerRadius = 15;
+    [self.view addSubview:_actionBtn2];
+    [_actionBtn2 mas_makeConstraints:^(MASConstraintMaker *make) {
+        if (@available(ios 11.0,*)) {
+            make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(44+24+78);
+        } else {
+            make.top.mas_equalTo(64+24+78);
+        }
+        
+        make.right.mas_equalTo(-24);
+        make.size.mas_equalTo(CGSizeMake(62, 30));
+    }];
+    
     
     [self.view addSubview:self.tableView];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -54,9 +247,9 @@
     self.tableView.sectionIndexColor = [UIColor hx_colorWithHexString:@"#9092A5"];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0,*)) {
-            make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(0);
+            make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(229);
         } else {
-            make.top.mas_equalTo(0);
+            make.top.mas_equalTo(249);
         }
         make.left.mas_equalTo(self.view);
         make.right.mas_equalTo(self.view);
@@ -84,9 +277,18 @@
     CNContact *contact = self.dataSource[indexPath.section][indexPath.row];
     cell.titleL.text = [NSString stringWithFormat:@"%@%@", contact.familyName, contact.givenName];
     if (contact.phoneNumbers.count) {
-        cell.contentL.text = contact.phoneNumbers[0].value.stringValue;
+        cell.contentL.text = [self clean:contact.phoneNumbers[0].value.stringValue];
     }
     return cell;
+}
+
+- (NSString *)clean:(NSString *)phoneNum {
+    NSString *phone = [phoneNum copy];
+    phone = [[phone componentsSeparatedByCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet]] componentsJoinedByString:@""];
+    if (phone.length>11) {
+        phone = [phone substringWithRange:NSMakeRange(phone.length-11, 11)];
+    }
+    return phone;
 }
 
 #pragma mark - UITableViewDelegate
@@ -129,7 +331,7 @@
         [newSectionsArray addObject:array];
     }
     
-    //将每个名字分到某个section下
+    // 将每个名字分到某个section下
     for (CNContact *contact in arr) {
         //获取name属性的值所在的位置，比如"林丹"，首字母是L，在A~Z中排第11（第一位是0），sectionNumber就为11
         
@@ -139,14 +341,14 @@
         [sectionNames addObject:contact];
     }
     
-    //对每个section中的数组按照name属性排序
+    // 对每个section中的数组按照name属性排序
     for (NSInteger index = 0; index < sectionTitlesCount; index++) {
         NSMutableArray *personArrayForSection = newSectionsArray[index];
         NSArray *sortedPersonArrayForSection = [collation sortedArrayFromArray:personArrayForSection collationStringSelector:@selector(familyName)];
         newSectionsArray[index] = sortedPersonArrayForSection;
     }
     
-    //删除空的数组
+    // 删除空的数组
     NSMutableArray *finalArr = [NSMutableArray new];
     NSMutableArray *headTitleArr = [NSMutableArray new];
     for (NSInteger index = 0; index < sectionTitlesCount; index++) {
@@ -157,9 +359,18 @@
     }
     self.headTitleArr = [headTitleArr copy];
     return finalArr;
-    
-//    return newSectionsArray;
 }
 
+
+- (void)requestData:(NSArray *)mobiles {
+    [DDResponseBaseHttp getWithAction:kTJPhoneList params:@{@"token":curUser.token,@"mobiles":mobiles} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+        
+    } failure:^{
+        
+    }];
+}
+- (void)closeAction {
+    [self.navigationController popViewControllerAnimated:true];
+}
 
 @end

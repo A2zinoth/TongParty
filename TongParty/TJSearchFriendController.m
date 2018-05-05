@@ -7,6 +7,7 @@
 //
 
 #import "TJSearchFriendController.h"
+#import "TJFollowCell.h"
 
 @interface TJSearchFriendController ()<UISearchBarDelegate>
 
@@ -47,6 +48,7 @@
     
     UISearchBar *searchBar = [[UISearchBar alloc] init];
     searchBar.placeholder = @"搜索对方手机号码";
+    searchBar.delegate = self;
     searchBar.barStyle = UISearchBarStyleMinimal;
     searchBar.backgroundImage = [UIImage new];
     searchBar.tintColor = kBtnEnable;
@@ -58,7 +60,7 @@
     [self.view addSubview:searchBar];
     [searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0,*)) {
-            make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(1);
+            make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop);
         } else {
             make.top.mas_equalTo(21);
         }
@@ -82,18 +84,91 @@
         make.height.mas_equalTo(0.5);
     }];
     
+    [self.view addSubview:self.tableView];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.rowHeight = 78;
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        if (@available(ios 11.0,*)) {
+            make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(45);
+        } else {
+            make.top.mas_equalTo(65);
+        }
+        make.left.mas_equalTo(self.view);
+        make.right.mas_equalTo(self.view);
+        make.bottom.mas_equalTo(self.view);
+    }];
+    
+}
+#pragma mark - UITableViewDataSource
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.dataSource.count;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    TJFollowCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TJSearchCellID"];
+    if (!cell) {
+        cell = [[TJFollowCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TJSearchCellID"];
+        [cell.actionBtn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    NSDictionary *dic = self.dataSource[indexPath.row];
+    if (dic[@"head_image"]) {
+        [cell.headImage sd_setImageWithURL:[NSURL URLWithString:dic[@"head_image"]]];
+    }
+    cell.titleL.text = dic[@"nickname"];
+    cell.contentL.text = dic[@"mobile"];
+    [cell updateAddFriend:dic[@"is_friend"]];
+    [cell updateBtnTag:indexPath.row];
+    return cell;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+- (void)btnAction:(UIButton *)btn {
+    NSInteger index = btn.tag;
+    //    NSString *act;
+    
+    if (!btn.selected) {// 加好友
+        [DDResponseBaseHttp getWithAction:kTJApplyFriend params:@{@"token":curUser.token, @"oid":self.dataSource[index][@"user_id"]} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+            [MBProgressHUD showMessage:result.msg_cn];
+            if ([result.status isEqualToString:@"success"]) {
+                btn.selected = true;
+            }
+        } failure:^{
+        }];
+    }
+//    else { // 未关注
+//        [DDResponseBaseHttp getWithAction:kTJCancelFollow params:@{@"token":curUser.token, @"oid":self.dataSource[index][@"follow_id"]} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+//            [MBProgressHUD showMessage:result.msg_cn];
+//            if ([result.status isEqualToString:@"success"]) {
+//                btn.selected = true;
+//            }
+//        } failure:^{
+//        }];
+//    }
 }
+
 
 #pragma mark -UISearchBarDelegate
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    if (searchBar.text.length == 11) {
+        [self requestData:searchBar.text];
+    } else {
+        [MBProgressHUD showMessage:@"手机号码有误"];
+    }
+}
 
+- (void)requestData:(NSString *)search {
+    kWeakSelf
+    [DDResponseBaseHttp getWithAction:kTJSearchUser params:@{@"token":curUser.token, @"mobile":search} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+        if ([result.status isEqualToString:@"success"]) {
+            weakSelf.dataSource = @[result.data];
+            [weakSelf.tableView reloadData];
+        }
+    } failure:^{
+        
+    }];
+}
 
 - (void)closeAction {
     [self.navigationController popViewControllerAnimated:true];

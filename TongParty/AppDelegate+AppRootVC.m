@@ -41,8 +41,17 @@
 
 
 #pragma mark -============== 引导页   ====================
-- (void)createLoadingScrollView
-{//引导页
+- (void)createLoadingScrollView {
+    
+    NSURL *url = [NSURL URLWithString:@"http://www.baidu.com"];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSLog(@"baidu error:%@", error);
+    }];
+    [task resume];
+    
+    //引导页
     UIScrollView *sc = [[UIScrollView alloc]initWithFrame:self.window.bounds];
     sc.pagingEnabled = YES;
     sc.delegate = self;

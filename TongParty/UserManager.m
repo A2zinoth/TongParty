@@ -135,23 +135,6 @@
     }
 }
 
-#pragma mark ————— 手动登录到服务器 —————
--(void)loginToServer:(NSDictionary *)params completion:(loginBlock)completion{
-    [MBProgressHUD showMessage:@"登录中..."];
-    
-    
-    
-//    [PPNetworkHelper POST:NSStringFormat(@"%@%@",kTJHostAPI,kTJUserLoginAPI) parameters:params success:^(id responseObject) {
-//        [self LoginSuccess:responseObject completion:completion];
-//
-//    } failure:^(NSError *error) {
-//        [MBProgressHUD hideHUD];
-//        if (completion) {
-//            completion(NO,error.localizedDescription);
-//        }
-//    }];
-}
-
 #pragma mark ————— 自动登录到服务器 —————
 -(void)autoLoginToServer:(loginBlock)completion{
 //    [PPNetworkHelper POST:NSStringFormat(@"%@%@",kTJHostAPI,kUrlUserAutoLogin) parameters:nil success:^(id responseObject) {
@@ -175,35 +158,11 @@
         if (completion) {
             completion(true, responseObject.msg_cn);
         }
-        KPostNotification(KNotificationLoginStateChange, @YES);
+//        KPostNotification(KNotificationLoginStateChange, @YES);
     } else {
         completion(NO,responseObject.msg_cn);
-        KPostNotification(KNotificationLoginStateChange, @NO);
+//        KPostNotification(KNotificationLoginStateChange, @NO);
     }
-
-//        if (ValidDict(responseObject)) {
-//            if ([responseObject[@"result"] isEqualToString:@"01"]) {// 成功
-//                NSDictionary *userInfo = responseObject[@"pd"];
-//                self.curUserInfo = [UserInfo modelWithDictionary:userInfo];
-//                [self saveUserInfo];
-//                self.isLogined = true;
-//                if (completion) {
-//                    completion(true, nil);
-//                }
-//                KPostNotification(KNotificationLoginStateChange, @YES);
-//            } else {
-//                if (completion) {
-//                    completion(false, @"登录失败");
-//                }
-////                RLog(@"result=%@", responseObject[@"result"]);
-////                KPostNotification(KNotificationLoginStateChange, @NO);
-//            }
-//        } else {
-//            if (completion) {
-//                completion(NO,@"登录返回数据异常");
-//            }
-//            KPostNotification(KNotificationLoginStateChange, @NO);
-//        }
 }
 #pragma mark ————— 储存用户信息 —————
 -(void)saveUserInfo{
@@ -250,7 +209,7 @@
         }
     }];
     
-    KPostNotification(KNotificationLoginStateChange, @NO);
+//    KPostNotification(KNotificationLoginStateChange, @NO);
 }
 
 - (YYCache *)cache {

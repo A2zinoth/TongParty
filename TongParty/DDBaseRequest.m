@@ -8,7 +8,6 @@
 
 #import "DDBaseRequest.h"
 #import "DDRequestManager.h"
-#import "MJExtension.h"
 #import "NSString+Addition.h"
 #import "AFNetworkReachabilityManager.h"
 #import "NSNotificationCenter+Addition.h"

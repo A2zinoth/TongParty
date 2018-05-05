@@ -23,6 +23,8 @@
 @property (nonatomic, strong) UIButton *followerBtn;
 @property (nonatomic, strong) UIButton *friendBtn;
 
+@property (nonatomic, strong) UILabel *partake;
+
 - (instancetype)initWithAct:(NSString *)act;
 - (void)updateWithDic:(NSDictionary *)dic;
 

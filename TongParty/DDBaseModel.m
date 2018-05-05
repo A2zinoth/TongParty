@@ -7,7 +7,6 @@
 //
 
 #import "DDBaseModel.h"
-#import "MJExtension.h"
 #import "DDFileCacheManager.h"
 
 @implementation DDBaseModel

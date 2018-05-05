@@ -364,7 +364,7 @@ UISearchControllerDelegate,AMapLocationManagerDelegate,MAMapViewDelegate,AMapSea
         _iv_mapMark = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, DDFitWidth(15.f), DDFitHeight(30.f))];
 //        //        _iv_mapMark.center = self.mapView.center;
 //        _iv_mapMark.center = CGPointMake(kScreenWidth/2, 126);
-//        _iv_mapMark.image = kImage(@"TJLocationHere");
+        _iv_mapMark.image = kImage(@"TJLocationHere");
     }
     return _iv_mapMark;
 }

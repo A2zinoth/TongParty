@@ -21,7 +21,7 @@
 
 - (void)createUI {
     _cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [_cancelBtn setTitle:@"返回" forState:UIControlStateNormal];
     [_cancelBtn setTitleColor:kBtnEnable forState:UIControlStateNormal];
     _cancelBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     _cancelBtn.titleEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
@@ -55,8 +55,8 @@
     }];
     
     _okBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_okBtn setBackgroundImage:kImage(@"TJMessage") forState:UIControlStateNormal];
-    _okBtn.titleEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
+    [_okBtn setImage:kImage(@"TJAddFriend") forState:UIControlStateNormal];
+    _okBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
     [_okBtn addTarget:self action:@selector(okAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_okBtn];
     [_okBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -80,7 +80,6 @@
     }];
     
     [self.view addSubview:self.tableView];
-    self.dataSource = @[@"", @"", @""];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.rowHeight = 78;
     self.tableView.dataSource = self;
@@ -113,8 +112,14 @@
     TJFriendCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TJFriendCellID"];
     if (!cell) {
         cell = [[TJFriendCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TJFriendCellID"];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
+    
+    NSDictionary *dic = self.dataSource[indexPath.row];
+    if (dic[@"head_image"]) {
+        [cell.headImage sd_setImageWithURL:[NSURL URLWithString:dic[@"head_image"]]];
+    }
+    cell.titleL.text = dic[@"nickname"];
+    cell.contentL.text = [NSString stringWithFormat:@"实到 %@/%@ 创建；实到 %@/%@ 参与", dic[@"create_finish"], dic[@"create_num"], dic[@"join_finish"], dic[@"join_num"]];
     
     return cell;
 }
@@ -126,8 +131,35 @@
     [self.navigationController pushViewController:[TJAddFriendController new] animated:true];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self requestData];
+}
+
+- (void)requestData {
+    
+    NSDictionary *dic;
+    if (_act) {
+        dic = @{@"token":curUser.token, @"act":@"others",@"uid":_act};
+    } else {
+        dic = @{@"token":curUser.token, @"act":@"my"};
+    }
+    
+    kWeakSelf
+    [DDResponseBaseHttp getWithAction:kTJFriendList params:dic type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+        if ([result.status isEqualToString:@"success"]) {
+            weakSelf.dataSource = result.data;
+            [weakSelf.tableView reloadData];
+        }
+    } failure:^{
+        
+    }];
+}
+
 - (void)closeAction {
     [self.navigationController popViewControllerAnimated:true];
 }
+
+
 
 @end

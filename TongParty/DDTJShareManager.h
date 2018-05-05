@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UMSocialCore/UMSocialCore.h>
 
+
 /**
  *  三方类型
  */
@@ -36,9 +37,15 @@ typedef NS_ENUM(NSUInteger, DDTJShareType) {
 
 - (void)registerAllPlatForms;
 
--(void)manageShareWithSharedType:(UMSocialPlatformType)platformType title:(NSString *)title desc:(NSString *)desc image:(NSString *)image shareUrl:(NSString *)shareUrl controller:(UIViewController *)controller;
+- (void)manageShareWithSharedType:(UMSocialPlatformType)platformType
+                           title:(NSString *)title
+                            desc:(NSString *)desc
+                           image:(NSString *)image
+                        shareUrl:(NSString *)shareUrl
+                      controller:(UIViewController *)controller;
+
 //只分享图片
--(void)shareImageWithSharedType:(UMSocialPlatformType)platformType image:(UIImage *)image controller:(UIViewController *)controller;
+- (void)shareImageWithSharedType:(UMSocialPlatformType)platformType image:(UIImage *)image controller:(UIViewController *)controller;
 @end
 
 

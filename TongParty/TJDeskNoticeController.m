@@ -94,8 +94,13 @@
 
 - (void)openShortCut {
     kWeakSelf
+    CGFloat top = kScreenHeight-kNavigationBarHeight-self.keyboardHeight-HOME_INDICATOR_HEIGHT-64;
+    if (iPhoneX) {
+        top = kScreenHeight-kNavigationBarHeight-self.keyboardHeight-HOME_INDICATOR_HEIGHT;
+    }
+    
     [UIView animateWithDuration:0.3 animations:^{
-        weakSelf.shortcutTableView.frame = CGRectMake(0, kScreenHeight-kNavigationBarHeight-60-HOME_INDICATOR_HEIGHT-self.keyboardHeight, kScreenWidth, self.keyboardHeight);
+        weakSelf.shortcutTableView.frame = CGRectMake(0, top, kScreenWidth, self.keyboardHeight);
     }];
 }
 
@@ -224,7 +229,6 @@
         [self closeBottomBar];
         [self closeShortCut];
     }
-   
 }
 
 - (void)dismissKeyboard {

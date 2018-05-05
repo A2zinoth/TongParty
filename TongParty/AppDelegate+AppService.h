@@ -7,10 +7,17 @@
 //
 
 #import "AppDelegate.h"
+#import <JPUSHService.h>
+#ifdef NSFoundationVersionNumber_iOS_9_x_Max
+#import <UserNotifications/UserNotifications.h>
+#endif
 
-@interface AppDelegate (AppService)
+@interface AppDelegate (AppService)<JPUSHRegisterDelegate>
 
-
+/**
+   JPUSH
+ */
+- (void)registerJPush;
 /**
  *  进入图片浏览器
  */

@@ -8,13 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import <MJRefresh/MJRefresh.h>
-@interface BaseViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+@interface BaseViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView        *tableView;
 @property (nonatomic, strong) NSArray            *dataSource;
 
+- (void)push:(UIViewController *)viewController;
 - (void)pop;
 
 - (void)createData;
 - (void)createUI;
+//- (void)willRequestData;
+
+- (void)alertWithTitle:(NSString *)title message:(NSString *)message style:(UIAlertControllerStyle)style cancel:(void (^)())cancel ok:(void (^)())ok;
+- (void)alertWithTitle:(NSString *)title message:(NSString *)message cancel:(NSString *)cancelTitle ok:(NSString *)okTitle cancel:(void (^)())cancel ok:(void (^)())ok;
 @end

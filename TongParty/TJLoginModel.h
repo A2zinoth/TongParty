@@ -6,7 +6,6 @@
 //  Copyright © 2018年 Beijing Tojoin Network Technology Co., Ltd. All rights reserved.
 //
 
-#import "DDLoginManager.h"
 
 typedef void (^ThirdLoginSuccess)();
 
@@ -15,9 +14,8 @@ typedef void (^ThirdLoginSuccess)();
 @property (nonatomic, copy)   NSString          *mobile;
 @property (nonatomic, copy)   NSString          *password;
 @property (nonatomic, copy)   ThirdLoginSuccess thirdLoginSuccess;
-@property (nonatomic, strong) DDLoginManager    *loginManager;
 
-- (void)login:(void (^)(void))success;
+
 - (void)thirdLogin:(NSInteger)sender;
 
 @end

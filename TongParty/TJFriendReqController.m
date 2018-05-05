@@ -87,11 +87,10 @@
     TJFollowCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TJFollowCellID"];
     if (!cell) {
         cell = [[TJFollowCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TJFollowCellID"];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     [cell updateFriendReq];
     [cell.headImage sd_setImageWithURL:[NSURL URLWithString:self.dataSource[indexPath.row][@"head_image"]]];
-    cell.titleL.text = self.dataSource[indexPath.row][@"nickename"];
+    cell.titleL.text = self.dataSource[indexPath.row][@"nickname"];
     cell.contentL.text = self.dataSource[indexPath.row][@"msg_text"];
     
     
@@ -101,8 +100,13 @@
 
 #pragma mark - UITableViewDelegate
 
-- (void)closeAction {
-    [self.navigationController popViewControllerAnimated:true];
+//- (void)closeAction {
+//    [self.navigationController popViewControllerAnimated:true];
+//}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self requestData];
 }
 
 - (void)requestData {
@@ -115,6 +119,10 @@
     } failure:^{
         
     }];
+}
+
+- (void)closeAction {
+    [self.navigationController popViewControllerAnimated:true];
 }
 
 @end

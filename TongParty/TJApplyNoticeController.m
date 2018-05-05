@@ -45,6 +45,7 @@
     }
     titleLabel.textColor = [UIColor hx_colorWithHexString:@"#262626"];
     titleLabel.font = [UIFont systemFontOfSize:14];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0,*)) {
             make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(12);
@@ -92,17 +93,17 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    TJNoticeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TJNoticeCellID"];
+    TJNoticeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TJApplyNoticeCellID"];
     if (!cell) {
-        cell = [[TJNoticeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TJNoticeCellID"];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell = [[TJNoticeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TJApplyNoticeCellID"];
+        cell.headImage.layerCornerRadius = 27;
     }
 
     [cell.headImage sd_setImageWithURL:[NSURL URLWithString:self.dataSource[indexPath.row][@"head_image"]]];
     cell.titleL.text = self.dataSource[indexPath.row][@"nickname"];
-    [cell updateApplyNotice];
-    cell.contentL.text = self.dataSource[indexPath.row][@"uptime"];
+    cell.contentL.text = self.dataSource[indexPath.row][@"msg_text"];
     [cell updateTime:self.dataSource[indexPath.row][@"uptime"]];
+    [cell updateApplyNotice];
     
     return cell;
 }
@@ -112,18 +113,36 @@
     if ([_type isEqualToString:@"邀请"]) {
         act = @"invite";
     }
-    
+
     kWeakSelf
     [DDResponseBaseHttp getWithAction:kTJMessageDetail params:@{@"token":curUser.token, @"act":act} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
         if ([result.status isEqualToString:@"success"]) {
-            weakSelf.dataSource = result.data;
-            [weakSelf.tableView reloadData];
+            if ([_type isEqualToString:@"邀请"]) {
+                if ([DDUserDefault objectForKey:@"invite"]) {
+                    NSMutableArray *new = result.data;
+                    NSMutableArray *old = [DDUserDefault objectForKey:@"invite"];
+                    weakSelf.dataSource = [new arrayByAddingObjectsFromArray:old];
+                } else {
+                    weakSelf.dataSource = result.data;
+                }
+                [weakSelf.tableView reloadData];
+                [DDUserDefault setObject:weakSelf.dataSource forKey:@"invite"];
+            } else {
+                if ([DDUserDefault objectForKey:@"replay"]) {
+                    NSMutableArray *new = result.data;
+                    NSMutableArray *old = [DDUserDefault objectForKey:@"replay"];
+                    weakSelf.dataSource = [new arrayByAddingObjectsFromArray:old];
+                } else {
+                    weakSelf.dataSource = result.data;
+                }
+                [weakSelf.tableView reloadData];
+                [DDUserDefault setObject:weakSelf.dataSource forKey:@"replay"];
+            }
         }
     } failure:^{
         
     }];
 }
-
 
 - (void)closeAction {
     [self.navigationController popViewControllerAnimated:true];

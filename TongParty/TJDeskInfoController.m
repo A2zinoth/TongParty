@@ -17,6 +17,7 @@
 
 @interface TJDeskInfoController ()
 
+
 @property (nonatomic, strong) TJDeskInfoView  *infoView;
 @property (nonatomic, strong) TJDeskInfoModel *infoModel;
 @property (nonatomic, assign) __block NSInteger  myIndex;
@@ -46,7 +47,8 @@
     };
 //    _infoView.myIndex = ^(NSInteger index) {
 //        _myIndex = index;
-//    };
+//    };ui
+    [_infoView.contactBtn addTarget:self action:@selector(contactBtn) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)requestProfile:(NSInteger)index {
@@ -147,6 +149,31 @@
             });
         }
     }];
+}
+
+- (void)contactBtn {
+    if (_infoModel.mobile == nil || _infoModel.mobile == NULL) {
+        [MBProgressHUD showError:@"桌主的联系方式为空" toView:self.view];
+    }else{
+        
+        NSString *callPhone = [NSString stringWithFormat:@"telprompt://%@", _infoModel.mobile];
+        if (@available(iOS 10.0, *)) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:callPhone] options:@{} completionHandler:nil];
+        } else {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:callPhone]];
+        }
+//        [self alertWithTitle:@"提示" message:@"是否联系桌主？" style:UIAlertControllerStyleAlert cancel:^{
+//
+//        } ok:^{
+//            // telprompt://  iOS10显示手机号 回到应用
+//            // tel:         // 直接拨打  回到应用
+//
+//
+//        }];
+        
+//        NSString *mobilestr=[[NSMutableString alloc] initWithFormat:@"tel:%@",_infoModel.mobile];
+//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:mobilestr]];
+    }
 }
 
 - (TJDeskInfoView *)infoView {

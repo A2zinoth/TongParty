@@ -10,4 +10,6 @@
 
 @interface TJFriendController : BaseViewController
 
+@property (nonatomic, copy  ) NSString *act;
+
 @end

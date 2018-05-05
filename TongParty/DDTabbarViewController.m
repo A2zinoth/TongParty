@@ -7,20 +7,11 @@
 //
 
 #import "DDTabbarViewController.h"
-#import "DDNavViewController.h" //导航栏页面
-#import "DDHomeMainVC.h"//首页
-#import "DDDeskViewController.h"//桌子页面
-#import "DDDiscoverViewController.h"//发现页面
-#import "DDUsercenterVc.h"         //个人中心
 #import "PlusAnimate.h"
-#import "LSCreateDeskViewController.h" //创建桌子页面
-#import "DDLoveDeskViewController.h" //心跳桌页
-#import "DDPrefectDataVC.h"
-#import "DDLoginViewController.h"
-
 #import "TJHomeController.h"
 #import "TJHeartbeatController.h"
 #import "TJProfileController.h"
+#import "DDNavViewController.h"
 
 
 @interface DDTabbarViewController ()<CYTabBarDelegate>
@@ -70,50 +61,50 @@
     self.tabbar.delegate = self;
 }
 
-- (void)toLogin {
-    DDLoginViewController *loginVC = [[DDLoginViewController alloc] init];
-    loginVC.isModen = YES;
-    UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:loginVC];
-    loginVC.islogSuccess = ^(BOOL isSuccess) {
-        if (isSuccess) {
-            
-        }
-    };
-    [self presentViewController:nv animated:YES completion:^{}];
-}
+//- (void)toLogin {
+//    DDLoginViewController *loginVC = [[DDLoginViewController alloc] init];
+//    loginVC.isModen = YES;
+//    UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:loginVC];
+//    loginVC.islogSuccess = ^(BOOL isSuccess) {
+//        if (isSuccess) {
+//
+//        }
+//    };
+//    [self presentViewController:nv animated:YES completion:^{}];
+//}
 
 
-- (void)didSelectBtnWithBtnTag:(NSNotification *)notification {
-    UIButton *btn = (UIButton *)notification.object;
-    
-        if (![DDUserDefault objectForKey:@"token"]){
-            [self toLogin];
-            return;
-        }
-//    //判断资料是否完善，如果没有完善则
-    if (![DDUserSingleton shareInstance].image || [[DDUserSingleton shareInstance].image isEqualToString:@""] || ![DDUserSingleton shareInstance].name || [[DDUserSingleton shareInstance].name isEqualToString:@""] || ![DDUserSingleton shareInstance].sex || [[DDUserSingleton shareInstance].sex isEqualToString:@""]) {
-
-        //判断资料是否完善，如果没有完善则
-        DDPrefectDataVC *dataVC = [[DDPrefectDataVC alloc] init];
-        UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:dataVC];
-        dataVC.isModen = YES;
-        [self presentViewController:nv animated:YES completion:^{}];
-        return;
-    }
-    switch (btn.tag) {
-        case 0:{
-            DDNavViewController   *nav = [[DDNavViewController alloc]initWithRootViewController:[LSCreateDeskViewController new]];
-            [self presentViewController:nav animated:YES completion:nil];
-        }break;
-        case 1:{
-            
-            DDNavViewController   *nav = [[DDNavViewController alloc]initWithRootViewController:[DDLoveDeskViewController new]];
-            [self presentViewController:nav animated:YES completion:nil];
-        }break;
-        default:
-            break;
-    }
-}
+//- (void)didSelectBtnWithBtnTag:(NSNotification *)notification {
+//    UIButton *btn = (UIButton *)notification.object;
+//    
+//        if (![DDUserDefault objectForKey:@"token"]){
+//            [self toLogin];
+//            return;
+//        }
+////    //判断资料是否完善，如果没有完善则
+//    if (![DDUserSingleton shareInstance].image || [[DDUserSingleton shareInstance].image isEqualToString:@""] || ![DDUserSingleton shareInstance].name || [[DDUserSingleton shareInstance].name isEqualToString:@""] || ![DDUserSingleton shareInstance].sex || [[DDUserSingleton shareInstance].sex isEqualToString:@""]) {
+//
+//        //判断资料是否完善，如果没有完善则
+//        DDPrefectDataVC *dataVC = [[DDPrefectDataVC alloc] init];
+//        UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:dataVC];
+//        dataVC.isModen = YES;
+//        [self presentViewController:nv animated:YES completion:^{}];
+//        return;
+//    }
+//    switch (btn.tag) {
+//        case 0:{
+//            DDNavViewController   *nav = [[DDNavViewController alloc]initWithRootViewController:[LSCreateDeskViewController new]];
+//            [self presentViewController:nav animated:YES completion:nil];
+//        }break;
+//        case 1:{
+//            
+//            DDNavViewController   *nav = [[DDNavViewController alloc]initWithRootViewController:[DDLoveDeskViewController new]];
+//            [self presentViewController:nav animated:YES completion:nil];
+//        }break;
+//        default:
+//            break;
+//    }
+//}
 #pragma mark - CYTabBarDelegate
 //中间按钮点击
 - (void)tabbar:(CYTabBar *)tabbar clickForCenterButton:(CYCenterButton *)centerButton{
@@ -121,12 +112,12 @@
 }
 //是否允许切换
 - (BOOL)tabBar:(CYTabBar *)tabBar willSelectIndex:(NSInteger)index{
-    NSLog(@"将要切换到---> %ld",(long)index);
+//    NSLog(@"将要切换到---> %ld",(long)index);
     return YES;
 }
 //通知切换的下标
 - (void)tabBar:(CYTabBar *)tabBar didSelectIndex:(NSInteger)index{
-    NSLog(@"切换到---> %ld",(long)index);
+//    NSLog(@"切换到---> %ld",(long)index);
 }
 
 - (void)didReceiveMemoryWarning {

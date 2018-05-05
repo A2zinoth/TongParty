@@ -203,13 +203,12 @@
         make.size.mas_equalTo(CGSizeMake(148, 25));
     }];
     
-    UILabel *partake = [[UILabel alloc] init];
-    partake.tag = 1642;
-    partake.font = [UIFont systemFontOfSize:15];
-    partake.textColor = [UIColor hx_colorWithHexString:@"#262626"];
-    partake.text = @"实到 0/0 创建；实到 0/0 参与";
-    [self addSubview:partake];
-    [partake mas_makeConstraints:^(MASConstraintMaker *make) {
+    _partake = [[UILabel alloc] init];
+    _partake.font = [UIFont systemFontOfSize:15];
+    _partake.textColor = [UIColor hx_colorWithHexString:@"#262626"];
+    _partake.text = @"实到 0/0 创建；实到 0/0 参与";
+    [self addSubview:_partake];
+    [_partake mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0,*)) {
             make.top.mas_equalTo(self.mas_safeAreaLayoutGuideTop).offset(247);
         } else {
@@ -232,16 +231,30 @@
     }
     
     if ([dic[@"is_my"] isEqualToNumber:[NSNumber numberWithInteger:1]]) {
-        [_editBtn setTitle:@"查看更多资料" forState:UIControlStateNormal];
+        [_editBtn setTitle:@"查看并编辑个人资料" forState:UIControlStateNormal];
         _addFollowBtn.hidden = true;
     }
     
-    [_followerBtn setTitle:dic[@"follow_num"] forState:UIControlStateNormal];
+    [_followBtn setTitle:dic[@"follow_num"] forState:UIControlStateNormal];
     [_followerBtn setTitle:dic[@"fans_num"] forState:UIControlStateNormal];
     [_friendBtn setTitle:dic[@"friend_num"] forState:UIControlStateNormal];
     
-    UILabel *partake = [self viewWithTag:1642];
-    partake.text = [NSString stringWithFormat:@"实到 %@/%@ 创建；实到 %@/%@ 参与", dic[@"create_finish"], dic[@"create_num"], dic[@"join_finish"], dic[@"join_num"]];
+//    partake.text = [NSString stringWithFormat:@"实到 %@/%@ 创建；实到 %@/%@ 参与", dic[@"create_finish"], dic[@"create_num"], dic[@"join_finish"], dic[@"join_num"]];
+    _partake.attributedText = [self attributedStringWithCreate:[NSString stringWithFormat:@" %@/%@ ", dic[@"create_finish"], dic[@"create_num"]] join:[NSString stringWithFormat:@" %@/%@ ",dic[@"join_finish"], dic[@"join_num"]]];
+}
+
+- (NSMutableAttributedString *)attributedStringWithCreate:(NSString *)create join:(NSString *)join {
+    CGFloat size = 13;
+    NSMutableAttributedString *att1 = [[NSMutableAttributedString alloc]initWithString:@"实到" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:size], NSForegroundColorAttributeName:[UIColor hx_colorWithHexString:@"#262626"]}];
+    NSAttributedString *att2 = [[NSAttributedString alloc] initWithString:create attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18], NSForegroundColorAttributeName:[UIColor hx_colorWithHexString:@"#262626"]}];
+    NSAttributedString *att3 = [[NSAttributedString alloc]initWithString:@"创建；实到" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:size], NSForegroundColorAttributeName:[UIColor hx_colorWithHexString:@"#262626"]}];
+    NSAttributedString *att4 = [[NSAttributedString alloc] initWithString:join attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18], NSForegroundColorAttributeName:[UIColor hx_colorWithHexString:@"#262626"]}];
+    NSAttributedString *att5 = [[NSAttributedString alloc]initWithString:@"参与" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:size], NSForegroundColorAttributeName:[UIColor hx_colorWithHexString:@"#262626"]}];
+    [att1 appendAttributedString:att2];
+    [att1 appendAttributedString:att3];
+    [att1 appendAttributedString:att4];
+    [att1 appendAttributedString:att5];
+    return att1;
 }
 
 

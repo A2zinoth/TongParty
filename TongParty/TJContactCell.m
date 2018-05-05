@@ -41,7 +41,7 @@
     _actionBtn.titleLabel.font = [UIFont systemFontOfSize:10];
     [_actionBtn setBackgroundImage:kImage(@"TJButtonSelect") forState:UIControlStateNormal];
     [_actionBtn setBackgroundImage:kImage(@"TJButtonNormal1") forState:UIControlStateSelected];
-    _actionBtn.layerCornerRadius = 15;
+    _actionBtn.layer.cornerRadius = 15;
     [self.contentView addSubview:_actionBtn];
     [_actionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(_contentL);

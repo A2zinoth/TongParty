@@ -23,11 +23,11 @@
 }
 
 - (CGFloat)x {
-    return self.frame.origin.x;
+    return CGRectGetMinX(self.frame);
 }
 
 - (CGFloat)y {
-    return self.frame.origin.y;
+    return CGRectGetMinY(self.frame);
 }
 
 - (void)setCenterX:(CGFloat)centerX {
@@ -66,12 +66,12 @@
     self.frame = frame;
 }
 
-- (CGFloat)height {
-    return self.frame.size.height;
+- (CGFloat)width {
+    return CGRectGetWidth(self.frame);
 }
 
-- (CGFloat)width {
-    return self.frame.size.width;
+- (CGFloat)height {
+    return CGRectGetHeight(self.frame);
 }
 
 - (void)setSize:(CGSize)size {
@@ -95,7 +95,7 @@
 }
 - (CGFloat)top
 {
-    return self.frame.origin.y;
+    return CGRectGetMinY(self.frame);
 }
 
 - (void)setTop:(CGFloat)top
@@ -107,7 +107,7 @@
 
 - (CGFloat)left
 {
-    return self.frame.origin.x;
+    return CGRectGetMinX(self.frame);
 }
 
 - (void)setLeft:(CGFloat)left
@@ -120,7 +120,7 @@
 
 - (CGFloat)bottom
 {
-    return self.frame.size.height + self.frame.origin.y;
+    return CGRectGetHeight(self.frame) + CGRectGetMinY(self.frame);
 }
 
 - (void)setBottom:(CGFloat)bottom
@@ -132,7 +132,7 @@
 
 - (CGFloat)right
 {
-    return self.frame.size.width + self.frame.origin.x;
+    return CGRectGetWidth(self.frame) + CGRectGetMinX(self.frame);
 }
 
 - (void)setRight:(CGFloat)right

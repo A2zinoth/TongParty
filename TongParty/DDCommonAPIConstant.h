@@ -11,49 +11,54 @@
 
 @interface DDCommonAPIConstant : NSObject
 
-#pragma mark - host
-
 // 登录
-#define kTJUniqueness                    @"/tojoin/api/uniqueness.php"
-#define kTJOtherLogin                    @"/tojoin/api/other_login.php"
-#define kTJCheckVerifyCode               @"/tojoin/api/check_verify_code.php"
-#define kTJForgetPwd                     @"/tongju/api/forget_pwd.php"
+UIKIT_EXTERN NSString *const kTJUniqueness;
+UIKIT_EXTERN NSString *const kTJOtherLogin;
+UIKIT_EXTERN NSString *const kTJCheckVerifyCode;
+UIKIT_EXTERN NSString *const kTJForgetPwd;
 
 // 首页
-#define KTJTableList                     @"/tojoin/api/table_list.php"
+UIKIT_EXTERN NSString *const KTJTableList;
 
 // 创建
-#define kTJCreateTable                   @"/tojoin/api/create_table.php"
-#define KTJActivityList                  @"/tojoin/api/activity_list.php"
-#define kTJSendTableNotice               @"/tojoin/api/send_table_notice.php"
-#define kTJTableQRCode                   @"/tojoin/api/see_qr_code.php"
-#define kTJTableMasterSign               @"/tojoin/api/sign_master_table.php"
-#define kTJTableMemberSign               @"/tojoin/api/sign_member_table.php"
+UIKIT_EXTERN NSString *const kTJCreateTable;
+UIKIT_EXTERN NSString *const KTJActivityList;
+UIKIT_EXTERN NSString *const kTJSendTableNotice;
+UIKIT_EXTERN NSString *const kTJTableQRCode;
+UIKIT_EXTERN NSString *const kTJTableMasterSign;
+UIKIT_EXTERN NSString *const kTJTableMemberSign;
 
 // 获取
-#define kTJTableInfo                     @"/tojoin/api/obtain_table_info.php"
-#define kTJTableNotice                   @"/tojoin/api/obtain_table_notice.php"
-#define KTJNoticeList                    @"/tojoin/api/notice_list.php"  // 快捷回复短语
-#define kTJUserInfo                      @"/tojoin/api/obtain_user_info.php"
-#define kTJProfile                       @"/tojoin/api/obtain_my.php"
-#define kTJMessageList                   @"/tojoin/api/message_list.php"
-#define kTJTableMy                       @"/tojoin/api/obtain_my_table.php"
-#define kTJTableHistory                  @"/tojoin/api/obtain_table_history.php"
-#define kTJMessageDetail                 @"/tojoin/api/message_details.php"
+UIKIT_EXTERN NSString *const kTJTableInfo;
+UIKIT_EXTERN NSString *const kTJTableNotice;
+UIKIT_EXTERN NSString *const KTJNoticeList;
+UIKIT_EXTERN NSString *const kTJUserInfo;
+UIKIT_EXTERN NSString *const kTJProfile;
+UIKIT_EXTERN NSString *const kTJMessageList;
+UIKIT_EXTERN NSString *const kTJTableMy;
+UIKIT_EXTERN NSString *const kTJTableHistory;
+UIKIT_EXTERN NSString *const kTJMessageDetail;
+UIKIT_EXTERN NSString *const kTJFollowList;
+UIKIT_EXTERN NSString *const kTJFollowerList;
+UIKIT_EXTERN NSString *const kTJFriendList;
+UIKIT_EXTERN NSString *const kTJSearchUser;
+UIKIT_EXTERN NSString *const kTJPhoneList;
 
 // 加入
-#define kTJTableJoin                     @"/tojoin/api/apply_join_table.php"
-#define kTJHeartBeat                     @"/tojoin/api/heart_beat.php"
+UIKIT_EXTERN NSString *const kTJTableJoin;
+UIKIT_EXTERN NSString *const kTJHeartBeat;
 
 
 //个人
-#define kTJReplenishInfo                 @"/tojoin/api/replenish_user_info.php"
-#define kTJCareerList                    @"/tojoin/api/career_list.php"
-#define kTJChangeHeadPicture             @"/tojoin/api/change_head_picture.php"
+UIKIT_EXTERN NSString *const kTJReplenishInfo;
+UIKIT_EXTERN NSString *const kTJCareerList;
+UIKIT_EXTERN NSString *const kTJChangeHeadPicture;
 
 // 好友
-#define kTJFollowUser                    @"/tojoin/api/follow_user.php"
-#define kTJCancelFollow                  @"/tojoin/api/cancel_follow.php"
+UIKIT_EXTERN NSString *const kTJFollowUser;
+UIKIT_EXTERN NSString *const kTJCancelFollow;
+UIKIT_EXTERN NSString *const kTJApplyFriend;
+UIKIT_EXTERN NSString *const kTJAcceptApplyFriend;
 
 
 

@@ -7,7 +7,7 @@
 //
 
 #import "TJFollowerController.h"
-#import "TJFollowerCell.h"
+#import "TJFollowCell.h"
 
 @interface TJFollowerController ()
 
@@ -19,7 +19,7 @@
 
 - (void)createUI {
     _cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [_cancelBtn setTitle:@"返回" forState:UIControlStateNormal];
     [_cancelBtn setTitleColor:kBtnEnable forState:UIControlStateNormal];
     _cancelBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     _cancelBtn.titleEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
@@ -38,7 +38,7 @@
     
     UILabel *titleLabel = [[UILabel alloc] init];
     [self.view addSubview:titleLabel];
-    titleLabel.text = @"我的关注";
+    titleLabel.text = @"我的粉丝";
     titleLabel.textColor = [UIColor hx_colorWithHexString:@"#262626"];
     titleLabel.font = [UIFont systemFontOfSize:14];
     titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -64,7 +64,6 @@
     }];
     
     [self.view addSubview:self.tableView];
-    self.dataSource = @[@"", @"", @""];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.rowHeight = 78;
     self.tableView.dataSource = self;
@@ -81,13 +80,7 @@
     }];
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-}
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -95,20 +88,75 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    TJFollowerCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TJFollowerCellID"];
+    TJFollowCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TJFollowerCellID"];
     if (!cell) {
-        cell = [[TJFollowerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TJFollowerCellID"];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell = [[TJFollowCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TJFollowerCellID"];
+        [cell.actionBtn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
     }
+    NSDictionary *dic = self.dataSource[indexPath.row];
+    if (dic[@"head_image"]) {
+        [cell.headImage sd_setImageWithURL:[NSURL URLWithString:dic[@"head_image"]]];
+    }
+    cell.titleL.text = dic[@"nickname"];
+    cell.contentL.text = [NSString stringWithFormat:@"实到 %@/%@ 创建；实到 %@/%@ 参与", dic[@"create_finish"], dic[@"create_num"], dic[@"join_finish"], dic[@"join_num"]];
+    [cell updateFollowerStatus:dic[@"is_follow"]];
+    [cell updateBtnTag:indexPath.row];
     
     return cell;
 }
 
-
 #pragma mark - UITableViewDelegate
+- (void)btnAction:(UIButton *)btn {
+    NSInteger index = btn.tag;
+    
+    if (!btn.selected) {// 关注
+        [DDResponseBaseHttp getWithAction:kTJFollowUser params:@{@"token":curUser.token, @"oid":self.dataSource[index][@"follow_id"]} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+            [MBProgressHUD showMessage:result.msg_cn];
+            if ([result.status isEqualToString:@"success"]) {
+                btn.selected = true;
+            }
+        } failure:^{
+        }];
+    } else { // 未关注
+        [DDResponseBaseHttp getWithAction:kTJCancelFollow params:@{@"token":curUser.token, @"oid":self.dataSource[index][@"follow_id"]} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+            [MBProgressHUD showMessage:result.msg_cn];
+            if ([result.status isEqualToString:@"success"]) {
+                btn.selected = false;
+            }
+        } failure:^{
+        }];
+    }
+}
+
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self requestData];
+}
+
+- (void)requestData {
+    
+    NSDictionary *dic;
+    if (_act) {
+        dic = @{@"token":curUser.token, @"act":@"others",@"uid":_act};
+    } else {
+        dic = @{@"token":curUser.token, @"act":@"my"};
+    }
+    
+    kWeakSelf
+    [DDResponseBaseHttp getWithAction:kTJFollowerList params:dic type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+        if ([result.status isEqualToString:@"success"]) {
+            weakSelf.dataSource = result.data;
+            [weakSelf.tableView reloadData];
+        }
+    } failure:^{
+        
+    }];
+}
 
 - (void)closeAction {
     [self.navigationController popViewControllerAnimated:true];
 }
+
 
 @end

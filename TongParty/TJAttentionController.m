@@ -37,7 +37,7 @@
     
     UILabel *titleLabel = [[UILabel alloc] init];
     [self.view addSubview:titleLabel];
-    titleLabel.text = @"狼人杀";
+    titleLabel.text = @"关注";
     titleLabel.textColor = [UIColor hx_colorWithHexString:@"#262626"];
     titleLabel.font = [UIFont systemFontOfSize:14];
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -96,18 +96,21 @@
     TJFollowCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TJFollowCellID"];
     if (!cell) {
         cell = [[TJFollowCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TJFollowCellID"];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell.actionBtn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
     }
-    [cell updateAttentionNotice];
-    [cell updateBtnTag:indexPath.row];
-//    [cell updateMasterNoticeWith:self.dataSource[indexPath.row]];
-    
+
+    NSDictionary *dic = self.dataSource[indexPath.row];
+    if (dic[@"head_image"]) {
+        [cell.headImage sd_setImageWithURL:[NSURL URLWithString:dic[@"head_image"]]];
+    }
+    cell.titleL.text = [NSString stringWithFormat:@"%@ %@", dic[@"nickname"], dic[@"msg_text"]];
+    cell.contentL.text = dic[@"uptime"];
+    [cell updateFollowerStatus:dic[@"is_follow"]];
     return cell;
 }
 
 - (void)btnAction:(UIButton *)btn {
-    
+    NSLog(@"%d", btn.selected);
     NSInteger index = btn.tag;
     NSString *_act = self.dataSource[index][@"from_id"];
     if (!btn.selected) {// 关注

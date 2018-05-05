@@ -12,13 +12,6 @@
 
 @implementation TJLoginModel
 
-- (void)login:(void (^)(void))success {
-
-    [self.loginManager loginWithUsername:_mobile password:_password block:^(NSDictionary *dict) {
-        success();
-    } failure:^{
-    }];
-}
 #pragma  mark - 第三方登录
 - (void)thirdLogin:(NSInteger)sender {
     switch ((sender-10)) {
@@ -116,12 +109,7 @@
     }];
 }
 
-- (DDLoginManager *)loginManager {
-    if(!_loginManager) {
-        _loginManager = [[DDLoginManager alloc]initWithController:self];
-    }
-    return _loginManager;
-}
+
 
 - (void)otherLoginWithOpenID:(NSString *)openID act:(NSString *)act imageURL:(NSString *)imageURL {
     kWeakSelf

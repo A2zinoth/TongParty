@@ -9,12 +9,12 @@
 #import "TJRegisterController.h"
 #import "TJVerifyController.h"
 #import "TJLoginController.h"
+#import "ZLLAuthorizationCheckTool.h"
 
 
 @implementation TJRegisterController
 
 - (void)createData {
-    _registerModel = [[TJRegisterModel alloc] init];
 }
 
 - (void)createUI {
@@ -40,22 +40,13 @@
         _registerView.phoneTF.text = @"17600368817";
         _registerView.nextButton.enabled = true;
     }
-//    else
-//        _registerView.phoneTF.text = @"15210030317";
-//    _registerView.phoneTF.text = @"13693326733";//15210030317  17600368817 15731629742
-    
-    _registerView.phoneTF.delegate = self;
 
+
+    _registerView.phoneTF.delegate = self;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.navigationController.navigationBar.hidden = true;
-    
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
 }
 
 
@@ -93,32 +84,38 @@
 //    NSString *CM = @"^13[0-9]{1}\\d{8}|15[0-9]\\d{8}|188\\d{8}|17[0-9]\\d{8}|14[0-9]\\d{8}$";
 //    NSPredicate *regextestcm = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CM];
 //    if([regextestcm evaluateWithObject:phoneNum]) {
-        [_registerModel uniquenes:phoneNum success:^ (NSString *result) {
-            if([result isEqualToString:@"用户可以使用。"]) {
-                TJVerifyController *verifyVC = [[TJVerifyController alloc] init];
-                verifyVC.phone = phoneNum;
-                verifyVC.needSendVerify = true;
-                [self.navigationController pushViewController:verifyVC animated:true];
-            } else if([result isEqualToString:@"用户已存在。"]){
-                TJLoginController *loginVC = [[TJLoginController alloc] init];
-                loginVC.phone = phoneNum;
-                [self.navigationController pushViewController:loginVC animated:true];
-            } else if([result isEqualToString:@"手机号不规范"]){
-                [MBProgressHUD showError:result toView: self.view];
-            } else {
-                [MBProgressHUD showError:result toView: self.view];
-            }
-        }];
+    
+    [DDResponseBaseHttp getWithAction:kTJUniqueness params:@{@"mobile":phoneNum} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+        if([result.msg_cn isEqualToString:@"用户可以使用。"]) {
+            TJVerifyController *verifyVC = [[TJVerifyController alloc] init];
+            verifyVC.phone = phoneNum;
+            verifyVC.needSendVerify = true;
+            [self.navigationController pushViewController:verifyVC animated:true];
+        } else if([result.msg_cn isEqualToString:@"用户已存在。"]){
+            TJLoginController *loginVC = [[TJLoginController alloc] init];
+            loginVC.phone = phoneNum;
+            [self.navigationController pushViewController:loginVC animated:true];
+        } else if([result.msg_cn isEqualToString:@"手机号不规范"]){
+            [MBProgressHUD showError:result.msg_cn toView: self.view];
+        } else {
+            [MBProgressHUD showError:result.msg_cn toView: self.view];
+        }
+    } failure:^{
+        
+    }];
+    
+
     
 }
 
 - (void)signupAction {
-    TJLoginController *vc = [TJLoginController new];
-    vc.phone = @"中途";
-    [self.navigationController pushViewController:vc animated:true];
+//    TJLoginController *vc = [TJLoginController new];
+//    vc.phone = @"中途";
+//    [self.navigationController pushViewController:vc animated:true];
+    [self.navigationController popViewControllerAnimated:true];
 }
 
 - (void)closeAction {
-    [self dismissViewControllerAnimated:true completion:nil];
+    [self.navigationController popViewControllerAnimated:true];
 }
 @end

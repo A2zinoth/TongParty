@@ -13,7 +13,11 @@
 //#import "DDTabbarViewController.h"
 
 @interface APPStartMovieController ()
+
+
 @property (strong, nonatomic) MPMoviePlayerController *player;
+
+
 @end
 
 @implementation APPStartMovieController
@@ -31,6 +35,8 @@
 
 - (void)SetupVideoPlayer
 {
+    
+    
     self.player = [[MPMoviePlayerController alloc] initWithContentURL:_movieURL];
     [self.view addSubview:self.player.view];
     self.player.shouldAutoplay = YES;
@@ -42,7 +48,7 @@
         self.player.view.alpha = 1;
         [self.player prepareToPlay];
     }];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackStateChanged) name:MPMoviePlayerLoadStateDidChangeNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackStateChanged) name:MPMoviePlayerLoadStateDidChangeNotification object:nil];
     
     [self setupLoginView];
 }

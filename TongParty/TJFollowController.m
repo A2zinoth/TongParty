@@ -19,11 +19,11 @@
 
 - (void)createUI {
     _cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [_cancelBtn setTitle:@"返回" forState:UIControlStateNormal];
     [_cancelBtn setTitleColor:kBtnEnable forState:UIControlStateNormal];
     _cancelBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     _cancelBtn.titleEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
-    [_cancelBtn addTarget:self action:@selector(closeAction) forControlEvents:UIControlEventTouchUpInside];
+    [_cancelBtn addTarget:self action:@selector(color) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_cancelBtn];
     [_cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(ios 11.0,*)) {
@@ -64,7 +64,6 @@
     }];
     
     [self.view addSubview:self.tableView];
-    self.dataSource = @[@"", @"", @""];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.rowHeight = 78;
     self.tableView.dataSource = self;
@@ -91,14 +90,71 @@
     TJFollowCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TJFollowCellID"];
     if (!cell) {
         cell = [[TJFollowCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TJFollowCellID"];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell.actionBtn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
     }
-
+    
+    NSDictionary *dic = self.dataSource[indexPath.row];
+    if (dic[@"head_image"]) {
+        [cell.headImage sd_setImageWithURL:[NSURL URLWithString:dic[@"head_image"]]];
+    }
+    cell.titleL.text = dic[@"nickname"];
+    cell.contentL.text = [NSString stringWithFormat:@"实到 %@/%@ 创建；实到 %@/%@ 参与", dic[@"create_finish"], dic[@"create_num"], dic[@"join_finish"], dic[@"join_num"]];
+    [cell updateStatus:dic[@"is_follow"]];
+    [cell updateBtnTag:indexPath.row];
     return cell;
 }
 
 
 #pragma mark - UITableViewDelegate
+
+- (void)btnAction:(UIButton *)btn {
+    NSInteger index = btn.tag;
+//    NSString *act;
+    
+    if (btn.selected) {// 关注
+        [DDResponseBaseHttp getWithAction:kTJFollowUser params:@{@"token":curUser.token, @"oid":self.dataSource[index][@"follow_id"]} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+            [MBProgressHUD showMessage:result.msg_cn];
+            if ([result.status isEqualToString:@"success"]) {
+                btn.selected = false;
+            }
+        } failure:^{
+        }];
+    } else { // 未关注
+        [DDResponseBaseHttp getWithAction:kTJCancelFollow params:@{@"token":curUser.token, @"oid":self.dataSource[index][@"follow_id"]} type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+            [MBProgressHUD showMessage:result.msg_cn];
+            if ([result.status isEqualToString:@"success"]) {
+                btn.selected = true;
+            }
+        } failure:^{
+        }];
+    }
+}
+
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self requestData];
+}
+
+- (void)requestData {
+    
+    NSDictionary *dic;
+    if (_act) {
+        dic = @{@"token":curUser.token, @"act":@"others",@"uid":_act};
+    } else {
+        dic = @{@"token":curUser.token, @"act":@"my"};
+    }
+    
+    kWeakSelf
+    [DDResponseBaseHttp getWithAction:kTJFollowList params:dic type:kDDHttpResponseTypeJson block:^(DDResponseModel *result) {
+        if ([result.status isEqualToString:@"success"]) {
+            weakSelf.dataSource = result.data;
+            [weakSelf.tableView reloadData];
+        }
+    } failure:^{
+        
+    }];
+}
 
 - (void)closeAction {
     [self.navigationController popViewControllerAnimated:true];
